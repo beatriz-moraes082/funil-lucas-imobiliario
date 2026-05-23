@@ -691,9 +691,8 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
   <a href="#trafego" data-target="trafego" data-name="i · Tráfego"></a>
   <a href="#salesbot" data-target="salesbot" data-name="ii · Salesbot"></a>
   <a href="#sdr" data-target="sdr" data-name="iii · SDR"></a>
-  <a href="#roleta" data-target="roleta" data-name="iv · Roleta"></a>
-  <a href="#corretor" data-target="corretor" data-name="v · Corretor"></a>
-  <a href="#conversao" data-target="conversao" data-name="vi · Conversão"></a>
+  <a href="#corretor" data-target="corretor" data-name="iv · Corretor"></a>
+  <a href="#conversao" data-target="conversao" data-name="v · Conversão"></a>
 </div>
 
 <!-- ════════ HERO · FUNIL INVERTIDO ════════ -->
@@ -742,20 +741,8 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
         </div>
       </a>
 
-      <a href="#roleta" class="funnel-row f4">
+      <a href="#corretor" class="funnel-row f4">
         <div class="f-left"><div class="f-roman">iv</div></div>
-        <div class="f-center">
-          <div class="f-name">Roleta</div>
-          <div class="f-sub">Distribuição · Round-robin</div>
-        </div>
-        <div class="f-right">
-          <div class="f-stat">Fila<b>&lt; 15min</b></div>
-          <div class="f-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
-        </div>
-      </a>
-
-      <a href="#corretor" class="funnel-row f5">
-        <div class="f-left"><div class="f-roman">v</div></div>
         <div class="f-center">
           <div class="f-name">Corretor</div>
           <div class="f-sub">Atendimento · Régua D+0 a D+30</div>
@@ -766,8 +753,8 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
         </div>
       </a>
 
-      <a href="#conversao" class="funnel-row f6">
-        <div class="f-left"><div class="f-roman">vi</div></div>
+      <a href="#conversao" class="funnel-row f5">
+        <div class="f-left"><div class="f-roman">v</div></div>
         <div class="f-center">
           <div class="f-name">Conversão</div>
           <div class="f-sub">Pipeline + Venda</div>
@@ -1202,99 +1189,11 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
   </div>
 </section>
 
-<!-- ════════ ETAPA iv · ROLETA ════════ -->
-<section id="roleta">
-  <div class="container">
-    <div class="section-head reveal">
-      <div class="section-marker"><span class="roman">iv</span> · Roleta · Distribuição</div>
-      <h2 class="section-title">Quem pega cada lead<br/>e <em>quando.</em></h2>
-      <p class="lede" style="margin-top:24px">
-        Round-robin equilibrado entre 3 corretores + regra especial pra Mares do Miai (vai direto pro Lucas).
-        Toda atribuição registra timestamp pra cobrar SLA depois.
-      </p>
-    </div>
-
-    <div class="grid-12 reveal">
-
-      <div class="g-7 card" style="padding:36px 32px">
-        <div class="card-eyebrow">Regras de distribuição</div>
-        <div class="rule-list" style="margin-top:14px">
-          <div class="rule-item">
-            <div class="rule-num">01</div>
-            <div class="rule-body">
-              <div class="rule-title">Round-robin equilibrado</div>
-              <div class="rule-desc">Lead qualificado pelo SDR entra na fila e vai pro próximo corretor disponível. Sem favorecimento.</div>
-            </div>
-          </div>
-          <div class="rule-item">
-            <div class="rule-num">02</div>
-            <div class="rule-body">
-              <div class="rule-title">Horário comercial</div>
-              <div class="rule-desc">Distribuição só dentro do expediente. Lead que chega fora vai pra fila e cai no primeiro corretor da manhã seguinte.</div>
-            </div>
-          </div>
-          <div class="rule-item">
-            <div class="rule-num">03</div>
-            <div class="rule-body">
-              <div class="rule-title">Regra especial · Mares do Miai</div>
-              <div class="rule-desc">Lead de Mares do Miai NÃO entra na roleta, vai direto pro Lucas. Tag <span class="bdg bdg-copper">mares_miai</span> automática.</div>
-            </div>
-          </div>
-          <div class="rule-item">
-            <div class="rule-num">04</div>
-            <div class="rule-body">
-              <div class="rule-title">Re-distribuição automática</div>
-              <div class="rule-desc">Se o corretor não ler em 15min, lead volta pra fila e vai pro próximo. Tag de no-show fica registrada.</div>
-            </div>
-          </div>
-          <div class="rule-item">
-            <div class="rule-num">05</div>
-            <div class="rule-body">
-              <div class="rule-title">Prioridade pra leads quentes</div>
-              <div class="rule-desc">Score <span class="bdg bdg-green">quente</span> (decisão em &lt; 30 dias) tem prioridade absoluta na fila, fura ordem se necessário.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="g-5" style="display:flex;flex-direction:column;gap:16px">
-
-        <div class="card">
-          <div class="card-eyebrow">Cenário · Corretor não atende</div>
-          <div class="card-title">Após 15min</div>
-          <ul class="dash-list accent">
-            <li>Alerta pro corretor responsável + cópia pro gestor</li>
-            <li>30min sem leitura → re-distribui automaticamente</li>
-            <li>Tag <span class="bdg bdg-red">no_show_corretor</span> entra no histórico</li>
-          </ul>
-          <div class="insight risk" style="padding:14px 16px;font-size:13px;margin-top:4px">
-            <strong style="font-size:14px">&gt; 3 no-show/mês</strong>
-            Corretor entra em conversa de feedback. Padrão indica falta de SLA ou sobrecarga.
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-eyebrow">Cenário · Pico de leads</div>
-          <div class="card-title">Campanha bombou</div>
-          <ul class="dash-list accent">
-            <li>Bot continua qualificando 24/7 sem gargalo</li>
-            <li>Score <b>quente</b> tem prioridade absoluta na fila</li>
-            <li>Score <b>frio</b> entra em nutrição automática (sem SDR)</li>
-            <li>&gt; 50 leads/dia por 3 dias → gatilho de contratação SDR #2</li>
-          </ul>
-        </div>
-
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ════════ ETAPA v · CORRETOR ════════ -->
+<!-- ════════ ETAPA iv · CORRETOR ════════ -->
 <section id="corretor" class="warm">
   <div class="container">
     <div class="section-head reveal">
-      <div class="section-marker"><span class="roman">v</span> · Corretor · Atendimento</div>
+      <div class="section-marker"><span class="roman">iv</span> · Corretor · Atendimento</div>
       <h2 class="section-title">Trinta dias,<br/><em>seis toques.</em></h2>
       <p class="lede" style="margin-top:24px">
         Lead distribuído pro corretor cai automaticamente na régua de follow-up. Cada toque tem mensagem-tipo,
@@ -1473,7 +1372,7 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
 <section id="conversao" class="dark">
   <div class="container">
     <div class="section-head reveal">
-      <div class="section-marker" style="color:rgba(233,232,228,.6)"><span class="roman" style="color:var(--accent)">vi</span> · Conversão · Fechamento</div>
+      <div class="section-marker" style="color:rgba(233,232,228,.6)"><span class="roman" style="color:var(--accent)">v</span> · Conversão · Fechamento</div>
       <h2 class="section-title">Treze etapas no Kommo,<br/><em>nenhuma surpresa.</em></h2>
       <p class="lede" style="margin-top:24px">
         Cada coluna do pipeline tem SLA, responsável e ação esperada. Toda passagem registra timestamp,

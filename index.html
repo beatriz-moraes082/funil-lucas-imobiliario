@@ -4,37 +4,73 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Mapa de Operação · Lucas Imobiliário · Trilha</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://static.wixstatic.com" crossorigin>
 <style>
+/* ───── POLYSANS · TRILHA · WIX CDN ───── */
+@font-face{
+  font-family:'PolySans Bulky Wide';font-style:normal;font-weight:800;font-display:swap;
+  src:url('https://static.wixstatic.com/ufonts/44f42e_6715ad510f8f4f6fa30541c6df9a03e7/woff2/file.woff2') format('woff2'),
+      url('https://static.wixstatic.com/ufonts/44f42e_6715ad510f8f4f6fa30541c6df9a03e7/woff/file.woff') format('woff')
+}
+@font-face{
+  font-family:'PolySans Bulky';font-style:normal;font-weight:700;font-display:swap;
+  src:url('https://static.wixstatic.com/ufonts/44f42e_808656c3944d427abd0adafe7597d810/woff2/file.woff2') format('woff2'),
+      url('https://static.wixstatic.com/ufonts/44f42e_808656c3944d427abd0adafe7597d810/woff/file.woff') format('woff')
+}
+@font-face{
+  font-family:'PolySans Median';font-style:normal;font-weight:500;font-display:swap;
+  src:url('https://static.wixstatic.com/ufonts/fb1953_158350b0513342cda7fc854a95b4e172/woff2/file.woff2') format('woff2'),
+      url('https://static.wixstatic.com/ufonts/fb1953_158350b0513342cda7fc854a95b4e172/woff/file.woff') format('woff')
+}
+@font-face{
+  font-family:'PolySans Slim';font-style:normal;font-weight:400;font-display:swap;
+  src:url('https://static.wixstatic.com/ufonts/fb1953_036c275183ca45bca9804e4e72fcf90f/woff2/file.woff2') format('woff2'),
+      url('https://static.wixstatic.com/ufonts/fb1953_036c275183ca45bca9804e4e72fcf90f/woff/file.woff') format('woff')
+}
+@font-face{
+  font-family:'PolySans Neutral';font-style:italic;font-weight:400;font-display:swap;
+  src:url('https://static.wixstatic.com/ufonts/44f42e_d592374634674997a361dab4866716a2/woff2/file.woff2') format('woff2'),
+      url('https://static.wixstatic.com/ufonts/44f42e_d592374634674997a361dab4866716a2/woff/file.woff') format('woff')
+}
+@font-face{
+  font-family:'PolySans Median Wide';font-style:normal;font-weight:600;font-display:swap;
+  src:url('https://static.wixstatic.com/ufonts/e440c8_215c457003a04c6a803c33ca8a5933af/woff2/file.woff2') format('woff2'),
+      url('https://static.wixstatic.com/ufonts/e440c8_215c457003a04c6a803c33ca8a5933af/woff/file.woff') format('woff')
+}
 :root{
-  --bg:#F5F1EA;--bg-warm:#F2EDE4;--bg-dark:#1A1814;
-  --surface:#FFFFFF;--surface-soft:#FAF8F4;--surface-warm:#F0EBE2;
-  --border:#E8E0D5;--border-strong:#D9CFC2;--border-soft:#EFE9DE;
-  --accent:#E8480C;--accent-dark:#C73E0A;--accent-light:#FFE5DA;--accent-soft:#FFF3EE;
-  --copper:#C9A961;--copper-dark:#A8893F;
-  --bege:#E8DDD4;--bege-dark:#C7B7A8;
-  --text:#1A1814;--text-soft:#3D362E;--muted:#6B6258;--light:#A89F92;
+  /* Paleta REAL Trilha · extraída de somostrilha.com.br */
+  --bg:#e9e8e4;--bg-warm:#E8E8E3;--bg-dark:#1d1d1b;
+  --surface:#FFFFFF;--surface-soft:#f3f2ee;--surface-warm:#E8E8E3;
+  --border:#d8d6cf;--border-strong:#c2bfb5;--border-soft:#dfddd5;
+  --accent:#ee4c20;--accent-dark:#c43815;--accent-light:#fde0d3;--accent-soft:#fdeee6;
+  --copper:#e96735;--copper-dark:#c4501f;
+  --bege:#E8E8E3;--bege-dark:#c2bfb5;
+  --text:#212121;--text-soft:#454c47;--muted:#717c72;--light:#9eafaa;
+  --green-deep:#333A32;--green-soft:#e2e9e5;
   --danger:#C13A1F;--danger-soft:#FAEBE7;
-  --success:#2D7D5F;--success-soft:#E4F2EC;
-  --info:#3D6B8C;--info-soft:#E6EEF5;
+  --success:#333A32;--success-soft:#e2e9e5;
+  --info:#2b5672;--info-soft:#E6EEF5;
   --r:20px;--r-sm:14px;--r-xs:8px;
-  --shadow-sm:0 1px 3px rgba(26,24,20,.04),0 1px 2px rgba(26,24,20,.06);
-  --shadow:0 4px 16px rgba(26,24,20,.06),0 1px 4px rgba(26,24,20,.04);
-  --shadow-md:0 12px 40px rgba(26,24,20,.08),0 2px 8px rgba(26,24,20,.04);
-  --shadow-lg:0 24px 64px rgba(26,24,20,.10),0 4px 16px rgba(26,24,20,.06);
-  --serif:'Fraunces',Georgia,serif;
-  --sans:'Inter',system-ui,sans-serif;
-  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --shadow-sm:0 1px 3px rgba(29,29,27,.04),0 1px 2px rgba(29,29,27,.06);
+  --shadow:0 4px 16px rgba(29,29,27,.06),0 1px 4px rgba(29,29,27,.04);
+  --shadow-md:0 12px 40px rgba(29,29,27,.08),0 2px 8px rgba(29,29,27,.04);
+  --shadow-lg:0 24px 64px rgba(29,29,27,.10),0 4px 16px rgba(29,29,27,.06);
+  /* Tipografia PolySans · Trilha */
+  --display:'PolySans Bulky Wide','PolySans Bulky',system-ui,sans-serif;
+  --heading:'PolySans Bulky','PolySans Median',system-ui,sans-serif;
+  --serif:'PolySans Bulky','PolySans Median',system-ui,sans-serif;
+  --sans:'PolySans Slim','PolySans Median',system-ui,sans-serif;
+  --medium:'PolySans Median',system-ui,sans-serif;
+  --italic:'PolySans Neutral','PolySans Slim',system-ui,sans-serif;
+  --mono:'PolySans Median',ui-monospace,monospace;
   --max:1280px;--gutter:clamp(24px,4vw,48px);
-  /* Funnel colors — gradient from light orange to deep dark */
+  /* Funnel colors · ajustadas pro accent real #ee4c20 */
   --f1:#FFD4B8;--f1d:#FFB389;
   --f2:#FFB389;--f2d:#FF8B5A;
   --f3:#FF8B5A;--f3d:#F26A33;
-  --f4:#F26A33;--f4d:#E8480C;
-  --f5:#E8480C;--f5d:#C73E0A;
-  --f6:#A8330A;--f6d:#1A1814;
+  --f4:#F26A33;--f4d:#ee4c20;
+  --f5:#ee4c20;--f5d:#c43815;
+  --f6:#9c2e10;--f6d:#1d1d1b;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;font-size:16px}
@@ -44,7 +80,7 @@ body{
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
   font-feature-settings:'ss01','cv11';
   background-image:
-    radial-gradient(at 90% 5%,rgba(232,72,12,.05) 0,transparent 50%),
+    radial-gradient(at 90% 5%,rgba(238,76,32,.05) 0,transparent 50%),
     radial-gradient(at 10% 95%,rgba(201,169,97,.06) 0,transparent 50%);
 }
 
@@ -61,22 +97,20 @@ body{
 .eyebrow.muted::before{background:var(--bege-dark)}
 
 h1.hero-title{
-  font-family:var(--serif);font-weight:500;
+  font-family:var(--display);font-weight:800;
   font-size:clamp(40px,6.5vw,80px);line-height:.98;
   letter-spacing:-0.04em;
-  font-variation-settings:'opsz' 144;
   margin:0;color:var(--text)
 }
-h1.hero-title em{font-style:italic;font-weight:500;color:var(--accent)}
+h1.hero-title em{font-family:var(--italic);font-weight:400;color:var(--accent)}
 
 h2.section-title{
-  font-family:var(--serif);font-weight:500;
+  font-family:var(--display);font-weight:800;
   font-size:clamp(38px,5.5vw,72px);line-height:1.02;
   letter-spacing:-0.035em;
-  font-variation-settings:'opsz' 144;
   color:var(--text);margin-top:8px
 }
-h2.section-title em{font-style:italic;font-weight:500;color:var(--accent)}
+h2.section-title em{font-family:var(--italic);font-weight:400;color:var(--accent)}
 
 .lede{
   font-family:var(--sans);font-weight:400;
@@ -97,7 +131,7 @@ h2.section-title em{font-style:italic;font-weight:500;color:var(--accent)}
 /* ───── NAV ───── */
 .nav{
   position:fixed;top:0;left:0;right:0;z-index:100;
-  background:rgba(245,241,234,.85);backdrop-filter:saturate(180%) blur(20px);
+  background:rgba(233,232,228,.85);backdrop-filter:saturate(180%) blur(20px);
   border-bottom:1px solid rgba(217,207,194,.4)
 }
 .nav-inner{
@@ -109,7 +143,7 @@ h2.section-title em{font-style:italic;font-weight:500;color:var(--accent)}
   width:36px;height:36px;border-radius:10px;
   background:var(--text);color:var(--bg);
   display:flex;align-items:center;justify-content:center;
-  font-family:var(--serif);font-weight:600;font-size:16px;font-style:italic
+  font-family:var(--display);font-weight:800;font-size:16px
 }
 .nav-brand-text{display:flex;flex-direction:column;line-height:1.1}
 .nav-brand-text small{font-size:10px;color:var(--muted);font-weight:500;letter-spacing:.04em}
@@ -143,7 +177,7 @@ h2.section-title em{font-style:italic;font-weight:500;color:var(--accent)}
 .mini-funnel a:nth-child(5){width:36px;background:linear-gradient(90deg,var(--f5),var(--f5d))}
 .mini-funnel a:nth-child(6){width:24px;background:linear-gradient(90deg,var(--f6),var(--f6d))}
 .mini-funnel a:hover,.mini-funnel a.active{
-  height:18px;box-shadow:0 0 14px rgba(232,72,12,.4);transform:scaleX(1.05)
+  height:18px;box-shadow:0 0 14px rgba(238,76,32,.4);transform:scaleX(1.05)
 }
 .mini-funnel a::after{
   content:attr(data-name);
@@ -164,13 +198,13 @@ section{padding:clamp(80px,11vw,140px) 0;position:relative}
 section.tight{padding:clamp(60px,8vw,100px) 0}
 section.dark{background:var(--bg-dark);color:var(--bg)}
 section.dark h2.section-title,section.dark h1.hero-title{color:var(--bg)}
-section.dark .lede{color:rgba(245,241,234,.8)}
+section.dark .lede{color:rgba(233,232,228,.8)}
 section.dark .eyebrow{color:var(--copper)}
 section.warm{background:var(--bg-warm)}
 
 .section-head{margin-bottom:clamp(48px,7vw,80px);max-width:880px}
 .section-marker{
-  font-family:var(--serif);font-style:italic;font-weight:400;
+  font-family:var(--italic);font-weight:400;
   font-size:14px;letter-spacing:.02em;color:var(--muted);
   margin-bottom:20px;display:flex;align-items:baseline;gap:14px
 }
@@ -188,7 +222,7 @@ section.warm{background:var(--bg-warm)}
 .hero::before{
   content:'';position:absolute;inset:0;pointer-events:none;
   background-image:
-    radial-gradient(circle at 15% 25%,rgba(232,72,12,.06),transparent 50%),
+    radial-gradient(circle at 15% 25%,rgba(238,76,32,.06),transparent 50%),
     radial-gradient(circle at 85% 75%,rgba(201,169,97,.07),transparent 50%);
 }
 .hero-content{position:relative;width:100%}
@@ -228,7 +262,7 @@ section.warm{background:var(--bg-warm)}
 .funnel-row:hover::after{opacity:1}
 .funnel-row:hover{
   transform:translateY(-4px) scale(1.012);
-  box-shadow:0 16px 40px rgba(232,72,12,.25),0 4px 10px rgba(0,0,0,.08)
+  box-shadow:0 16px 40px rgba(238,76,32,.25),0 4px 10px rgba(0,0,0,.08)
 }
 .funnel-row:active{transform:translateY(-2px) scale(1.006)}
 .f1{width:100%;background:linear-gradient(135deg,var(--f1),var(--f1d));color:#7A2E08}
@@ -243,7 +277,7 @@ section.warm{background:var(--bg-warm)}
   margin-right:24px;min-width:36px
 }
 .f-roman{
-  font-family:var(--serif);font-style:italic;font-weight:400;
+  font-family:var(--italic);font-weight:400;
   font-size:28px;letter-spacing:-0.02em;opacity:.7
 }
 .f-center{flex:1;display:flex;flex-direction:column;gap:4px;min-width:0}
@@ -304,7 +338,7 @@ section.warm{background:var(--bg-warm)}
   font-family:var(--serif);font-weight:500;font-size:clamp(22px,2.4vw,30px);line-height:1;letter-spacing:-0.03em;
   color:var(--text);font-variant-numeric:tabular-nums
 }
-.hero-meta-item .v em{font-style:italic;color:var(--accent)}
+.hero-meta-item .v em{font-family:var(--italic);font-weight:400;color:var(--accent)}
 .hero-meta-item p{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.4}
 
 /* ───── REVEAL ───── */
@@ -328,7 +362,7 @@ section.warm{background:var(--bg-warm)}
 .card:hover{border-color:var(--border-strong);transform:translateY(-4px);box-shadow:var(--shadow-md)}
 .card-hd{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:0}
 .card-num{
-  font-family:var(--serif);font-style:italic;font-weight:400;
+  font-family:var(--italic);font-weight:400;
   font-size:24px;color:var(--muted);letter-spacing:-0.02em
 }
 
@@ -378,7 +412,7 @@ section.warm{background:var(--bg-warm)}
 .bot-step:first-child{border-top:none;padding-top:0}
 .bot-step:last-child{padding-bottom:0}
 .bot-step-num{
-  font-family:var(--serif);font-style:italic;font-weight:400;
+  font-family:var(--italic);font-weight:400;
   font-size:36px;line-height:1;color:var(--muted);letter-spacing:-0.02em
 }
 .bot-step-num.accent{color:var(--accent)}.bot-step-num.copper{color:var(--copper-dark)}
@@ -415,11 +449,11 @@ section.warm{background:var(--bg-warm)}
 .pc-text{font-size:14px;line-height:1.6;color:var(--text-soft)}
 .pc-text b{color:var(--text);font-weight:600}
 .pc-quote{background:var(--surface-soft);border-left:2px solid var(--accent);padding:14px 18px;font-size:13.5px;line-height:1.55;color:var(--text);border-radius:0 var(--r-xs) var(--r-xs) 0}
-.pc-quote b{font-family:var(--serif);font-weight:500;color:var(--accent);font-style:italic;display:block;margin-bottom:4px}
+.pc-quote b{font-family:var(--italic);font-weight:400;color:var(--accent);display:block;margin-bottom:4px}
 .pc-cpl{background:var(--text);color:var(--bg);border-radius:var(--r-sm);padding:16px 20px;display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:auto}
-.pc-cpl-lbl{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,241,234,.6);margin-bottom:4px}
+.pc-cpl-lbl{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(233,232,228,.6);margin-bottom:4px}
 .pc-cpl-val{font-family:var(--serif);font-weight:500;font-size:28px;color:var(--accent);font-variant-numeric:tabular-nums;letter-spacing:-0.03em;line-height:1}
-.pc-cpl-note{font-size:10px;color:rgba(245,241,234,.7);line-height:1.4;max-width:160px;text-align:right}
+.pc-cpl-note{font-size:10px;color:rgba(233,232,228,.7);line-height:1.4;max-width:160px;text-align:right}
 
 /* ───── FOLLOW-UP TIMELINE ───── */
 .fu-rail{position:relative;padding:50px 0 16px}
@@ -428,7 +462,7 @@ section.warm{background:var(--bg-warm)}
 @media(max-width:1000px){.fu-grid{grid-template-columns:repeat(3,1fr)}.fu-line{display:none}}
 @media(max-width:560px){.fu-grid{grid-template-columns:repeat(2,1fr)}}
 .fu-step{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px}
-.fu-day{font-family:var(--serif);font-style:italic;font-weight:400;font-size:13px;color:var(--muted)}
+.fu-day{font-family:var(--italic);font-weight:400;font-size:13px;color:var(--muted)}
 .fu-orb{
   width:56px;height:56px;border-radius:50%;background:var(--surface);
   border:2px solid var(--accent);
@@ -464,7 +498,7 @@ section.warm{background:var(--bg-warm)}
 }
 .rule-item:hover{border-color:var(--border-strong);transform:translateX(4px)}
 .rule-num{
-  font-family:var(--serif);font-style:italic;font-weight:400;font-size:28px;
+  font-family:var(--italic);font-weight:400;font-size:28px;
   color:var(--accent);width:40px;flex-shrink:0;letter-spacing:-0.02em
 }
 .rule-body{flex:1}
@@ -502,7 +536,7 @@ details[open] .acc-chev{transform:rotate(180deg);color:var(--accent)}
 .pipe-stage{background:var(--surface);border:1px solid var(--border-soft);border-radius:var(--r-sm);overflow:hidden;scroll-snap-align:start;display:flex;flex-direction:column;transition:all .3s;min-height:180px}
 .pipe-stage:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--border-strong)}
 .pipe-stage-h{padding:16px 16px 12px;border-bottom:1px solid var(--border-soft)}
-.pipe-stage-num{font-family:var(--serif);font-style:italic;font-size:11px;color:var(--muted);letter-spacing:.04em;margin-bottom:4px}
+.pipe-stage-num{font-family:var(--italic);font-weight:400;font-size:11px;color:var(--muted);letter-spacing:.04em;margin-bottom:4px}
 .pipe-stage-name{font-family:var(--serif);font-weight:500;font-size:16px;line-height:1.2;letter-spacing:-0.02em;color:var(--text)}
 .pipe-stage-body{padding:14px 16px;flex:1;display:flex;flex-direction:column;gap:8px}
 .pipe-stage-desc{font-size:12px;color:var(--text-soft);line-height:1.45}
@@ -525,32 +559,32 @@ details[open] .acc-chev{transform:rotate(180deg);color:var(--accent)}
 .metrics-table td.num.meta{color:var(--accent);font-weight:600}
 
 /* Dark version */
-section.dark .metrics-table{background:rgba(255,255,255,.04);border-color:rgba(245,241,234,.1)}
-section.dark .metrics-table th{background:rgba(245,241,234,.05);color:rgba(245,241,234,.5);border-color:rgba(245,241,234,.08)}
-section.dark .metrics-table td{color:var(--bg);border-color:rgba(245,241,234,.06)}
-section.dark .metrics-table td.num{color:rgba(245,241,234,.75)}
+section.dark .metrics-table{background:rgba(255,255,255,.04);border-color:rgba(233,232,228,.1)}
+section.dark .metrics-table th{background:rgba(233,232,228,.05);color:rgba(233,232,228,.5);border-color:rgba(233,232,228,.08)}
+section.dark .metrics-table td{color:var(--bg);border-color:rgba(233,232,228,.06)}
+section.dark .metrics-table td.num{color:rgba(233,232,228,.75)}
 section.dark .metrics-table td.num.meta{color:var(--accent)}
-section.dark .metrics-table tr:hover td{background:rgba(232,72,12,.08)}
+section.dark .metrics-table tr:hover td{background:rgba(238,76,32,.08)}
 
 /* ───── DASHBOARD STEPS ───── */
 .dash-items{display:flex;flex-direction:column;gap:12px}
 .dash-item{display:flex;gap:18px;align-items:center;background:var(--surface);padding:18px 22px;border-radius:var(--r-sm);border:1px solid var(--border-soft);transition:all .25s}
 .dash-item:hover{border-color:var(--border-strong);background:var(--surface-soft);transform:translateX(3px)}
-section.dark .dash-item{background:rgba(255,255,255,.05);border-color:rgba(245,241,234,.1)}
+section.dark .dash-item{background:rgba(255,255,255,.05);border-color:rgba(233,232,228,.1)}
 section.dark .dash-item:hover{background:rgba(255,255,255,.08)}
-.dash-num{font-family:var(--serif);font-style:italic;font-weight:400;font-size:26px;color:var(--muted);letter-spacing:-0.02em;width:40px;flex-shrink:0}
+.dash-num{font-family:var(--italic);font-weight:400;font-size:26px;color:var(--muted);letter-spacing:-0.02em;width:40px;flex-shrink:0}
 section.dark .dash-num{color:var(--copper)}
 .dash-content{flex:1}
 .dash-title{font-family:var(--serif);font-weight:500;font-size:16px;letter-spacing:-0.02em;color:var(--text)}
 section.dark .dash-title{color:var(--bg)}
 .dash-desc{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.5}
-section.dark .dash-desc{color:rgba(245,241,234,.6)}
+section.dark .dash-desc{color:rgba(233,232,228,.6)}
 
 /* ───── PYRAMID FUNNEL premium ───── */
 .pyramid{display:flex;flex-direction:column;gap:14px;margin-top:24px}
 .pyr-row{display:grid;grid-template-columns:180px 1fr 120px;gap:18px;align-items:center}
 @media(max-width:760px){.pyr-row{grid-template-columns:120px 1fr 0;gap:14px}.pyr-rate{display:none}}
-.pyr-label{font-family:var(--serif);font-style:italic;font-weight:400;font-size:15px;color:rgba(245,241,234,.85);text-align:right;line-height:1.3}
+.pyr-label{font-family:var(--italic);font-weight:400;font-size:15px;color:rgba(233,232,228,.85);text-align:right;line-height:1.3}
 .pyr-bar-wrap{position:relative}
 .pyr-bar{height:50px;border-radius:12px;display:flex;align-items:center;justify-content:flex-end;padding-right:22px;color:var(--bg);font-family:var(--serif);font-weight:500;font-size:20px;letter-spacing:-0.02em;transition:width 1.2s cubic-bezier(.2,0,.2,1);font-variant-numeric:tabular-nums;box-shadow:0 4px 14px rgba(0,0,0,.15);background:linear-gradient(90deg,var(--f1),var(--accent));width:0}
 .pyr-bar.b1{background:linear-gradient(90deg,var(--f1),var(--f1d))}
@@ -583,12 +617,12 @@ section.dark .dash-desc{color:rgba(245,241,234,.6)}
 .back-top:hover{color:var(--accent);border-color:var(--accent);transform:translateY(-2px)}
 
 /* ───── FOOTER ───── */
-.foot{background:var(--bg-dark);color:rgba(245,241,234,.7);padding:64px 0 32px;text-align:center}
+.foot{background:var(--bg-dark);color:rgba(233,232,228,.7);padding:64px 0 32px;text-align:center}
 .foot-mark{display:inline-flex;align-items:center;gap:14px;margin-bottom:24px}
-.foot-mark-icon{width:44px;height:44px;border-radius:12px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:600;font-size:20px;font-style:italic}
+.foot-mark-icon{width:44px;height:44px;border-radius:12px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:800;font-size:20px}
 .foot-mark-text{text-align:left;font-family:var(--serif);font-weight:500;font-size:18px;color:var(--bg);letter-spacing:-0.02em}
-.foot-mark-text small{display:block;font-family:var(--sans);font-size:11px;font-weight:500;color:rgba(245,241,234,.5);letter-spacing:.05em;margin-top:2px;font-style:normal}
-.foot-meta{font-size:12px;color:rgba(245,241,234,.5);letter-spacing:.05em;margin-top:14px}
+.foot-mark-text small{display:block;font-family:var(--sans);font-size:11px;font-weight:500;color:rgba(233,232,228,.5);letter-spacing:.05em;margin-top:2px;font-style:normal}
+.foot-meta{font-size:12px;color:rgba(233,232,228,.5);letter-spacing:.05em;margin-top:14px}
 .foot-meta b{color:var(--copper);font-weight:500}
 
 /* ───── PRINT ───── */
@@ -1423,7 +1457,7 @@ section.dark .dash-desc{color:rgba(245,241,234,.6)}
 <section id="conversao" class="dark">
   <div class="container">
     <div class="section-head reveal">
-      <div class="section-marker" style="color:rgba(245,241,234,.6)"><span class="roman" style="color:var(--accent)">vi</span> · Conversão · Fechamento</div>
+      <div class="section-marker" style="color:rgba(233,232,228,.6)"><span class="roman" style="color:var(--accent)">vi</span> · Conversão · Fechamento</div>
       <h2 class="section-title">Treze etapas no Kommo,<br/><em>nenhuma surpresa.</em></h2>
       <p class="lede" style="margin-top:24px">
         Cada coluna do pipeline tem SLA, responsável e ação esperada. Toda passagem registra timestamp —
@@ -1453,10 +1487,10 @@ section.dark .dash-desc{color:rgba(245,241,234,.6)}
 
     <div class="grid-12 reveal" style="margin-top:64px">
 
-      <div class="g-7" style="padding:36px 32px;background:rgba(255,255,255,.04);border:1px solid rgba(245,241,234,.1);border-radius:var(--r)">
+      <div class="g-7" style="padding:36px 32px;background:rgba(255,255,255,.04);border:1px solid rgba(233,232,228,.1);border-radius:var(--r)">
         <div style="font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--copper);margin-bottom:8px">Funil projetado</div>
         <h3 class="card-title" style="color:var(--bg);font-size:26px">100 leads no mês · cenário conservador</h3>
-        <p style="font-size:13px;color:rgba(245,241,234,.6);margin-top:6px">Sem reativação · só lead novo do Instagram</p>
+        <p style="font-size:13px;color:rgba(233,232,228,.6);margin-top:6px">Sem reativação · só lead novo do Instagram</p>
 
         <div class="pyramid">
           <div class="pyr-row reveal"><div class="pyr-label">Leads</div><div class="pyr-bar-wrap"><div class="pyr-bar b1" data-w="100">100</div></div><div class="pyr-rate">100%</div></div>
@@ -1467,15 +1501,15 @@ section.dark .dash-desc{color:rgba(245,241,234,.6)}
           <div class="pyr-row reveal"><div class="pyr-label">Vendas</div><div class="pyr-bar-wrap"><div class="pyr-bar b6" data-w="6" style="min-width:80px">~2</div></div><div class="pyr-rate" style="color:var(--copper)">~2%</div></div>
         </div>
 
-        <div style="margin-top:28px;padding:16px 20px;background:rgba(232,72,12,.1);border:1px solid rgba(232,72,12,.3);border-radius:var(--r-sm);font-size:14px;color:var(--bg)">
+        <div style="margin-top:28px;padding:16px 20px;background:rgba(238,76,32,.1);border:1px solid rgba(238,76,32,.3);border-radius:var(--r-sm);font-size:14px;color:var(--bg)">
           <b style="color:var(--accent)">+30-50% de pipeline</b> já no primeiro mês quando ativa o disparo de reativação da base 6m. CPL próximo de zero nesses leads.
         </div>
       </div>
 
-      <div class="g-5" style="padding:36px 32px;background:rgba(255,255,255,.04);border:1px solid rgba(245,241,234,.1);border-radius:var(--r)">
+      <div class="g-5" style="padding:36px 32px;background:rgba(255,255,255,.04);border:1px solid rgba(233,232,228,.1);border-radius:var(--r)">
         <div style="font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--copper);margin-bottom:8px">Dashboard semanal</div>
         <h3 class="card-title" style="color:var(--bg);font-size:26px">O que reportar pro Lucas</h3>
-        <p style="font-size:13px;color:rgba(245,241,234,.6);margin-top:6px">Toda segunda 10h · print + 3 linhas no WhatsApp</p>
+        <p style="font-size:13px;color:rgba(233,232,228,.6);margin-top:6px">Toda segunda 10h · print + 3 linhas no WhatsApp</p>
 
         <div class="dash-items" style="margin-top:24px">
           <div class="dash-item"><div class="dash-num">01</div><div class="dash-content"><div class="dash-title">Investimento × leads × CPL por produto</div><div class="dash-desc">Mostra onde concentrar verba</div></div></div>
@@ -1501,15 +1535,15 @@ section.dark .dash-desc{color:rgba(245,241,234,.6)}
             </tr>
           </thead>
           <tbody>
-            <tr><td><span class="bdg bdg-orange">Tráfego</span></td><td style="color:rgba(245,241,234,.85)">CPL Instagram (mensagem)</td><td class="num">R$ 60-120</td><td class="num">R$ 15-40</td><td class="num meta">≤ R$ 45 médio</td></tr>
-            <tr><td><span class="bdg bdg-amber">Bot</span></td><td style="color:rgba(245,241,234,.85)">Taxa de resposta ao 1º msg</td><td class="num">55-70%</td><td class="num">60-75%</td><td class="num meta">≥ 65%</td></tr>
-            <tr><td><span class="bdg bdg-amber">Bot</span></td><td style="color:rgba(245,241,234,.85)">% que entrega WhatsApp</td><td class="num">40-55%</td><td class="num">50-65%</td><td class="num meta">≥ 50%</td></tr>
-            <tr><td><span class="bdg bdg-info">SDR</span></td><td style="color:rgba(245,241,234,.85)">Tempo de 1ª resposta humana</td><td class="num">&lt; 10min</td><td class="num">&lt; 5min</td><td class="num meta">&lt; 5min · 90%</td></tr>
-            <tr><td><span class="bdg bdg-info">SDR</span></td><td style="color:rgba(245,241,234,.85)">Taxa de qualificação</td><td class="num">30-45%</td><td class="num">25-40%</td><td class="num meta">≥ 40%</td></tr>
-            <tr><td><span class="bdg bdg-green">Corretor</span></td><td style="color:rgba(245,241,234,.85)">Visita agendada / qualificado</td><td class="num">25-35%</td><td class="num">30-45%</td><td class="num meta">≥ 30%</td></tr>
-            <tr><td><span class="bdg bdg-green">Corretor</span></td><td style="color:rgba(245,241,234,.85)">Visita realizada / agendada</td><td class="num">55-70%</td><td class="num">50-65%</td><td class="num meta">≥ 60%</td></tr>
-            <tr><td><span class="bdg bdg-dark">Venda</span></td><td style="color:rgba(245,241,234,.85)">Fechamento / visita realizada</td><td class="num">8-15%</td><td class="num">10-18%</td><td class="num meta">≥ 12%</td></tr>
-            <tr><td><span class="bdg bdg-dark">Venda</span></td><td style="color:rgba(245,241,234,.85)">Ciclo médio de venda</td><td class="num">60-180 dias</td><td class="num">30-90 dias</td><td class="num meta">≤ 75d médio</td></tr>
+            <tr><td><span class="bdg bdg-orange">Tráfego</span></td><td style="color:rgba(233,232,228,.85)">CPL Instagram (mensagem)</td><td class="num">R$ 60-120</td><td class="num">R$ 15-40</td><td class="num meta">≤ R$ 45 médio</td></tr>
+            <tr><td><span class="bdg bdg-amber">Bot</span></td><td style="color:rgba(233,232,228,.85)">Taxa de resposta ao 1º msg</td><td class="num">55-70%</td><td class="num">60-75%</td><td class="num meta">≥ 65%</td></tr>
+            <tr><td><span class="bdg bdg-amber">Bot</span></td><td style="color:rgba(233,232,228,.85)">% que entrega WhatsApp</td><td class="num">40-55%</td><td class="num">50-65%</td><td class="num meta">≥ 50%</td></tr>
+            <tr><td><span class="bdg bdg-info">SDR</span></td><td style="color:rgba(233,232,228,.85)">Tempo de 1ª resposta humana</td><td class="num">&lt; 10min</td><td class="num">&lt; 5min</td><td class="num meta">&lt; 5min · 90%</td></tr>
+            <tr><td><span class="bdg bdg-info">SDR</span></td><td style="color:rgba(233,232,228,.85)">Taxa de qualificação</td><td class="num">30-45%</td><td class="num">25-40%</td><td class="num meta">≥ 40%</td></tr>
+            <tr><td><span class="bdg bdg-green">Corretor</span></td><td style="color:rgba(233,232,228,.85)">Visita agendada / qualificado</td><td class="num">25-35%</td><td class="num">30-45%</td><td class="num meta">≥ 30%</td></tr>
+            <tr><td><span class="bdg bdg-green">Corretor</span></td><td style="color:rgba(233,232,228,.85)">Visita realizada / agendada</td><td class="num">55-70%</td><td class="num">50-65%</td><td class="num meta">≥ 60%</td></tr>
+            <tr><td><span class="bdg bdg-dark">Venda</span></td><td style="color:rgba(233,232,228,.85)">Fechamento / visita realizada</td><td class="num">8-15%</td><td class="num">10-18%</td><td class="num meta">≥ 12%</td></tr>
+            <tr><td><span class="bdg bdg-dark">Venda</span></td><td style="color:rgba(233,232,228,.85)">Ciclo médio de venda</td><td class="num">60-180 dias</td><td class="num">30-90 dias</td><td class="num meta">≤ 75d médio</td></tr>
           </tbody>
         </table>
       </div>

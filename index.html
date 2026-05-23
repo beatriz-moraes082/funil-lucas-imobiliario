@@ -841,12 +841,8 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
         <!-- ═══ LINHAS DE CONEXÃO ═══ -->
         <!-- IG → Bot -->
         <path d="M 500 135 L 500 195" stroke="#c2bfb5" stroke-width="2" fill="none" marker-end="url(#jArr)"/>
-        <!-- Bot → decisão WA -->
-        <path d="M 500 275 L 500 305" stroke="#c2bfb5" stroke-width="2" fill="none"/>
-        <!-- decisão WA → SDR (SIM, central) -->
-        <path d="M 500 335 L 500 355" stroke="#ee4c20" stroke-width="2.5" fill="none" marker-end="url(#jArrAcc)"/>
-        <!-- decisão WA → Só IG (NÃO, esquerda) -->
-        <path d="M 442 320 Q 320 320 280 355" stroke="#a89f92" stroke-width="1.5" stroke-dasharray="5,4" fill="none" marker-end="url(#jArrMuted)"/>
+        <!-- Bot → SDR -->
+        <path d="M 500 275 L 500 355" stroke="#c2bfb5" stroke-width="2" fill="none" marker-end="url(#jArr)"/>
         <!-- SDR → Roleta -->
         <path d="M 500 435 L 500 495" stroke="#c2bfb5" stroke-width="2" fill="none" marker-end="url(#jArr)"/>
         <!-- Roleta → decisão Mares Miai -->
@@ -876,10 +872,6 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
 
         <!-- ═══ DECISION LABELS ═══ -->
         <g class="j-decision">
-          <rect x="448" y="307" width="104" height="22" rx="11" fill="#fdeee6" stroke="#fde0d3"/>
-          <text x="500" y="322" font-size="11" fill="#c43815" text-anchor="middle">tem WhatsApp?</text>
-        </g>
-        <g class="j-decision">
           <rect x="438" y="606" width="124" height="22" rx="11" fill="#F5EBD4" stroke="#E5D4A3"/>
           <text x="500" y="621" font-size="11" fill="#A8893F" text-anchor="middle">Mares do Miai?</text>
         </g>
@@ -889,8 +881,6 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
         </g>
 
         <!-- Labels SIM/NÃO nas ramificações -->
-        <text x="350" y="305" font-size="10" font-weight="600" fill="#a89f92" font-family="PolySans Slim, system-ui">NÃO</text>
-        <text x="510" y="352" font-size="10" font-weight="600" fill="#ee4c20" font-family="PolySans Slim, system-ui">SIM</text>
         <text x="640" y="608" font-size="10" font-weight="600" fill="#A8893F" font-family="PolySans Slim, system-ui">SIM</text>
         <text x="380" y="608" font-size="10" font-weight="600" fill="#ee4c20" font-family="PolySans Slim, system-ui">NÃO</text>
         <text x="650" y="930" font-size="10" font-weight="600" fill="#a89f92" font-family="PolySans Slim, system-ui">NÃO</text>
@@ -936,21 +926,7 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
           <text x="76" y="58" class="j-sub" font-size="11" fill="#717c72">Bot · qualifica 24/7</text>
         </g>
 
-        <!-- 3a. Só IG · perde -->
-        <g class="j-node" transform="translate(120,355)">
-          <rect width="200" height="70" rx="14" fill="#f3f2ee" stroke="#d8d6cf" stroke-width="1.5" stroke-dasharray="4,3"/>
-          <g transform="translate(14,15)">
-            <rect width="36" height="36" rx="9" fill="#E8E8E3"/>
-            <g transform="translate(8,8)" stroke="#717c72" stroke-width="2" fill="none" stroke-linecap="round">
-              <circle cx="10" cy="10" r="9"/>
-              <line x1="4" y1="4" x2="16" y2="16"/>
-            </g>
-          </g>
-          <text x="60" y="33" class="j-title" font-size="13" fill="#454c47">Só Instagram</text>
-          <text x="60" y="52" class="j-sub" font-size="10" fill="#a89f92">Retarget pago</text>
-        </g>
-
-        <!-- 3b. SDR · WhatsApp -->
+        <!-- 3. SDR · WhatsApp -->
         <g class="j-node" transform="translate(380,355)">
           <rect width="240" height="80" rx="16" fill="white" stroke="#d8d6cf" stroke-width="1.5"/>
           <g transform="translate(18,20)">

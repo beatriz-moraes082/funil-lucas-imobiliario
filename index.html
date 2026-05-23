@@ -366,6 +366,28 @@ section.warm{background:var(--bg-warm)}
   font-size:24px;color:var(--muted);letter-spacing:-0.02em
 }
 
+/* ───── PORTFOLIO (carteira por polo) ───── */
+.portfolio{display:flex;flex-direction:column;gap:28px;margin-top:4px}
+.portfolio-group-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-bottom:10px;border-bottom:1px solid var(--border-strong);margin-bottom:6px}
+.portfolio-group-name{font-family:var(--heading);font-weight:700;font-size:18px;color:var(--text);letter-spacing:-0.01em}
+.portfolio-group-meta{font-size:10px;color:var(--muted);letter-spacing:.18em;text-transform:uppercase;font-weight:600}
+.prod-row{
+  display:grid;grid-template-columns:1.2fr 1.4fr auto;gap:18px;align-items:center;
+  padding:13px 0;border-bottom:1px solid var(--border-soft);
+  transition:background .15s
+}
+.prod-row:last-child{border-bottom:none}
+.prod-row:hover{background:var(--surface-soft);margin:0 -14px;padding-left:14px;padding-right:14px;border-radius:6px}
+.prod-name{display:flex;flex-direction:column;gap:2px;min-width:0}
+.prod-name b{font-family:var(--medium);font-weight:500;font-size:15px;color:var(--text);letter-spacing:-0.01em;line-height:1.2}
+.prod-name small{font-size:11px;color:var(--muted);letter-spacing:.02em}
+.prod-mid{font-size:12.5px;color:var(--text-soft);line-height:1.5;font-family:var(--sans)}
+.prod-tag{justify-self:end}
+@media(max-width:760px){
+  .prod-row{grid-template-columns:1fr auto;gap:10px}
+  .prod-mid{grid-column:1 / -1;font-size:12px;color:var(--muted);margin-top:-4px}
+}
+
 /* ───── BADGES ───── */
 .bdg{
   display:inline-flex;align-items:center;gap:6px;
@@ -794,18 +816,91 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
       <div class="g-7 card">
         <div class="card-hd">
           <div>
-            <div class="card-eyebrow">Estrutura de campanhas</div>
-            <div class="card-title">Três públicos · três criativos · todo dia</div>
+            <div class="card-eyebrow">Carteira detalhada</div>
+            <div class="card-title">10 produtos, 3 polos</div>
           </div>
           <div class="card-num">01</div>
         </div>
-        <ul class="dash-list accent">
-          <li><b>Lookalike</b> da base 6 meses · público mais quente, prioridade em retomada da operação</li>
-          <li><b>Interesses por polo</b>: Norte → MT/SP/RJ + investimento imobiliário · Maceió → local 25-55 anos · Sul → Alagoas + investimento</li>
-          <li><b>Retarget</b>: visualizou vídeo 75% · clicou link · engajou no perfil nos últimos 30d</li>
-          <li>Objetivo único: <b>mensagens diretas</b> no Instagram (não conversões em LP)</li>
-          <li>Formatos: <b>Reels</b> (carro-chefe) · <b>Stories</b> · <b>Carrossel feed</b></li>
-        </ul>
+
+        <div class="portfolio">
+
+          <div class="portfolio-group">
+            <div class="portfolio-group-h">
+              <span class="portfolio-group-name">Norte</span>
+              <span class="portfolio-group-meta">4 produtos · prioridade</span>
+            </div>
+            <div class="prod-row">
+              <div class="prod-name"><b>Horti Podium</b><small>Vertical · alto padrão</small></div>
+              <div class="prod-mid">Investidor MT/SP/RJ · 2ª residência</div>
+              <div class="prod-tag"><span class="bdg bdg-orange">★ Prioridade</span></div>
+            </div>
+            <div class="prod-row">
+              <div class="prod-name"><b>Pininfarina</b><small>Vertical</small></div>
+              <div class="prod-mid">Investidor / 2ª casa</div>
+              <div class="prod-tag"><span class="bdg bdg-soft">Corretores</span></div>
+            </div>
+            <div class="prod-row">
+              <div class="prod-name"><b>Atal</b><small>Vertical</small></div>
+              <div class="prod-mid">Investidor / 2ª casa</div>
+              <div class="prod-tag"><span class="bdg bdg-soft">Corretores</span></div>
+            </div>
+            <div class="prod-row">
+              <div class="prod-name"><b>Porangatu</b><small>A definir</small></div>
+              <div class="prod-mid">Aguardando definição com Lucas</div>
+              <div class="prod-tag"><span class="bdg bdg-amber">Pendente</span></div>
+            </div>
+          </div>
+
+          <div class="portfolio-group">
+            <div class="portfolio-group-h">
+              <span class="portfolio-group-name">Maceió</span>
+              <span class="portfolio-group-meta">3 produtos · volume local</span>
+            </div>
+            <div class="prod-row">
+              <div class="prod-name"><b>Tramunto</b><small>Rota do mar</small></div>
+              <div class="prod-mid">Morador local · primeira casa</div>
+              <div class="prod-tag"><span class="bdg bdg-soft">Corretores</span></div>
+            </div>
+            <div class="prod-row">
+              <div class="prod-name"><b>Aldeia do Mar</b><small>Região Café de La Musique</small></div>
+              <div class="prod-mid">Morador local · upgrade</div>
+              <div class="prod-tag"><span class="bdg bdg-soft">Corretores</span></div>
+            </div>
+            <div class="prod-row">
+              <div class="prod-name"><b>Bela Vista 2</b><small>Vertical</small></div>
+              <div class="prod-mid">Morador local · família</div>
+              <div class="prod-tag"><span class="bdg bdg-soft">Corretores</span></div>
+            </div>
+          </div>
+
+          <div class="portfolio-group">
+            <div class="portfolio-group-h">
+              <span class="portfolio-group-name">Sul</span>
+              <span class="portfolio-group-meta">4 produtos · mix</span>
+            </div>
+            <div class="prod-row">
+              <div class="prod-name"><b>Portal das Rocas</b><small>Condomínio na orla</small></div>
+              <div class="prod-mid">2ª residência · litoral</div>
+              <div class="prod-tag"><span class="bdg bdg-soft">Corretores</span></div>
+            </div>
+            <div class="prod-row">
+              <div class="prod-name"><b>Oásis Beach</b><small>Condomínio na orla</small></div>
+              <div class="prod-mid">2ª residência · litoral</div>
+              <div class="prod-tag"><span class="bdg bdg-soft">Corretores</span></div>
+            </div>
+            <div class="prod-row">
+              <div class="prod-name"><b>Mares do Miai</b><small>Condomínio na orla</small></div>
+              <div class="prod-mid">Atendimento exclusivo</div>
+              <div class="prod-tag"><span class="bdg bdg-copper">Lucas direto</span></div>
+            </div>
+            <div class="prod-row">
+              <div class="prod-name"><b>Dunas de Jéquia</b><small>Loteamento popular</small></div>
+              <div class="prod-mid">Ticket 100k + R$ 300/parcela</div>
+              <div class="prod-tag"><span class="bdg bdg-orange">Caravana</span></div>
+            </div>
+          </div>
+
+        </div>
       </div>
 
       <div class="g-5 card">
@@ -839,38 +934,6 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
             <div style="font-family:var(--serif);font-weight:500;font-size:24px;color:var(--accent);letter-spacing:-0.03em;font-variant-numeric:tabular-nums">R$ 15-35</div>
           </div>
         </div>
-      </div>
-
-      <div class="g-6 card">
-        <div class="card-hd">
-          <div>
-            <div class="card-eyebrow">Prioridade de produtos</div>
-            <div class="card-title">Onde concentrar verba</div>
-          </div>
-          <div class="card-num">03</div>
-        </div>
-        <ul class="dash-list">
-          <li><b>Horti Podium</b>, prioridade declarada pelo Lucas · receber maior fatia da verba Norte</li>
-          <li><b>Top 1 de cada polo</b>, produtos com histórico de venda nos últimos 6m</li>
-          <li>Reduzir verba em produtos com CPL &gt; 2x da meta após 14 dias</li>
-          <li>Pausar criativo com CTR &lt; 1% após 5k impressões</li>
-        </ul>
-      </div>
-
-      <div class="g-6 card">
-        <div class="card-hd">
-          <div>
-            <div class="card-eyebrow">Otimização semanal</div>
-            <div class="card-title">Ritual de mídia</div>
-          </div>
-          <div class="card-num">04</div>
-        </div>
-        <ul class="dash-list">
-          <li><b>Segunda 10h</b>, revisão de CPL por campanha · pausa de criativos fracos</li>
-          <li><b>Quarta</b>, entrega de novos criativos pro Pewdro (motion/design)</li>
-          <li><b>Sexta</b>, relatório de leads × CPL × qualif. por produto pro Lucas</li>
-          <li>Realocação de verba mensal baseada em performance dos 14 dias anteriores</li>
-        </ul>
       </div>
 
     </div>

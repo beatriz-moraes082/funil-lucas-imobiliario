@@ -1,0 +1,1773 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mapa de Operação · Lucas Imobiliário</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #020617;
+    --surface-1: rgba(15, 23, 42, 0.6);
+    --surface-2: rgba(30, 41, 59, 0.5);
+    --border: rgba(51, 65, 85, 0.5);
+  }
+  * { -webkit-font-smoothing: antialiased; }
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    background-image:
+      radial-gradient(at 27% 37%, hsla(215, 98%, 61%, 0.05) 0px, transparent 50%),
+      radial-gradient(at 97% 21%, hsla(280, 98%, 65%, 0.04) 0px, transparent 50%),
+      radial-gradient(at 52% 99%, hsla(354, 98%, 61%, 0.04) 0px, transparent 50%),
+      radial-gradient(at 10% 29%, hsla(155, 98%, 50%, 0.03) 0px, transparent 50%);
+  }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(148,163,184,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148,163,184,0.03) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  .node { transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+  .node:hover { transform: translateY(-3px); }
+  .eyebrow { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; }
+  .pulse { animation: pulse 2.4s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: .4; transform: scale(1.4); }
+  }
+  .dash path { stroke-dasharray: 8 6; animation: dash 30s linear infinite; }
+  @keyframes dash { to { stroke-dashoffset: -1000; } }
+  .section-anchor { scroll-margin-top: 96px; }
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display: none; }
+  details[open] .chev { transform: rotate(180deg); }
+  .chev { transition: transform .2s; }
+
+  /* MODO APRESENTAÇÃO */
+  body.presenting nav.main-nav,
+  body.presenting .no-present { display: none !important; }
+  body.presenting section { page-break-after: always; min-height: 100vh; }
+  body.presenting .max-w-screen { max-width: 100% !important; }
+
+  /* PRINT */
+  @media print {
+    body { background: white; color: #0f172a; }
+    .no-print { display: none !important; }
+    .grid-bg { background: none; }
+    section { page-break-inside: avoid; break-inside: avoid; }
+    .node { box-shadow: none !important; border: 1px solid #cbd5e1 !important; background: white !important; color: #0f172a !important; }
+    .text-slate-100, .text-slate-200, .text-slate-300, .text-white { color: #0f172a !important; }
+    .text-slate-400, .text-slate-500 { color: #475569 !important; }
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { height: 8px; width: 8px; }
+  ::-webkit-scrollbar-track { background: rgba(15,23,42,0.5); }
+  ::-webkit-scrollbar-thumb { background: rgba(71,85,105,0.6); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(100,116,139,0.8); }
+</style>
+</head>
+<body class="text-slate-100 min-h-screen">
+
+<!-- ====================================================== -->
+<!-- NAV PRINCIPAL                                          -->
+<!-- ====================================================== -->
+<nav class="main-nav border-b border-slate-800/50 bg-slate-950/80 backdrop-blur-xl sticky top-0 z-50 no-print">
+  <div class="max-w-screen max-w-[1800px] mx-auto px-6 py-3 flex items-center justify-between gap-6">
+    <div class="flex items-center gap-3 flex-shrink-0">
+      <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-rose-500 via-violet-500 to-sky-500 flex items-center justify-center">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" class="w-5 h-5">
+          <path d="M3 12h4l3-9 4 18 3-9h4"/>
+        </svg>
+      </div>
+      <div>
+        <div class="text-[11px] uppercase tracking-[0.2em] text-slate-500 leading-none">Mapa de Operação</div>
+        <div class="font-bold text-white text-sm leading-tight mt-0.5">Lucas · Imobiliário</div>
+      </div>
+    </div>
+    <div class="hidden md:flex items-center gap-1 text-xs">
+      <a href="#visao" class="px-3 py-2 rounded-lg hover:bg-slate-800/60 text-slate-300 hover:text-white transition">Visão Macro</a>
+      <a href="#salesbot" class="px-3 py-2 rounded-lg hover:bg-slate-800/60 text-slate-300 hover:text-white transition">Salesbot</a>
+      <a href="#pipeline" class="px-3 py-2 rounded-lg hover:bg-slate-800/60 text-slate-300 hover:text-white transition">Pipeline</a>
+      <a href="#publicos" class="px-3 py-2 rounded-lg hover:bg-slate-800/60 text-slate-300 hover:text-white transition">Públicos</a>
+      <a href="#followup" class="px-3 py-2 rounded-lg hover:bg-slate-800/60 text-slate-300 hover:text-white transition">Follow-up</a>
+      <a href="#falhas" class="px-3 py-2 rounded-lg hover:bg-slate-800/60 text-slate-300 hover:text-white transition">Falhas</a>
+      <a href="#metricas" class="px-3 py-2 rounded-lg hover:bg-slate-800/60 text-slate-300 hover:text-white transition">Métricas</a>
+    </div>
+    <div class="flex items-center gap-2">
+      <button onclick="document.body.classList.toggle('presenting')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-lg text-xs font-medium flex items-center gap-2 transition">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3.5 h-3.5">
+          <polygon points="5 3 19 12 5 21 5 3"/>
+        </svg>
+        Apresentar
+      </button>
+      <button onclick="window.print()" class="px-3 py-1.5 bg-gradient-to-br from-sky-500 to-violet-600 hover:opacity-90 rounded-lg text-xs font-medium flex items-center gap-2 transition">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-3.5 h-3.5">
+          <path d="M6 9V2h12v7"/>
+          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+          <rect x="6" y="14" width="12" height="8"/>
+        </svg>
+        Exportar PDF
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- ====================================================== -->
+<!-- HEADER EXECUTIVO                                       -->
+<!-- ====================================================== -->
+<section class="max-w-screen max-w-[1800px] mx-auto px-6 pt-10 pb-12">
+  <div class="grid lg:grid-cols-3 gap-6">
+    <!-- COLUNA ESQUERDA -->
+    <div class="lg:col-span-2">
+      <div class="flex items-center gap-2 mb-4">
+        <span class="px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-[10px] font-semibold uppercase tracking-wider flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full pulse"></span>
+          Versão 2.0 · Pós kick-off
+        </span>
+        <span class="text-[10px] text-slate-500 uppercase tracking-widest">Atualizado 23/05/2026</span>
+      </div>
+      <h1 class="text-4xl lg:text-5xl font-bold text-white leading-[1.05] tracking-tight">
+        Captação Instagram → Atendimento via Kommo<br/>
+        <span class="bg-gradient-to-r from-rose-400 via-violet-400 to-sky-400 bg-clip-text text-transparent">Mapa completo da operação.</span>
+      </h1>
+      <p class="text-slate-400 mt-4 max-w-2xl leading-relaxed">
+        Visão integrada do funil: 10 produtos em 3 polos, R$ 12-15k de verba em Meta Ads,
+        equipe de 4 (1 SDR + 3 corretores + Lucas) atendendo 100% via Instagram com transição
+        para WhatsApp dentro da janela de 24h.
+      </p>
+
+      <!-- OKR -->
+      <div class="mt-8 bg-gradient-to-br from-violet-950/40 to-sky-950/40 border border-violet-500/20 rounded-2xl p-6">
+        <div class="flex items-start gap-4">
+          <div class="w-10 h-10 rounded-lg bg-violet-500/20 border border-violet-500/40 flex items-center justify-center flex-shrink-0">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" class="w-5 h-5">
+              <circle cx="12" cy="12" r="10"/>
+              <circle cx="12" cy="12" r="6"/>
+              <circle cx="12" cy="12" r="2"/>
+            </svg>
+          </div>
+          <div class="flex-1">
+            <div class="eyebrow text-violet-300">OKR Q3 · Junho a Agosto</div>
+            <h2 class="font-bold text-white text-lg mt-1">Estruturar e escalar a operação Instagram → Venda com rastreabilidade total no Kommo</h2>
+            <div class="grid md:grid-cols-3 gap-3 mt-4">
+              <div class="bg-slate-900/60 border border-slate-700/50 rounded-lg p-3">
+                <div class="eyebrow text-slate-500">KR1</div>
+                <div class="text-sm font-semibold text-white mt-1">CPL médio ≤ R$ 45</div>
+                <div class="text-[11px] text-slate-400 mt-0.5">média ponderada dos 10 produtos</div>
+              </div>
+              <div class="bg-slate-900/60 border border-slate-700/50 rounded-lg p-3">
+                <div class="eyebrow text-slate-500">KR2</div>
+                <div class="text-sm font-semibold text-white mt-1">≥ 40% leads qualificados</div>
+                <div class="text-[11px] text-slate-400 mt-0.5">passam do SDR pra roleta</div>
+              </div>
+              <div class="bg-slate-900/60 border border-slate-700/50 rounded-lg p-3">
+                <div class="eyebrow text-slate-500">KR3</div>
+                <div class="text-sm font-semibold text-white mt-1">SLA 1ª resposta &lt; 5min</div>
+                <div class="text-[11px] text-slate-400 mt-0.5">em 90% dos leads em horário comercial</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLUNA DIREITA — KPIs RESUMO -->
+    <div class="space-y-3">
+      <div class="eyebrow text-slate-500 mb-2">Snapshot da conta</div>
+
+      <div class="bg-slate-900/60 backdrop-blur border border-slate-800 rounded-xl p-4 flex items-center gap-4">
+        <div class="w-11 h-11 rounded-lg bg-rose-500/15 border border-rose-500/30 flex items-center justify-center">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2" class="w-5 h-5">
+            <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+          </svg>
+        </div>
+        <div class="flex-1">
+          <div class="text-[11px] text-slate-400">Verba mensal</div>
+          <div class="text-xl font-bold text-white">R$ 12-15k</div>
+        </div>
+        <div class="text-[10px] text-slate-500 text-right leading-tight">divisão por<br/>produto<br/>pendente</div>
+      </div>
+
+      <div class="bg-slate-900/60 backdrop-blur border border-slate-800 rounded-xl p-4 flex items-center gap-4">
+        <div class="w-11 h-11 rounded-lg bg-amber-500/15 border border-amber-500/30 flex items-center justify-center">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" class="w-5 h-5">
+            <path d="M3 3h18l-2 13H5L3 3z"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/>
+          </svg>
+        </div>
+        <div class="flex-1">
+          <div class="text-[11px] text-slate-400">Carteira de produtos</div>
+          <div class="text-xl font-bold text-white">10 <span class="text-sm text-slate-400 font-normal">empreendimentos</span></div>
+        </div>
+        <div class="text-[10px] text-slate-500 text-right leading-tight">3 polos:<br/>Sul · Norte<br/>Maceió</div>
+      </div>
+
+      <div class="bg-slate-900/60 backdrop-blur border border-slate-800 rounded-xl p-4 flex items-center gap-4">
+        <div class="w-11 h-11 rounded-lg bg-sky-500/15 border border-sky-500/30 flex items-center justify-center">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" class="w-5 h-5">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <div class="flex-1">
+          <div class="text-[11px] text-slate-400">Equipe</div>
+          <div class="text-xl font-bold text-white">4 <span class="text-sm text-slate-400 font-normal">pessoas</span></div>
+        </div>
+        <div class="text-[10px] text-slate-500 text-right leading-tight">1 SDR<br/>3 corretores<br/>+ Lucas</div>
+      </div>
+
+      <div class="bg-slate-900/60 backdrop-blur border border-slate-800 rounded-xl p-4 flex items-center gap-4">
+        <div class="w-11 h-11 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" class="w-5 h-5">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+          </svg>
+        </div>
+        <div class="flex-1">
+          <div class="text-[11px] text-slate-400">Canal principal</div>
+          <div class="text-xl font-bold text-white">Instagram → WA</div>
+        </div>
+        <div class="text-[10px] text-slate-500 text-right leading-tight">Kommo<br/>integrado<br/>nos dois</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 1 · VISÃO MACRO                                  -->
+<!-- ====================================================== -->
+<section id="visao" class="section-anchor max-w-screen max-w-[1800px] mx-auto px-6 py-10">
+  <header class="flex items-end justify-between mb-6">
+    <div>
+      <div class="eyebrow text-slate-500">01 · Visão Macro</div>
+      <h2 class="text-2xl font-bold text-white mt-1">Fluxo do lead — captação ao fechamento</h2>
+      <p class="text-slate-400 text-sm mt-2 max-w-2xl">
+        Lê da esquerda pra direita. Cada bloco é uma etapa rastreada no Kommo, com SLA e métrica própria.
+        Em paralelo (rosa), a base quente dos últimos 6 meses entra direto na roleta sem custo de mídia.
+      </p>
+    </div>
+    <div class="flex items-center gap-2 text-[10px] no-print">
+      <span class="text-slate-500 uppercase tracking-widest">Legenda:</span>
+      <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-rose-500"></span>Tráfego</span>
+      <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-amber-500"></span>Bot</span>
+      <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-sky-500"></span>SDR</span>
+      <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-violet-500"></span>Roleta</span>
+      <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500"></span>Corretor</span>
+      <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-orange-500"></span>Reativação</span>
+    </div>
+  </header>
+
+  <div class="grid-bg rounded-3xl border border-slate-800 p-8 overflow-x-auto">
+    <div class="min-w-[1700px]">
+
+      <!-- FLUXO PRINCIPAL -->
+      <div class="flex items-start gap-2">
+
+        <!-- TRÁFEGO -->
+        <div class="flex flex-col items-center w-56 flex-shrink-0">
+          <div class="eyebrow text-rose-400 mb-2">Tráfego</div>
+          <div class="node bg-slate-900/80 backdrop-blur border border-rose-500/30 hover:border-rose-500/60 rounded-2xl p-5 w-full shadow-xl shadow-rose-500/10">
+            <div class="flex items-center gap-2 mb-3">
+              <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-rose-500 to-pink-600 flex items-center justify-center">
+                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" class="w-4 h-4">
+                  <rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                </svg>
+              </div>
+              <div>
+                <div class="text-[10px] text-slate-500 uppercase">Meta Ads</div>
+                <div class="font-semibold text-white text-sm leading-tight">Instagram DM</div>
+              </div>
+            </div>
+            <ul class="text-[11px] text-slate-300 space-y-1.5 mb-3">
+              <li class="flex gap-1.5"><span class="text-rose-400">→</span>Reels + Stories + Carrossel</li>
+              <li class="flex gap-1.5"><span class="text-rose-400">→</span>Objetivo: mensagens diretas</li>
+              <li class="flex gap-1.5"><span class="text-rose-400">→</span>3 públicos: morador / investidor / lookalike base</li>
+            </ul>
+            <div class="grid grid-cols-2 gap-2 pt-3 border-t border-slate-800">
+              <div><div class="text-[9px] text-slate-500 uppercase">CPL meta</div><div class="font-bold text-rose-300 text-sm mono">R$ ≤45</div></div>
+              <div><div class="text-[9px] text-slate-500 uppercase">Leads/dia</div><div class="font-bold text-white text-sm mono">8-15</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SETA -->
+        <div class="flex-1 flex items-center justify-center pt-20 min-w-[60px]">
+          <svg class="dash w-full h-8" viewBox="0 0 100 32" preserveAspectRatio="none">
+            <defs><marker id="a1" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#64748b"/></marker></defs>
+            <path d="M0,16 L92,16" stroke="#64748b" stroke-width="1.5" fill="none" marker-end="url(#a1)"/>
+          </svg>
+        </div>
+
+        <!-- BOT -->
+        <div class="flex flex-col items-center w-56 flex-shrink-0">
+          <div class="eyebrow text-amber-400 mb-2">Pré-atendimento</div>
+          <div class="node bg-slate-900/80 backdrop-blur border border-amber-500/30 hover:border-amber-500/60 rounded-2xl p-5 w-full shadow-xl shadow-amber-500/10">
+            <div class="flex items-center gap-2 mb-3">
+              <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center">
+                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" class="w-4 h-4">
+                  <rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/>
+                </svg>
+              </div>
+              <div>
+                <div class="text-[10px] text-slate-500 uppercase">Salesbot</div>
+                <div class="font-semibold text-white text-sm leading-tight">Bot Kommo · IG</div>
+              </div>
+            </div>
+            <ul class="text-[11px] text-slate-300 space-y-1.5 mb-3">
+              <li class="flex gap-1.5"><span class="text-amber-400">→</span>Saudação automática</li>
+              <li class="flex gap-1.5"><span class="text-amber-400">→</span>4 perguntas qualificadoras</li>
+              <li class="flex gap-1.5"><span class="text-amber-400">→</span>Captura WhatsApp (sai do IG)</li>
+              <li class="flex gap-1.5"><span class="text-amber-400">→</span>Etiqueta produto + perfil</li>
+            </ul>
+            <div class="bg-amber-950/40 border border-amber-500/20 rounded-md px-2 py-1.5 mb-3">
+              <div class="text-[10px] text-amber-300 font-medium">⚠ Janela IG = 24h</div>
+            </div>
+            <div class="grid grid-cols-2 gap-2 pt-3 border-t border-slate-800">
+              <div><div class="text-[9px] text-slate-500 uppercase">Tx resp.</div><div class="font-bold text-amber-300 text-sm mono">60-75%</div></div>
+              <div><div class="text-[9px] text-slate-500 uppercase">Tx c/ WA</div><div class="font-bold text-white text-sm mono">45-60%</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex-1 flex items-center justify-center pt-20 min-w-[60px]">
+          <svg class="dash w-full h-8" viewBox="0 0 100 32" preserveAspectRatio="none">
+            <path d="M0,16 L92,16" stroke="#64748b" stroke-width="1.5" fill="none" marker-end="url(#a1)"/>
+          </svg>
+        </div>
+
+        <!-- SDR -->
+        <div class="flex flex-col items-center w-56 flex-shrink-0">
+          <div class="eyebrow text-sky-400 mb-2">SDR Humano</div>
+          <div class="node bg-slate-900/80 backdrop-blur border border-sky-500/30 hover:border-sky-500/60 rounded-2xl p-5 w-full shadow-xl shadow-sky-500/10">
+            <div class="flex items-center gap-2 mb-3">
+              <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-500 to-blue-600 flex items-center justify-center">
+                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" class="w-4 h-4">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                </svg>
+              </div>
+              <div>
+                <div class="text-[10px] text-slate-500 uppercase">1 pessoa</div>
+                <div class="font-semibold text-white text-sm leading-tight">SDR</div>
+              </div>
+            </div>
+            <ul class="text-[11px] text-slate-300 space-y-1.5 mb-3">
+              <li class="flex gap-1.5"><span class="text-sky-400">→</span>Confirma intenção real</li>
+              <li class="flex gap-1.5"><span class="text-sky-400">→</span>Qualifica renda/perfil</li>
+              <li class="flex gap-1.5"><span class="text-sky-400">→</span>Apresenta condições gerais</li>
+              <li class="flex gap-1.5"><span class="text-sky-400">→</span>Move pra roleta</li>
+            </ul>
+            <div class="grid grid-cols-2 gap-2 pt-3 border-t border-slate-800">
+              <div><div class="text-[9px] text-slate-500 uppercase">SLA</div><div class="font-bold text-sky-300 text-sm mono">&lt; 5min</div></div>
+              <div><div class="text-[9px] text-slate-500 uppercase">Qualif.</div><div class="font-bold text-white text-sm mono">≥ 40%</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex-1 flex items-center justify-center pt-20 min-w-[60px]">
+          <svg class="dash w-full h-8" viewBox="0 0 100 32" preserveAspectRatio="none">
+            <path d="M0,16 L92,16" stroke="#64748b" stroke-width="1.5" fill="none" marker-end="url(#a1)"/>
+          </svg>
+        </div>
+
+        <!-- ROLETA -->
+        <div class="flex flex-col items-center w-56 flex-shrink-0">
+          <div class="eyebrow text-violet-400 mb-2">Distribuição</div>
+          <div class="node bg-slate-900/80 backdrop-blur border border-violet-500/30 hover:border-violet-500/60 rounded-2xl p-5 w-full shadow-xl shadow-violet-500/10">
+            <div class="flex items-center gap-2 mb-3">
+              <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center">
+                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" class="w-4 h-4">
+                  <circle cx="12" cy="12" r="10"/><path d="M12 2v20M2 12h20"/>
+                </svg>
+              </div>
+              <div>
+                <div class="text-[10px] text-slate-500 uppercase">Kommo</div>
+                <div class="font-semibold text-white text-sm leading-tight">Roleta</div>
+              </div>
+            </div>
+            <ul class="text-[11px] text-slate-300 space-y-1.5 mb-3">
+              <li class="flex gap-1.5"><span class="text-violet-400">→</span>Round-robin equilibrado</li>
+              <li class="flex gap-1.5"><span class="text-violet-400">→</span>Respeita horário comercial</li>
+              <li class="flex gap-1.5"><span class="text-violet-400">→</span>Fila fora do expediente</li>
+            </ul>
+            <div class="bg-violet-950/40 border border-violet-500/20 rounded-md px-2 py-1.5 mb-3">
+              <div class="text-[10px] text-violet-300 font-medium">★ Mares do Miai → Lucas</div>
+            </div>
+            <div class="grid grid-cols-2 gap-2 pt-3 border-t border-slate-800">
+              <div><div class="text-[9px] text-slate-500 uppercase">Fila máx.</div><div class="font-bold text-violet-300 text-sm mono">15min</div></div>
+              <div><div class="text-[9px] text-slate-500 uppercase">Re-distr.</div><div class="font-bold text-white text-sm mono">se ñ ler</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex-1 flex items-center justify-center pt-20 min-w-[60px]">
+          <svg class="dash w-full h-8" viewBox="0 0 100 32" preserveAspectRatio="none">
+            <path d="M0,16 L92,16" stroke="#64748b" stroke-width="1.5" fill="none" marker-end="url(#a1)"/>
+          </svg>
+        </div>
+
+        <!-- CORRETOR -->
+        <div class="flex flex-col items-center w-60 flex-shrink-0">
+          <div class="eyebrow text-emerald-400 mb-2">Atendimento</div>
+          <div class="node bg-slate-900/80 backdrop-blur border border-emerald-500/30 hover:border-emerald-500/60 rounded-2xl p-5 w-full shadow-xl shadow-emerald-500/10">
+            <div class="flex items-center gap-2 mb-3">
+              <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center">
+                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" class="w-4 h-4">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+                </svg>
+              </div>
+              <div>
+                <div class="text-[10px] text-slate-500 uppercase">WhatsApp · Kommo</div>
+                <div class="font-semibold text-white text-sm leading-tight">Corretor</div>
+              </div>
+            </div>
+            <div class="space-y-1.5 mb-3">
+              <div class="flex items-center justify-between bg-slate-800/60 rounded-md px-2 py-1 text-[11px]"><span>Corretor 1</span><span class="text-emerald-400 text-[10px]">WA integ.</span></div>
+              <div class="flex items-center justify-between bg-slate-800/60 rounded-md px-2 py-1 text-[11px]"><span>Corretor 2</span><span class="text-emerald-400 text-[10px]">WA integ.</span></div>
+              <div class="flex items-center justify-between bg-slate-800/60 rounded-md px-2 py-1 text-[11px]"><span>Corretor 3</span><span class="text-emerald-400 text-[10px]">WA integ.</span></div>
+              <div class="flex items-center justify-between bg-amber-950/40 border border-amber-500/30 rounded-md px-2 py-1 text-[11px]"><span>Lucas</span><span class="text-amber-300 text-[10px]">Mares Miai</span></div>
+            </div>
+            <div class="grid grid-cols-2 gap-2 pt-3 border-t border-slate-800">
+              <div><div class="text-[9px] text-slate-500 uppercase">SLA atend.</div><div class="font-bold text-emerald-300 text-sm mono">&lt; 15min</div></div>
+              <div><div class="text-[9px] text-slate-500 uppercase">→ Visita</div><div class="font-bold text-white text-sm mono">25-40%</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex-1 flex items-center justify-center pt-20 min-w-[60px]">
+          <svg class="dash w-full h-8" viewBox="0 0 100 32" preserveAspectRatio="none">
+            <path d="M0,16 L92,16" stroke="#64748b" stroke-width="1.5" fill="none" marker-end="url(#a1)"/>
+          </svg>
+        </div>
+
+        <!-- CONVERSÃO -->
+        <div class="flex flex-col items-center w-56 flex-shrink-0">
+          <div class="eyebrow text-slate-300 mb-2">Conversão</div>
+          <div class="node bg-slate-900/80 backdrop-blur border border-slate-500/30 hover:border-slate-400/60 rounded-2xl p-5 w-full shadow-xl shadow-slate-500/10">
+            <div class="flex items-center gap-2 mb-3">
+              <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-slate-400 to-slate-600 flex items-center justify-center">
+                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" class="w-4 h-4">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+              </div>
+              <div>
+                <div class="text-[10px] text-slate-500 uppercase">Fechamento</div>
+                <div class="font-semibold text-white text-sm leading-tight">Venda</div>
+              </div>
+            </div>
+            <ul class="text-[11px] text-slate-300 space-y-1.5 mb-3">
+              <li class="flex gap-1.5"><span class="text-slate-400">→</span>Visita/reunião</li>
+              <li class="flex gap-1.5"><span class="text-slate-400">→</span>Proposta enviada</li>
+              <li class="flex gap-1.5"><span class="text-slate-400">→</span>Negociação</li>
+              <li class="flex gap-1.5"><span class="text-emerald-400">✓</span>Fechado</li>
+              <li class="flex gap-1.5"><span class="text-rose-400">✗</span>Perdido → reativação</li>
+            </ul>
+            <div class="grid grid-cols-2 gap-2 pt-3 border-t border-slate-800">
+              <div><div class="text-[9px] text-slate-500 uppercase">Visita→venda</div><div class="font-bold text-emerald-300 text-sm mono">8-15%</div></div>
+              <div><div class="text-[9px] text-slate-500 uppercase">Ciclo</div><div class="font-bold text-white text-sm mono">30-90d</div></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- DIVISOR -->
+      <div class="my-12 flex items-center gap-4">
+        <div class="flex-1 h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent"></div>
+        <span class="eyebrow text-orange-400">Fluxo paralelo · base quente</span>
+        <div class="flex-1 h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent"></div>
+      </div>
+
+      <!-- FLUXO REATIVAÇÃO -->
+      <div class="flex items-start gap-2">
+
+        <div class="flex flex-col items-center w-56 flex-shrink-0">
+          <div class="eyebrow text-orange-400 mb-2">A · Base 6 meses</div>
+          <div class="node bg-slate-900/80 backdrop-blur border border-orange-500/30 hover:border-orange-500/60 rounded-2xl p-5 w-full shadow-xl shadow-orange-500/10">
+            <div class="flex items-center gap-2 mb-3">
+              <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center">
+                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" class="w-4 h-4">
+                  <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+                </svg>
+              </div>
+              <div>
+                <div class="text-[10px] text-slate-500 uppercase">Planilha</div>
+                <div class="font-semibold text-white text-sm leading-tight">Base quente</div>
+              </div>
+            </div>
+            <ul class="text-[11px] text-slate-300 space-y-1.5">
+              <li class="flex gap-1.5"><span class="text-orange-400">→</span>Importar no Kommo</li>
+              <li class="flex gap-1.5"><span class="text-orange-400">→</span>Etiquetar por produto</li>
+              <li class="flex gap-1.5"><span class="text-orange-400">→</span>Validar opt-in LGPD</li>
+              <li class="flex gap-1.5"><span class="text-orange-400">→</span>Segmentar por interesse</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="flex-1 flex items-center justify-center pt-20 min-w-[60px]">
+          <svg class="dash w-full h-8" viewBox="0 0 100 32" preserveAspectRatio="none">
+            <defs><marker id="a2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#fb923c"/></marker></defs>
+            <path d="M0,16 L92,16" stroke="#fb923c" stroke-width="1.5" fill="none" marker-end="url(#a2)"/>
+          </svg>
+        </div>
+
+        <div class="flex flex-col items-center w-56 flex-shrink-0">
+          <div class="eyebrow text-orange-400 mb-2">B · Disparo</div>
+          <div class="node bg-slate-900/80 backdrop-blur border border-orange-500/30 hover:border-orange-500/60 rounded-2xl p-5 w-full shadow-xl shadow-orange-500/10">
+            <div class="flex items-center gap-2 mb-3">
+              <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-red-600 flex items-center justify-center">
+                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" class="w-4 h-4">
+                  <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/>
+                </svg>
+              </div>
+              <div>
+                <div class="text-[10px] text-slate-500 uppercase">WhatsApp</div>
+                <div class="font-semibold text-white text-sm leading-tight">Disparo</div>
+              </div>
+            </div>
+            <ul class="text-[11px] text-slate-300 space-y-1.5">
+              <li class="flex gap-1.5"><span class="text-orange-400">→</span>Vídeo de obra do produto</li>
+              <li class="flex gap-1.5"><span class="text-orange-400">→</span>Template aprovado WABA</li>
+              <li class="flex gap-1.5"><span class="text-orange-400">→</span>Cadência mensal</li>
+              <li class="flex gap-1.5"><span class="text-orange-400">→</span>CTA: "quero ver mais"</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="flex-1 flex items-center justify-center pt-20 min-w-[60px]">
+          <svg class="dash w-full h-8" viewBox="0 0 100 32" preserveAspectRatio="none">
+            <path d="M0,16 L92,16" stroke="#fb923c" stroke-width="1.5" fill="none" marker-end="url(#a2)"/>
+          </svg>
+        </div>
+
+        <div class="flex flex-col items-center w-56 flex-shrink-0">
+          <div class="eyebrow text-orange-400 mb-2">C · Resposta</div>
+          <div class="node bg-slate-900/80 backdrop-blur border border-orange-400/30 hover:border-orange-400/60 rounded-2xl p-5 w-full shadow-xl shadow-orange-500/10">
+            <div class="flex items-center gap-2 mb-3">
+              <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-400 to-amber-500 flex items-center justify-center">
+                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2" class="w-4 h-4">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+              </div>
+              <div>
+                <div class="text-[10px] text-slate-500 uppercase">Lead voltou</div>
+                <div class="font-semibold text-white text-sm leading-tight">Resposta</div>
+              </div>
+            </div>
+            <ul class="text-[11px] text-slate-300 space-y-1.5 mb-3">
+              <li class="flex gap-1.5"><span class="text-orange-400">→</span>Vai direto pra roleta</li>
+              <li class="flex gap-1.5"><span class="text-orange-400">→</span>Bypass do SDR</li>
+              <li class="flex gap-1.5"><span class="text-orange-400">→</span>Tag "reativação"</li>
+            </ul>
+            <div class="bg-emerald-950/40 border border-emerald-500/20 rounded-md px-2 py-1.5">
+              <div class="text-[10px] text-emerald-300 font-medium">💡 CPL ~ R$ 0</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SETA DE RETORNO PRA ROLETA -->
+        <div class="flex-1 flex items-center pt-12 relative min-w-[700px]">
+          <svg class="w-full" viewBox="0 0 700 80" preserveAspectRatio="none">
+            <defs>
+              <marker id="a3" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L9,3 z" fill="#fb923c"/>
+              </marker>
+              <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#fb923c"/>
+                <stop offset="100%" stop-color="#a78bfa"/>
+              </linearGradient>
+            </defs>
+            <path d="M10,40 Q200,40 350,5 Q500,-30 690,5"
+                  stroke="url(#g1)" stroke-width="2" stroke-dasharray="6 4" fill="none" marker-end="url(#a3)"/>
+          </svg>
+          <div class="absolute top-0 left-1/2 -translate-x-1/2 text-[10px] text-orange-300 bg-slate-900 border border-orange-500/40 px-3 py-1 rounded-full">
+            ↑ Entra na Roleta
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 2 · SALESBOT DETALHADO                           -->
+<!-- ====================================================== -->
+<section id="salesbot" class="section-anchor max-w-screen max-w-[1800px] mx-auto px-6 py-16">
+  <header class="mb-8">
+    <div class="eyebrow text-amber-400">02 · Salesbot Instagram</div>
+    <h2 class="text-2xl font-bold text-white mt-1">Fluxograma do bot — quem entra, quem sai, quem vira lead</h2>
+    <p class="text-slate-400 text-sm mt-2 max-w-3xl">
+      Roda 24/7 no Direct do Instagram. Objetivo único: <strong class="text-white">capturar o WhatsApp do lead em até 15 minutos</strong>
+      pra continuar a conversa fora da janela de 24h. Cada resposta etiqueta o lead automaticamente no Kommo.
+    </p>
+  </header>
+
+  <div class="grid lg:grid-cols-12 gap-6">
+
+    <!-- COLUNA FLUXO -->
+    <div class="lg:col-span-8 bg-slate-900/40 border border-slate-800 rounded-2xl p-6">
+      <div class="eyebrow text-slate-500 mb-4">Fluxo · estado por estado</div>
+
+      <!-- ETAPA -->
+      <div class="space-y-3">
+
+        <!-- 1. ENTRADA -->
+        <div class="flex gap-4">
+          <div class="flex flex-col items-center">
+            <div class="w-9 h-9 rounded-full bg-rose-500/20 border-2 border-rose-500 flex items-center justify-center text-rose-300 font-bold text-sm flex-shrink-0">1</div>
+            <div class="flex-1 w-px bg-slate-700 my-2"></div>
+          </div>
+          <div class="flex-1 pb-2">
+            <div class="font-semibold text-white">Lead manda DM ou comenta anúncio</div>
+            <div class="text-[12px] text-slate-400 mt-0.5">Disparo do Salesbot via gatilho "nova mensagem no Instagram" no Kommo</div>
+          </div>
+        </div>
+
+        <!-- 2. SAUDAÇÃO -->
+        <div class="flex gap-4">
+          <div class="flex flex-col items-center">
+            <div class="w-9 h-9 rounded-full bg-amber-500/20 border-2 border-amber-500 flex items-center justify-center text-amber-300 font-bold text-sm flex-shrink-0">2</div>
+            <div class="flex-1 w-px bg-slate-700 my-2"></div>
+          </div>
+          <div class="flex-1 pb-2">
+            <div class="font-semibold text-white">Saudação automática</div>
+            <div class="mt-2 bg-slate-800/60 border border-slate-700 rounded-lg p-3 text-[12px] text-slate-300 leading-relaxed">
+              <span class="text-slate-500 text-[10px] uppercase tracking-wider block mb-1">Mensagem</span>
+              "Oi! Tudo bem? Vi que você curtiu o anúncio do nosso empreendimento. Vou te passar mais informações em alguns minutos.<br/>Antes, me responde 3 perguntinhas rápidas pra eu te ajudar do jeito certo. Pode ser?"
+            </div>
+            <div class="flex gap-2 mt-2 text-[10px]">
+              <span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30">SIM → segue p/ 3</span>
+              <span class="px-2 py-0.5 rounded bg-slate-700/40 text-slate-400 border border-slate-600/30">Ignorou 1h → re-engaja 1x</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. PRODUTO -->
+        <div class="flex gap-4">
+          <div class="flex flex-col items-center">
+            <div class="w-9 h-9 rounded-full bg-amber-500/20 border-2 border-amber-500 flex items-center justify-center text-amber-300 font-bold text-sm flex-shrink-0">3</div>
+            <div class="flex-1 w-px bg-slate-700 my-2"></div>
+          </div>
+          <div class="flex-1 pb-2">
+            <div class="font-semibold text-white">Pergunta 1 · Qual produto / região</div>
+            <div class="mt-2 bg-slate-800/60 border border-slate-700 rounded-lg p-3 text-[12px] text-slate-300">
+              "Qual região te interessa mais? <strong>Norte</strong>, <strong>Sul</strong> ou <strong>Maceió</strong>?"
+            </div>
+            <div class="grid grid-cols-3 gap-2 mt-2 text-[10px]">
+              <span class="px-2 py-1 rounded bg-rose-500/10 text-rose-300 border border-rose-500/20 text-center">Norte → tag <span class="mono">norte_lead</span></span>
+              <span class="px-2 py-1 rounded bg-sky-500/10 text-sky-300 border border-sky-500/20 text-center">Sul → tag <span class="mono">sul_lead</span></span>
+              <span class="px-2 py-1 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 text-center">Maceió → tag <span class="mono">maceio_lead</span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. INTENÇÃO -->
+        <div class="flex gap-4">
+          <div class="flex flex-col items-center">
+            <div class="w-9 h-9 rounded-full bg-amber-500/20 border-2 border-amber-500 flex items-center justify-center text-amber-300 font-bold text-sm flex-shrink-0">4</div>
+            <div class="flex-1 w-px bg-slate-700 my-2"></div>
+          </div>
+          <div class="flex-1 pb-2">
+            <div class="font-semibold text-white">Pergunta 2 · Pra morar ou investir</div>
+            <div class="mt-2 bg-slate-800/60 border border-slate-700 rounded-lg p-3 text-[12px] text-slate-300">
+              "Você tá buscando pra <strong>morar</strong>, pra <strong>investir</strong>, ou pra <strong>casa de praia/segunda casa</strong>?"
+            </div>
+            <div class="grid grid-cols-3 gap-2 mt-2 text-[10px]">
+              <span class="px-2 py-1 rounded bg-slate-700/40 text-slate-300 border border-slate-600/30 text-center">Morar → <span class="mono">perfil:morador</span></span>
+              <span class="px-2 py-1 rounded bg-slate-700/40 text-slate-300 border border-slate-600/30 text-center">Investir → <span class="mono">perfil:investidor</span></span>
+              <span class="px-2 py-1 rounded bg-slate-700/40 text-slate-300 border border-slate-600/30 text-center">2ª casa → <span class="mono">perfil:lazer</span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. PRAZO -->
+        <div class="flex gap-4">
+          <div class="flex flex-col items-center">
+            <div class="w-9 h-9 rounded-full bg-amber-500/20 border-2 border-amber-500 flex items-center justify-center text-amber-300 font-bold text-sm flex-shrink-0">5</div>
+            <div class="flex-1 w-px bg-slate-700 my-2"></div>
+          </div>
+          <div class="flex-1 pb-2">
+            <div class="font-semibold text-white">Pergunta 3 · Prazo de decisão</div>
+            <div class="mt-2 bg-slate-800/60 border border-slate-700 rounded-lg p-3 text-[12px] text-slate-300">
+              "Em quanto tempo você pretende decidir? <strong>Próximos 30 dias</strong>, <strong>1-3 meses</strong> ou <strong>mais pra frente</strong>?"
+            </div>
+            <div class="grid grid-cols-3 gap-2 mt-2 text-[10px]">
+              <span class="px-2 py-1 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-center">≤ 30d → <span class="mono">score:quente</span></span>
+              <span class="px-2 py-1 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30 text-center">1-3m → <span class="mono">score:morno</span></span>
+              <span class="px-2 py-1 rounded bg-slate-500/15 text-slate-300 border border-slate-500/30 text-center">3m+ → <span class="mono">score:frio</span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. WHATSAPP -->
+        <div class="flex gap-4">
+          <div class="flex flex-col items-center">
+            <div class="w-9 h-9 rounded-full bg-emerald-500/20 border-2 border-emerald-500 flex items-center justify-center text-emerald-300 font-bold text-sm flex-shrink-0">6</div>
+            <div class="flex-1 w-px bg-slate-700 my-2"></div>
+          </div>
+          <div class="flex-1 pb-2">
+            <div class="font-semibold text-white">Pergunta 4 · Pega o WhatsApp <span class="text-emerald-400 text-xs">[crítico]</span></div>
+            <div class="mt-2 bg-slate-800/60 border border-slate-700 rounded-lg p-3 text-[12px] text-slate-300">
+              "Pra eu te mandar o book com plantas e valores em alta resolução, qual seu WhatsApp? 📱<br/>
+              <span class="text-slate-500">(Aqui no Insta só posso te responder dentro de 24h — pelo WhatsApp consigo te dar atenção sempre que precisar)</span>"
+            </div>
+            <div class="grid grid-cols-2 gap-2 mt-2 text-[10px]">
+              <span class="px-2 py-1 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-center">✓ Mandou → <span class="mono">move p/ Pré-qualif.</span></span>
+              <span class="px-2 py-1 rounded bg-rose-500/15 text-rose-300 border border-rose-500/30 text-center">✗ Recusou → tag <span class="mono">só_ig</span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. HANDOFF -->
+        <div class="flex gap-4">
+          <div class="flex flex-col items-center">
+            <div class="w-9 h-9 rounded-full bg-sky-500/20 border-2 border-sky-500 flex items-center justify-center text-sky-300 font-bold text-sm flex-shrink-0">7</div>
+          </div>
+          <div class="flex-1">
+            <div class="font-semibold text-white">Handoff para SDR humano</div>
+            <div class="mt-2 bg-slate-800/60 border border-slate-700 rounded-lg p-3 text-[12px] text-slate-300">
+              <span class="text-slate-500 text-[10px] uppercase tracking-wider block mb-1">Mensagem final do bot</span>
+              "Perfeito! Já registrei aqui. Em alguns minutos a <strong>{nome_SDR}</strong> vai te chamar no WhatsApp com mais detalhes do empreendimento. Até já! 👋"
+            </div>
+            <div class="mt-2 text-[11px] text-slate-400">
+              → Notifica SDR no Kommo · Lead aparece na coluna "Pré-qualificado" · Inicia contador de SLA
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLUNA LATERAL · ETIQUETAS + RE-ENGAJAMENTO -->
+    <div class="lg:col-span-4 space-y-4">
+
+      <!-- ETIQUETAS -->
+      <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-5">
+        <div class="eyebrow text-slate-500 mb-3">Tags geradas pelo bot</div>
+        <div class="space-y-2 text-xs">
+          <div class="flex items-center justify-between"><span class="text-slate-300">Polo</span><span class="mono text-rose-300">norte | sul | maceio</span></div>
+          <div class="flex items-center justify-between"><span class="text-slate-300">Perfil</span><span class="mono text-violet-300">morador | investidor | lazer</span></div>
+          <div class="flex items-center justify-between"><span class="text-slate-300">Score</span><span class="mono text-amber-300">quente | morno | frio</span></div>
+          <div class="flex items-center justify-between"><span class="text-slate-300">Canal</span><span class="mono text-emerald-300">com_wa | só_ig</span></div>
+          <div class="flex items-center justify-between"><span class="text-slate-300">Origem</span><span class="mono text-sky-300">campanha_X</span></div>
+        </div>
+        <div class="text-[10px] text-slate-500 mt-3 pt-3 border-t border-slate-800 leading-relaxed">
+          Combinação dessas tags vira filtro de roleta, segmentação de disparo e relatório do gestor.
+        </div>
+      </div>
+
+      <!-- RE-ENGAJAMENTO -->
+      <div class="bg-amber-950/30 border border-amber-500/30 rounded-2xl p-5">
+        <div class="eyebrow text-amber-300 mb-3">Re-engajamento na janela 24h</div>
+        <div class="space-y-3 text-[12px] text-amber-50">
+          <div class="flex gap-3">
+            <span class="mono text-amber-400 text-[11px] flex-shrink-0 w-12">+1h</span>
+            <span>"Vi que você não respondeu, deve estar ocupado. Se preferir, me chama no WhatsApp X que falo com mais calma 😉"</span>
+          </div>
+          <div class="flex gap-3">
+            <span class="mono text-amber-400 text-[11px] flex-shrink-0 w-12">+6h</span>
+            <span>"Última condição que abriu pro empreendimento: [oferta]. Quer que eu te passe o material?"</span>
+          </div>
+          <div class="flex gap-3">
+            <span class="mono text-amber-400 text-[11px] flex-shrink-0 w-12">+23h</span>
+            <span>"Vou ficar fora do Instagram em algumas horas. Me passa seu WhatsApp pra continuarmos? 📱"</span>
+          </div>
+        </div>
+        <div class="text-[10px] text-amber-200/60 mt-3 pt-3 border-t border-amber-500/20 leading-relaxed">
+          Depois das 24h sem resposta, só dá pra reativar via anúncio retarget ou disparo WhatsApp (se tiver número).
+        </div>
+      </div>
+
+      <!-- TROCO LADO B -->
+      <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-5">
+        <div class="eyebrow text-slate-500 mb-3">⚙ Configuração técnica</div>
+        <ul class="text-[12px] text-slate-300 space-y-1.5">
+          <li class="flex gap-2"><span class="text-slate-500">•</span>Salesbot nativo do Kommo (sem n8n)</li>
+          <li class="flex gap-2"><span class="text-slate-500">•</span>Instagram conectado via canal oficial</li>
+          <li class="flex gap-2"><span class="text-slate-500">•</span>Gatilho: nova mensagem direta</li>
+          <li class="flex gap-2"><span class="text-slate-500">•</span>Variáveis personalizadas: produto, região, perfil, prazo</li>
+          <li class="flex gap-2"><span class="text-slate-500">•</span>Webhook → notifica SDR no app Kommo</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 3 · PIPELINE KOMMO                               -->
+<!-- ====================================================== -->
+<section id="pipeline" class="section-anchor max-w-screen max-w-[1800px] mx-auto px-6 py-16">
+  <header class="mb-8">
+    <div class="eyebrow text-sky-400">03 · Pipeline Kommo</div>
+    <h2 class="text-2xl font-bold text-white mt-1">13 etapas — do lead novo ao fechamento</h2>
+    <p class="text-slate-400 text-sm mt-2 max-w-3xl">
+      Cada coluna é uma etapa do pipeline configurado no Kommo. SLA, responsável e ação esperada explícitos.
+      Toda passagem entre etapas é registrada com timestamp pra você medir tempo médio em cada uma.
+    </p>
+  </header>
+
+  <div class="overflow-x-auto pb-4">
+    <div class="flex gap-3 min-w-[1700px]">
+
+      <!-- HELPER DEFINIR COLUNAS -->
+      <!-- Cor 1: lead novo (rose) -->
+      <div class="w-44 flex-shrink-0">
+        <div class="bg-rose-500/10 border border-rose-500/30 rounded-t-xl px-3 py-2.5">
+          <div class="text-[10px] uppercase tracking-wider text-rose-300 font-semibold">Etapa 1</div>
+          <div class="text-sm font-bold text-white mt-0.5">Lead novo</div>
+        </div>
+        <div class="bg-slate-900/60 border-x border-b border-slate-800 rounded-b-xl p-3 space-y-2">
+          <div class="text-[11px] text-slate-300">Acabou de mandar DM</div>
+          <div class="flex items-center gap-1.5 text-[10px] text-slate-400"><span class="w-1 h-1 bg-slate-500 rounded-full"></span>Bot</div>
+          <div class="pt-2 border-t border-slate-800">
+            <div class="text-[9px] text-slate-500 uppercase">SLA</div>
+            <div class="text-[11px] text-rose-300 mono">imediato</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-44 flex-shrink-0">
+        <div class="bg-amber-500/10 border border-amber-500/30 rounded-t-xl px-3 py-2.5">
+          <div class="text-[10px] uppercase tracking-wider text-amber-300 font-semibold">Etapa 2</div>
+          <div class="text-sm font-bold text-white mt-0.5">Bot em andamento</div>
+        </div>
+        <div class="bg-slate-900/60 border-x border-b border-slate-800 rounded-b-xl p-3 space-y-2">
+          <div class="text-[11px] text-slate-300">Salesbot rodando perguntas</div>
+          <div class="flex items-center gap-1.5 text-[10px] text-slate-400"><span class="w-1 h-1 bg-amber-500 rounded-full"></span>Salesbot</div>
+          <div class="pt-2 border-t border-slate-800">
+            <div class="text-[9px] text-slate-500 uppercase">Duração esperada</div>
+            <div class="text-[11px] text-amber-300 mono">≤ 15min</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-44 flex-shrink-0">
+        <div class="bg-amber-500/10 border border-amber-500/30 rounded-t-xl px-3 py-2.5">
+          <div class="text-[10px] uppercase tracking-wider text-amber-300 font-semibold">Etapa 3</div>
+          <div class="text-sm font-bold text-white mt-0.5">Pré-qualificado</div>
+        </div>
+        <div class="bg-slate-900/60 border-x border-b border-slate-800 rounded-b-xl p-3 space-y-2">
+          <div class="text-[11px] text-slate-300">Passou pelo bot + tem WA</div>
+          <div class="flex items-center gap-1.5 text-[10px] text-slate-400"><span class="w-1 h-1 bg-amber-500 rounded-full"></span>Sistema</div>
+          <div class="pt-2 border-t border-slate-800">
+            <div class="text-[9px] text-slate-500 uppercase">SLA → SDR</div>
+            <div class="text-[11px] text-amber-300 mono">&lt; 5min</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-44 flex-shrink-0">
+        <div class="bg-sky-500/10 border border-sky-500/30 rounded-t-xl px-3 py-2.5">
+          <div class="text-[10px] uppercase tracking-wider text-sky-300 font-semibold">Etapa 4</div>
+          <div class="text-sm font-bold text-white mt-0.5">Em qualificação SDR</div>
+        </div>
+        <div class="bg-slate-900/60 border-x border-b border-slate-800 rounded-b-xl p-3 space-y-2">
+          <div class="text-[11px] text-slate-300">SDR conversando no WA</div>
+          <div class="flex items-center gap-1.5 text-[10px] text-slate-400"><span class="w-1 h-1 bg-sky-500 rounded-full"></span>SDR</div>
+          <div class="pt-2 border-t border-slate-800">
+            <div class="text-[9px] text-slate-500 uppercase">Duração</div>
+            <div class="text-[11px] text-sky-300 mono">15-30min</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-44 flex-shrink-0">
+        <div class="bg-sky-500/10 border border-sky-500/30 rounded-t-xl px-3 py-2.5">
+          <div class="text-[10px] uppercase tracking-wider text-sky-300 font-semibold">Etapa 5</div>
+          <div class="text-sm font-bold text-white mt-0.5">Qualificado</div>
+        </div>
+        <div class="bg-slate-900/60 border-x border-b border-slate-800 rounded-b-xl p-3 space-y-2">
+          <div class="text-[11px] text-slate-300">Aprovado pelo SDR</div>
+          <div class="flex items-center gap-1.5 text-[10px] text-slate-400"><span class="w-1 h-1 bg-sky-500 rounded-full"></span>Sistema</div>
+          <div class="pt-2 border-t border-slate-800">
+            <div class="text-[9px] text-slate-500 uppercase">Próximo</div>
+            <div class="text-[11px] text-sky-300 mono">→ roleta</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-44 flex-shrink-0">
+        <div class="bg-violet-500/10 border border-violet-500/30 rounded-t-xl px-3 py-2.5">
+          <div class="text-[10px] uppercase tracking-wider text-violet-300 font-semibold">Etapa 6</div>
+          <div class="text-sm font-bold text-white mt-0.5">Distribuído</div>
+        </div>
+        <div class="bg-slate-900/60 border-x border-b border-slate-800 rounded-b-xl p-3 space-y-2">
+          <div class="text-[11px] text-slate-300">Roleta atribuiu corretor</div>
+          <div class="flex items-center gap-1.5 text-[10px] text-slate-400"><span class="w-1 h-1 bg-violet-500 rounded-full"></span>Sistema</div>
+          <div class="pt-2 border-t border-slate-800">
+            <div class="text-[9px] text-slate-500 uppercase">SLA atend.</div>
+            <div class="text-[11px] text-violet-300 mono">&lt; 15min</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-44 flex-shrink-0">
+        <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-t-xl px-3 py-2.5">
+          <div class="text-[10px] uppercase tracking-wider text-emerald-300 font-semibold">Etapa 7</div>
+          <div class="text-sm font-bold text-white mt-0.5">Em atendimento</div>
+        </div>
+        <div class="bg-slate-900/60 border-x border-b border-slate-800 rounded-b-xl p-3 space-y-2">
+          <div class="text-[11px] text-slate-300">Corretor falando c/ lead</div>
+          <div class="flex items-center gap-1.5 text-[10px] text-slate-400"><span class="w-1 h-1 bg-emerald-500 rounded-full"></span>Corretor</div>
+          <div class="pt-2 border-t border-slate-800">
+            <div class="text-[9px] text-slate-500 uppercase">Régua</div>
+            <div class="text-[11px] text-emerald-300 mono">D+0 a D+30</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-44 flex-shrink-0">
+        <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-t-xl px-3 py-2.5">
+          <div class="text-[10px] uppercase tracking-wider text-emerald-300 font-semibold">Etapa 8</div>
+          <div class="text-sm font-bold text-white mt-0.5">Visita agendada</div>
+        </div>
+        <div class="bg-slate-900/60 border-x border-b border-slate-800 rounded-b-xl p-3 space-y-2">
+          <div class="text-[11px] text-slate-300">Data marcada</div>
+          <div class="flex items-center gap-1.5 text-[10px] text-slate-400"><span class="w-1 h-1 bg-emerald-500 rounded-full"></span>Corretor</div>
+          <div class="pt-2 border-t border-slate-800">
+            <div class="text-[9px] text-slate-500 uppercase">Lembrete</div>
+            <div class="text-[11px] text-emerald-300 mono">24h antes</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-44 flex-shrink-0">
+        <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-t-xl px-3 py-2.5">
+          <div class="text-[10px] uppercase tracking-wider text-emerald-300 font-semibold">Etapa 9</div>
+          <div class="text-sm font-bold text-white mt-0.5">Visita realizada</div>
+        </div>
+        <div class="bg-slate-900/60 border-x border-b border-slate-800 rounded-b-xl p-3 space-y-2">
+          <div class="text-[11px] text-slate-300">Lead conheceu obra/stand</div>
+          <div class="flex items-center gap-1.5 text-[10px] text-slate-400"><span class="w-1 h-1 bg-emerald-500 rounded-full"></span>Corretor</div>
+          <div class="pt-2 border-t border-slate-800">
+            <div class="text-[9px] text-slate-500 uppercase">No-show</div>
+            <div class="text-[11px] text-rose-300 mono">remarcar 1x</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-44 flex-shrink-0">
+        <div class="bg-slate-400/10 border border-slate-400/30 rounded-t-xl px-3 py-2.5">
+          <div class="text-[10px] uppercase tracking-wider text-slate-200 font-semibold">Etapa 10</div>
+          <div class="text-sm font-bold text-white mt-0.5">Proposta enviada</div>
+        </div>
+        <div class="bg-slate-900/60 border-x border-b border-slate-800 rounded-b-xl p-3 space-y-2">
+          <div class="text-[11px] text-slate-300">Tabela + condição formalizada</div>
+          <div class="flex items-center gap-1.5 text-[10px] text-slate-400"><span class="w-1 h-1 bg-slate-300 rounded-full"></span>Corretor</div>
+          <div class="pt-2 border-t border-slate-800">
+            <div class="text-[9px] text-slate-500 uppercase">Follow-up</div>
+            <div class="text-[11px] text-slate-200 mono">+24h, +72h</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-44 flex-shrink-0">
+        <div class="bg-slate-400/10 border border-slate-400/30 rounded-t-xl px-3 py-2.5">
+          <div class="text-[10px] uppercase tracking-wider text-slate-200 font-semibold">Etapa 11</div>
+          <div class="text-sm font-bold text-white mt-0.5">Em negociação</div>
+        </div>
+        <div class="bg-slate-900/60 border-x border-b border-slate-800 rounded-b-xl p-3 space-y-2">
+          <div class="text-[11px] text-slate-300">Discutindo condição</div>
+          <div class="flex items-center gap-1.5 text-[10px] text-slate-400"><span class="w-1 h-1 bg-slate-300 rounded-full"></span>Corretor + Lucas</div>
+          <div class="pt-2 border-t border-slate-800">
+            <div class="text-[9px] text-slate-500 uppercase">Aprov. Lucas</div>
+            <div class="text-[11px] text-slate-200 mono">se &gt; desc.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-44 flex-shrink-0">
+        <div class="bg-emerald-500/15 border border-emerald-400/40 rounded-t-xl px-3 py-2.5">
+          <div class="text-[10px] uppercase tracking-wider text-emerald-200 font-semibold flex items-center gap-1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="w-3 h-3"><polyline points="20 6 9 17 4 12"/></svg>
+            Etapa 12
+          </div>
+          <div class="text-sm font-bold text-white mt-0.5">Fechado</div>
+        </div>
+        <div class="bg-emerald-950/40 border-x border-b border-emerald-500/30 rounded-b-xl p-3 space-y-2">
+          <div class="text-[11px] text-emerald-100">✓ Contrato assinado</div>
+          <div class="flex items-center gap-1.5 text-[10px] text-emerald-300"><span class="w-1 h-1 bg-emerald-400 rounded-full"></span>Comemora 🎉</div>
+          <div class="pt-2 border-t border-emerald-500/20">
+            <div class="text-[9px] text-emerald-300/70 uppercase">Pós-venda</div>
+            <div class="text-[11px] text-emerald-200 mono">indicação</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-44 flex-shrink-0">
+        <div class="bg-rose-500/10 border border-rose-500/30 rounded-t-xl px-3 py-2.5">
+          <div class="text-[10px] uppercase tracking-wider text-rose-300 font-semibold flex items-center gap-1">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" class="w-3 h-3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            Etapa 13
+          </div>
+          <div class="text-sm font-bold text-white mt-0.5">Perdido</div>
+        </div>
+        <div class="bg-slate-900/60 border-x border-b border-slate-800 rounded-b-xl p-3 space-y-2">
+          <div class="text-[11px] text-slate-300">Motivo registrado</div>
+          <div class="flex items-center gap-1.5 text-[10px] text-rose-300"><span class="w-1 h-1 bg-rose-400 rounded-full"></span>Reativação</div>
+          <div class="pt-2 border-t border-slate-800">
+            <div class="text-[9px] text-slate-500 uppercase">Vai p/</div>
+            <div class="text-[11px] text-orange-300 mono">base quente</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- LEGENDA -->
+  <div class="mt-4 text-[11px] text-slate-500 flex flex-wrap items-center gap-4">
+    <span>📌 Cor da coluna = responsável pela etapa</span>
+    <span>·</span>
+    <span>Motivos de perda padronizados: <span class="mono text-slate-400">preço · prazo · concorrente · sumiu · não qualificou</span></span>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 4 · SUB-FLUXOS POR PÚBLICO                       -->
+<!-- ====================================================== -->
+<section id="publicos" class="section-anchor max-w-screen max-w-[1800px] mx-auto px-6 py-16">
+  <header class="mb-8">
+    <div class="eyebrow text-violet-400">04 · Sub-fluxos por público</div>
+    <h2 class="text-2xl font-bold text-white mt-1">Norte ≠ Maceió ≠ Dunas — qualificação e copy específicas</h2>
+    <p class="text-slate-400 text-sm mt-2 max-w-3xl">
+      Mesma estrutura macro, mas qualificação no SDR e abordagem do corretor mudam conforme o perfil.
+      Tratar tudo igual queima lead e infla CPL.
+    </p>
+  </header>
+
+  <div class="grid lg:grid-cols-3 gap-5">
+
+    <!-- NORTE -->
+    <div class="bg-slate-900/40 border border-rose-500/20 rounded-2xl overflow-hidden">
+      <div class="bg-gradient-to-br from-rose-500/20 to-pink-600/10 border-b border-rose-500/20 px-5 py-4">
+        <div class="flex items-center justify-between mb-1">
+          <div class="font-bold text-white">Norte · Premium</div>
+          <span class="text-[10px] bg-rose-500/20 text-rose-200 border border-rose-500/30 px-2 py-0.5 rounded-full font-medium">Prioridade</span>
+        </div>
+        <div class="text-[11px] text-rose-200/70">Horti Podium · Pininfarina · Atal · Porangatu</div>
+      </div>
+      <div class="p-5 space-y-4">
+
+        <div>
+          <div class="eyebrow text-slate-500 mb-2">Público</div>
+          <div class="text-[12px] text-slate-300 leading-relaxed">
+            Investidor ou comprador de 2ª residência em <strong class="text-white">MT (Sinop)</strong>, <strong class="text-white">SP</strong>, <strong class="text-white">RJ</strong>.
+            Renda alta, decisão racional, ciclo longo (60-180 dias).
+          </div>
+        </div>
+
+        <div>
+          <div class="eyebrow text-slate-500 mb-2">Qualificação SDR (extra)</div>
+          <ul class="text-[12px] text-slate-300 space-y-1.5">
+            <li class="flex gap-2"><span class="text-rose-400">→</span>Já tem outro imóvel?</li>
+            <li class="flex gap-2"><span class="text-rose-400">→</span>Intenção: locação, valorização ou uso próprio?</li>
+            <li class="flex gap-2"><span class="text-rose-400">→</span>Como pretende viabilizar (à vista, financiamento, permuta)?</li>
+            <li class="flex gap-2"><span class="text-rose-400">→</span>Conhece o destino (Maragogi/região)?</li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="eyebrow text-slate-500 mb-2">Copy do anúncio + abordagem</div>
+          <div class="text-[12px] text-slate-300 leading-relaxed bg-slate-800/40 rounded-lg p-3">
+            <strong class="text-rose-300">Tese:</strong> valorização + lifestyle + exclusividade.<br/>
+            "Seu refúgio no nordeste com rentabilidade de pool" / "Última oportunidade na orla X" / vídeos drone, lifestyle.
+          </div>
+        </div>
+
+        <div>
+          <div class="eyebrow text-slate-500 mb-2">Visita</div>
+          <div class="text-[12px] text-slate-300">
+            <strong>1ª visita virtual</strong> (vídeo-call + tour drone). Visita presencial só com lead já avançado.
+          </div>
+        </div>
+
+        <div class="bg-rose-950/30 border border-rose-500/20 rounded-lg p-3">
+          <div class="eyebrow text-rose-300 mb-1">CPL esperado</div>
+          <div class="text-lg font-bold text-white mono">R$ 60-120</div>
+          <div class="text-[10px] text-slate-400 mt-0.5">Ticket alto justifica CPL maior · meta: ROAS &gt; 8x</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MACEIÓ -->
+    <div class="bg-slate-900/40 border border-emerald-500/20 rounded-2xl overflow-hidden">
+      <div class="bg-gradient-to-br from-emerald-500/20 to-teal-600/10 border-b border-emerald-500/20 px-5 py-4">
+        <div class="flex items-center justify-between mb-1">
+          <div class="font-bold text-white">Maceió · Morador</div>
+          <span class="text-[10px] bg-emerald-500/20 text-emerald-200 border border-emerald-500/30 px-2 py-0.5 rounded-full font-medium">Volume</span>
+        </div>
+        <div class="text-[11px] text-emerald-200/70">Tramunto · Aldeia do Mar · Bela Vista 2</div>
+      </div>
+      <div class="p-5 space-y-4">
+
+        <div>
+          <div class="eyebrow text-slate-500 mb-2">Público</div>
+          <div class="text-[12px] text-slate-300 leading-relaxed">
+            <strong class="text-white">100% Maceió local.</strong> Mora em apartamento e quer ir pra casa. Família, primeira compra ou upgrade.
+            Decisão emocional, ciclo médio (30-90 dias).
+          </div>
+        </div>
+
+        <div>
+          <div class="eyebrow text-slate-500 mb-2">Qualificação SDR (extra)</div>
+          <ul class="text-[12px] text-slate-300 space-y-1.5">
+            <li class="flex gap-2"><span class="text-emerald-400">→</span>Quantos na família?</li>
+            <li class="flex gap-2"><span class="text-emerald-400">→</span>Vai usar FGTS, financiamento ou tem entrada?</li>
+            <li class="flex gap-2"><span class="text-emerald-400">→</span>Bairro atual e o que falta hoje no apto?</li>
+            <li class="flex gap-2"><span class="text-emerald-400">→</span>Já tem aprovação de crédito ou precisa simular?</li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="eyebrow text-slate-500 mb-2">Copy do anúncio + abordagem</div>
+          <div class="text-[12px] text-slate-300 leading-relaxed bg-slate-800/40 rounded-lg p-3">
+            <strong class="text-emerald-300">Tese:</strong> espaço + qualidade de vida + virar dono.<br/>
+            "Sua casa com quintal, sem condomínio caro" / "Saia do aluguel/apto" / depoimentos de moradores, vista da casa, vida em família.
+          </div>
+        </div>
+
+        <div>
+          <div class="eyebrow text-slate-500 mb-2">Visita</div>
+          <div class="text-[12px] text-slate-300">
+            <strong>Visita presencial</strong> ao stand/decorado o mais rápido possível. Quanto antes vê, antes decide.
+          </div>
+        </div>
+
+        <div class="bg-emerald-950/30 border border-emerald-500/20 rounded-lg p-3">
+          <div class="eyebrow text-emerald-300 mb-1">CPL esperado</div>
+          <div class="text-lg font-bold text-white mono">R$ 25-50</div>
+          <div class="text-[10px] text-slate-400 mt-0.5">Mercado local, alta demanda, ciclo curto · meta: ROAS &gt; 12x</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUL / DUNAS -->
+    <div class="bg-slate-900/40 border border-amber-500/20 rounded-2xl overflow-hidden">
+      <div class="bg-gradient-to-br from-amber-500/20 to-orange-600/10 border-b border-amber-500/20 px-5 py-4">
+        <div class="flex items-center justify-between mb-1">
+          <div class="font-bold text-white">Sul · Mix</div>
+          <span class="text-[10px] bg-amber-500/20 text-amber-200 border border-amber-500/30 px-2 py-0.5 rounded-full font-medium">Diversificado</span>
+        </div>
+        <div class="text-[11px] text-amber-200/70">Portal das Rocas · Oásis · Mares do Miai · Dunas de Jéquia</div>
+      </div>
+      <div class="p-5 space-y-4">
+
+        <div>
+          <div class="eyebrow text-slate-500 mb-2">Público</div>
+          <div class="text-[12px] text-slate-300 leading-relaxed">
+            Mix: condomínios fechados na orla (ticket médio-alto, semelhante ao Norte) + <strong class="text-amber-200">Dunas de Jéquia</strong> (loteamento popular, ticket 100k + R$ 300/parcela).
+          </div>
+        </div>
+
+        <div>
+          <div class="eyebrow text-slate-500 mb-2">Qualificação SDR · Dunas</div>
+          <ul class="text-[12px] text-slate-300 space-y-1.5">
+            <li class="flex gap-2"><span class="text-amber-400">→</span>Renda bate R$ 1.000/mês comprovada?</li>
+            <li class="flex gap-2"><span class="text-amber-400">→</span>Já tem terreno ou primeira aquisição?</li>
+            <li class="flex gap-2"><span class="text-amber-400">→</span>Conhece localização (visita pré-qualifica muito)?</li>
+            <li class="flex gap-2"><span class="text-amber-400">→</span>Tem entrada disponível?</li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="eyebrow text-slate-500 mb-2">Copy do anúncio + abordagem</div>
+          <div class="text-[12px] text-slate-300 leading-relaxed bg-slate-800/40 rounded-lg p-3">
+            <strong class="text-amber-300">Tese · Dunas:</strong> realização de sonho + cabe no bolso.<br/>
+            "Seu terreno por R$ 300/mês" / "Cabe no orçamento" / depoimentos, valorização da região.
+          </div>
+        </div>
+
+        <div>
+          <div class="eyebrow text-slate-500 mb-2">Visita</div>
+          <div class="text-[12px] text-slate-300">
+            Dunas: <strong>caravanas no fim de semana</strong> (escala). Demais produtos: visita ao stand individual.
+          </div>
+        </div>
+
+        <div class="bg-amber-950/30 border border-amber-500/20 rounded-lg p-3">
+          <div class="eyebrow text-amber-300 mb-1">CPL esperado</div>
+          <div class="text-lg font-bold text-white mono">R$ 15-35 <span class="text-xs text-slate-400 font-normal">(Dunas)</span></div>
+          <div class="text-[10px] text-slate-400 mt-0.5">Volume alto, qualificação crítica · cuidado com lead curioso</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 5 · RÉGUA DE FOLLOW-UP                           -->
+<!-- ====================================================== -->
+<section id="followup" class="section-anchor max-w-screen max-w-[1800px] mx-auto px-6 py-16">
+  <header class="mb-8">
+    <div class="eyebrow text-emerald-400">05 · Régua de follow-up</div>
+    <h2 class="text-2xl font-bold text-white mt-1">Cadência D+0 a D+30 — corretor no WhatsApp</h2>
+    <p class="text-slate-400 text-sm mt-2 max-w-3xl">
+      Lead distribuído pro corretor cai automaticamente nessa régua. Cada toque tem mensagem-tipo,
+      objetivo claro e gatilho de saída. Lead que não responde após D+30 vira <strong class="text-orange-300">base de reativação</strong>.
+    </p>
+  </header>
+
+  <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-8">
+    <div class="relative">
+      <!-- LINHA HORIZONTAL -->
+      <div class="absolute left-0 right-0 top-[88px] h-0.5 bg-gradient-to-r from-emerald-500 via-amber-500 to-orange-500 opacity-30"></div>
+
+      <div class="grid grid-cols-6 gap-3 relative">
+
+        <!-- D+0 -->
+        <div class="text-center">
+          <div class="eyebrow text-emerald-400 mb-2">D+0</div>
+          <div class="bg-emerald-500/15 border-2 border-emerald-500 rounded-full w-16 h-16 mx-auto flex items-center justify-center font-bold text-emerald-300 mb-3 relative z-10 bg-slate-950">
+            ✓
+          </div>
+          <div class="text-xs font-semibold text-white mb-2">Apresentação</div>
+          <div class="bg-slate-800/60 border border-slate-700 rounded-lg p-2.5 text-[11px] text-slate-300 text-left">
+            "Oi {nome}, sou {corretor}. Recebi seu interesse no {produto}.<br/>
+            Já te envio o book completo: planta, valores e condições."<br/><br/>
+            <span class="text-slate-500">📎 Envia: book PDF + foto/vídeo do empreendimento</span>
+          </div>
+          <div class="text-[10px] text-emerald-300 mt-2">→ Em até 15min</div>
+        </div>
+
+        <!-- D+1 -->
+        <div class="text-center">
+          <div class="eyebrow text-emerald-400 mb-2">D+1</div>
+          <div class="bg-emerald-500/10 border-2 border-emerald-500/60 rounded-full w-16 h-16 mx-auto flex items-center justify-center font-bold text-emerald-300 mb-3 relative z-10 bg-slate-950">
+            1
+          </div>
+          <div class="text-xs font-semibold text-white mb-2">Check de leitura</div>
+          <div class="bg-slate-800/60 border border-slate-700 rounded-lg p-2.5 text-[11px] text-slate-300 text-left">
+            "Conseguiu olhar o material que mandei ontem?<br/>
+            Qualquer dúvida me chama — posso te explicar com calma."<br/><br/>
+            <span class="text-slate-500">🎯 Objetivo: reabrir conversa</span>
+          </div>
+          <div class="text-[10px] text-emerald-300 mt-2">→ se respondeu D+0</div>
+        </div>
+
+        <!-- D+3 -->
+        <div class="text-center">
+          <div class="eyebrow text-amber-400 mb-2">D+3</div>
+          <div class="bg-amber-500/10 border-2 border-amber-500/60 rounded-full w-16 h-16 mx-auto flex items-center justify-center font-bold text-amber-300 mb-3 relative z-10 bg-slate-950">
+            3
+          </div>
+          <div class="text-xs font-semibold text-white mb-2">Dúvida específica</div>
+          <div class="bg-slate-800/60 border border-slate-700 rounded-lg p-2.5 text-[11px] text-slate-300 text-left">
+            "Tem alguma dúvida específica que posso esclarecer? Sobre <strong>localização</strong>, <strong>condição de pagamento</strong> ou <strong>plantas</strong>?"<br/><br/>
+            <span class="text-slate-500">🎯 Objetivo: ramificar a conversa</span>
+          </div>
+          <div class="text-[10px] text-amber-300 mt-2">→ se ainda não respondeu</div>
+        </div>
+
+        <!-- D+7 -->
+        <div class="text-center">
+          <div class="eyebrow text-amber-400 mb-2">D+7</div>
+          <div class="bg-amber-500/10 border-2 border-amber-500/60 rounded-full w-16 h-16 mx-auto flex items-center justify-center font-bold text-amber-300 mb-3 relative z-10 bg-slate-950">
+            7
+          </div>
+          <div class="text-xs font-semibold text-white mb-2">Vídeo de obra</div>
+          <div class="bg-slate-800/60 border border-slate-700 rounded-lg p-2.5 text-[11px] text-slate-300 text-left">
+            "Olha como a obra do {produto} está nesta semana 👇 (envia vídeo curto da obra)<br/>
+            Bora marcar uma visita?"<br/><br/>
+            <span class="text-slate-500">🎯 Objetivo: prova social + CTA visita</span>
+          </div>
+          <div class="text-[10px] text-amber-300 mt-2">→ conteúdo de progresso</div>
+        </div>
+
+        <!-- D+15 -->
+        <div class="text-center">
+          <div class="eyebrow text-orange-400 mb-2">D+15</div>
+          <div class="bg-orange-500/10 border-2 border-orange-500/60 rounded-full w-16 h-16 mx-auto flex items-center justify-center font-bold text-orange-300 mb-3 relative z-10 bg-slate-950">
+            15
+          </div>
+          <div class="text-xs font-semibold text-white mb-2">Nova condição</div>
+          <div class="bg-slate-800/60 border border-slate-700 rounded-lg p-2.5 text-[11px] text-slate-300 text-left">
+            "{nome}, abriu uma condição especial essa semana: <strong>{oferta limitada}</strong>.<br/>
+            Faz sentido a gente conversar?"<br/><br/>
+            <span class="text-slate-500">🎯 Objetivo: gatilho de escassez</span>
+          </div>
+          <div class="text-[10px] text-orange-300 mt-2">→ requer aprov. Lucas</div>
+        </div>
+
+        <!-- D+30 -->
+        <div class="text-center">
+          <div class="eyebrow text-rose-400 mb-2">D+30</div>
+          <div class="bg-rose-500/10 border-2 border-rose-500/60 rounded-full w-16 h-16 mx-auto flex items-center justify-center font-bold text-rose-300 mb-3 relative z-10 bg-slate-950">
+            30
+          </div>
+          <div class="text-xs font-semibold text-white mb-2">Última tentativa</div>
+          <div class="bg-slate-800/60 border border-slate-700 rounded-lg p-2.5 text-[11px] text-slate-300 text-left">
+            "{nome}, vou te tirar da minha lista ativa pra não te encher.<br/>
+            Se mudar de ideia, é só me chamar. Qualquer dia desses te mando uma novidade do empreendimento."<br/><br/>
+            <span class="text-slate-500">🎯 Objetivo: gatilho de loss aversion</span>
+          </div>
+          <div class="text-[10px] text-rose-300 mt-2">→ vai p/ reativação</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RÉGUA DE EXCEÇÕES -->
+    <div class="mt-12 pt-8 border-t border-slate-800 grid lg:grid-cols-3 gap-4">
+
+      <div class="bg-emerald-950/30 border border-emerald-500/20 rounded-xl p-4">
+        <div class="eyebrow text-emerald-300 mb-2">✓ Régua de SIM</div>
+        <div class="text-[12px] text-slate-300 leading-relaxed">
+          Lead respondeu e demonstrou interesse?<br/>
+          → <strong class="text-white">Sai da régua automática</strong>. Corretor assume condução manual + agenda visita.
+        </div>
+      </div>
+
+      <div class="bg-amber-950/30 border border-amber-500/20 rounded-xl p-4">
+        <div class="eyebrow text-amber-300 mb-2">⏸ Régua de PAUSA</div>
+        <div class="text-[12px] text-slate-300 leading-relaxed">
+          Lead pediu pra ser contatado depois?<br/>
+          → <strong class="text-white">Tarefa agendada</strong> no Kommo pra data X. Régua suspensa até lá.
+        </div>
+      </div>
+
+      <div class="bg-rose-950/30 border border-rose-500/20 rounded-xl p-4">
+        <div class="eyebrow text-rose-300 mb-2">✗ Régua de SAÍDA</div>
+        <div class="text-[12px] text-slate-300 leading-relaxed">
+          Lead bloqueou, pediu pra parar ou disse "não tenho interesse"?<br/>
+          → <strong class="text-white">Tag não_contatar</strong>. Sai de todas as réguas e disparos.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 6 · CENÁRIOS DE FALHA                            -->
+<!-- ====================================================== -->
+<section id="falhas" class="section-anchor max-w-screen max-w-[1800px] mx-auto px-6 py-16">
+  <header class="mb-8">
+    <div class="eyebrow text-rose-400">06 · Cenários de falha e fallback</div>
+    <h2 class="text-2xl font-bold text-white mt-1">O que pode dar errado — e o que o sistema faz</h2>
+    <p class="text-slate-400 text-sm mt-2 max-w-3xl">
+      Operação real tem fricção. Cada cenário abaixo é uma automação configurada no Kommo pra impedir que o lead "suma" no meio do funil.
+    </p>
+  </header>
+
+  <div class="grid lg:grid-cols-2 gap-5">
+
+    <!-- F1 -->
+    <details class="bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden group" open>
+      <summary class="px-5 py-4 flex items-center justify-between hover:bg-slate-800/40 transition">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-rose-500/15 border border-rose-500/30 flex items-center justify-center flex-shrink-0">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2" class="w-4 h-4"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <div>
+            <div class="font-semibold text-white text-sm">Corretor não atende em 15min</div>
+            <div class="text-[11px] text-slate-400">Lead distribuído na roleta + ignorado</div>
+          </div>
+        </div>
+        <svg class="chev w-4 h-4 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="px-5 pb-4 pt-1 border-t border-slate-800 text-[12px] text-slate-300 space-y-2 leading-relaxed">
+        <div>→ Kommo dispara alerta pro corretor responsável + cópia pro gestor</div>
+        <div>→ Após 30min sem leitura, <strong class="text-white">re-distribui automaticamente</strong> pra próximo corretor da roleta</div>
+        <div>→ Tag <span class="mono text-rose-300">no_show_corretor:{nome}</span> entra no histórico do colaborador</div>
+        <div class="text-rose-300 mt-2 pt-2 border-t border-slate-800">📊 Métrica: corretor com &gt; 3 no_show/mês entra em conversa de feedback</div>
+      </div>
+    </details>
+
+    <!-- F2 -->
+    <details class="bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden group">
+      <summary class="px-5 py-4 flex items-center justify-between hover:bg-slate-800/40 transition">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-amber-500/15 border border-amber-500/30 flex items-center justify-center flex-shrink-0">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" class="w-4 h-4"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <div>
+            <div class="font-semibold text-white text-sm">Lead some no meio do SDR</div>
+            <div class="text-[11px] text-slate-400">Respondeu o bot mas parou de responder a humana</div>
+          </div>
+        </div>
+        <svg class="chev w-4 h-4 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="px-5 pb-4 pt-1 border-t border-slate-800 text-[12px] text-slate-300 space-y-2 leading-relaxed">
+        <div>→ SDR tenta 2x num intervalo de 4h</div>
+        <div>→ Se não responder em 24h: <strong class="text-white">automação envia mensagem de "última chance"</strong></div>
+        <div>→ Se não responder em 48h: move pra <span class="mono text-orange-300">Perdido · motivo:sumiu</span> + entra na base de reativação</div>
+      </div>
+    </details>
+
+    <!-- F3 -->
+    <details class="bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden group">
+      <summary class="px-5 py-4 flex items-center justify-between hover:bg-slate-800/40 transition">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-violet-500/15 border border-violet-500/30 flex items-center justify-center flex-shrink-0">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" class="w-4 h-4"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/><line x1="2" y1="2" x2="22" y2="22"/></svg>
+          </div>
+          <div>
+            <div class="font-semibold text-white text-sm">Número de WhatsApp inválido</div>
+            <div class="text-[11px] text-slate-400">Lead digitou errado ou número não existe</div>
+          </div>
+        </div>
+        <svg class="chev w-4 h-4 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="px-5 pb-4 pt-1 border-t border-slate-800 text-[12px] text-slate-300 space-y-2 leading-relaxed">
+        <div>→ Sistema detecta envio falhado · cria tarefa pro SDR</div>
+        <div>→ SDR <strong class="text-white">volta no Instagram</strong> e pede confirmação do número (ainda na janela 24h)</div>
+        <div>→ Se passou da janela: lead volta pro topo do funil via retarget pago</div>
+      </div>
+    </details>
+
+    <!-- F4 -->
+    <details class="bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden group">
+      <summary class="px-5 py-4 flex items-center justify-between hover:bg-slate-800/40 transition">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center flex-shrink-0">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" class="w-4 h-4"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <div>
+            <div class="font-semibold text-white text-sm">Lead pede pra ser contatado depois</div>
+            <div class="text-[11px] text-slate-400">"Me chama daqui um mês"</div>
+          </div>
+        </div>
+        <svg class="chev w-4 h-4 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="px-5 pb-4 pt-1 border-t border-slate-800 text-[12px] text-slate-300 space-y-2 leading-relaxed">
+        <div>→ Corretor cria <strong class="text-white">tarefa agendada</strong> no Kommo pra data combinada</div>
+        <div>→ Lead muda pra etapa <span class="mono text-amber-300">Em pausa</span> · sai da régua automática</div>
+        <div>→ Notificação push pro corretor 24h antes + no dia</div>
+      </div>
+    </details>
+
+    <!-- F5 -->
+    <details class="bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden group">
+      <summary class="px-5 py-4 flex items-center justify-between hover:bg-slate-800/40 transition">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-orange-500/15 border border-orange-500/30 flex items-center justify-center flex-shrink-0">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fb923c" stroke-width="2" class="w-4 h-4"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <div>
+            <div class="font-semibold text-white text-sm">Pico de leads (campanha bombou)</div>
+            <div class="text-[11px] text-slate-400">SDR não consegue dar conta sozinho</div>
+          </div>
+        </div>
+        <svg class="chev w-4 h-4 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="px-5 pb-4 pt-1 border-t border-slate-800 text-[12px] text-slate-300 space-y-2 leading-relaxed">
+        <div>→ Bot continua qualificando 24/7 sem gargalo</div>
+        <div>→ Lead score "quente" tem <strong class="text-white">prioridade absoluta</strong> na fila do SDR</div>
+        <div>→ Lead score "frio" entra em régua de nutrição automática (sem precisar do SDR)</div>
+        <div>→ Se passar de 50 leads/dia por mais de 3 dias: <strong class="text-orange-300">gatilho de contratação de SDR #2</strong></div>
+      </div>
+    </details>
+
+    <!-- F6 -->
+    <details class="bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden group">
+      <summary class="px-5 py-4 flex items-center justify-between hover:bg-slate-800/40 transition">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-slate-500/15 border border-slate-500/30 flex items-center justify-center flex-shrink-0">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" class="w-4 h-4"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+          </div>
+          <div>
+            <div class="font-semibold text-white text-sm">Lead "não comprador" insistente</div>
+            <div class="text-[11px] text-slate-400">Curioso, pesquisador, perde tempo do time</div>
+          </div>
+        </div>
+        <svg class="chev w-4 h-4 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="px-5 pb-4 pt-1 border-t border-slate-800 text-[12px] text-slate-300 space-y-2 leading-relaxed">
+        <div>→ SDR aplica filtro: renda insuficiente, sem prazo, intenção vaga → <span class="mono text-slate-400">desqualificado</span></div>
+        <div>→ Sai da roleta, fica numa base de <strong class="text-white">nutrição mensal automática</strong> (sem custo de atendimento humano)</div>
+        <div>→ Volta pro fluxo se demonstrar mudança (responde a um disparo, clica em link)</div>
+      </div>
+    </details>
+
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- SEÇÃO 7 · MÉTRICAS E BENCHMARKS                        -->
+<!-- ====================================================== -->
+<section id="metricas" class="section-anchor max-w-screen max-w-[1800px] mx-auto px-6 py-16">
+  <header class="mb-8">
+    <div class="eyebrow text-slate-400">07 · Métricas + benchmarks</div>
+    <h2 class="text-2xl font-bold text-white mt-1">O que medir e contra o que comparar</h2>
+    <p class="text-slate-400 text-sm mt-2 max-w-3xl">
+      Benchmarks de mercado imobiliário brasileiro 2024-2026. Use como referência inicial — sua operação vai ter o seu próprio benchmark depois de 90 dias rodando.
+    </p>
+  </header>
+
+  <!-- TABELA DE FUNIL -->
+  <div class="bg-slate-900/40 border border-slate-800 rounded-2xl overflow-hidden">
+    <table class="w-full text-sm">
+      <thead class="bg-slate-800/40 border-b border-slate-800">
+        <tr>
+          <th class="text-left px-5 py-3 font-semibold text-slate-300 text-xs uppercase tracking-wider">Etapa</th>
+          <th class="text-left px-5 py-3 font-semibold text-slate-300 text-xs uppercase tracking-wider">Métrica</th>
+          <th class="text-left px-5 py-3 font-semibold text-slate-300 text-xs uppercase tracking-wider">Bench. ticket alto</th>
+          <th class="text-left px-5 py-3 font-semibold text-slate-300 text-xs uppercase tracking-wider">Bench. ticket popular</th>
+          <th class="text-left px-5 py-3 font-semibold text-slate-300 text-xs uppercase tracking-wider">Meta da operação</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-800">
+        <tr class="hover:bg-slate-800/30 transition">
+          <td class="px-5 py-3.5">
+            <div class="flex items-center gap-2"><span class="w-2 h-2 bg-rose-500 rounded-full"></span>Tráfego</div>
+          </td>
+          <td class="px-5 py-3.5 text-slate-300">CPL Instagram (mensagem)</td>
+          <td class="px-5 py-3.5 mono text-slate-300">R$ 60-120</td>
+          <td class="px-5 py-3.5 mono text-slate-300">R$ 15-40</td>
+          <td class="px-5 py-3.5 mono text-emerald-300 font-semibold">≤ R$ 45 médio</td>
+        </tr>
+        <tr class="hover:bg-slate-800/30 transition">
+          <td class="px-5 py-3.5">
+            <div class="flex items-center gap-2"><span class="w-2 h-2 bg-amber-500 rounded-full"></span>Bot</div>
+          </td>
+          <td class="px-5 py-3.5 text-slate-300">Taxa de resposta ao 1º msg</td>
+          <td class="px-5 py-3.5 mono text-slate-300">55-70%</td>
+          <td class="px-5 py-3.5 mono text-slate-300">60-75%</td>
+          <td class="px-5 py-3.5 mono text-emerald-300 font-semibold">≥ 65%</td>
+        </tr>
+        <tr class="hover:bg-slate-800/30 transition">
+          <td class="px-5 py-3.5">
+            <div class="flex items-center gap-2"><span class="w-2 h-2 bg-amber-500 rounded-full"></span>Bot</div>
+          </td>
+          <td class="px-5 py-3.5 text-slate-300">% que entrega WhatsApp</td>
+          <td class="px-5 py-3.5 mono text-slate-300">40-55%</td>
+          <td class="px-5 py-3.5 mono text-slate-300">50-65%</td>
+          <td class="px-5 py-3.5 mono text-emerald-300 font-semibold">≥ 50%</td>
+        </tr>
+        <tr class="hover:bg-slate-800/30 transition">
+          <td class="px-5 py-3.5">
+            <div class="flex items-center gap-2"><span class="w-2 h-2 bg-sky-500 rounded-full"></span>SDR</div>
+          </td>
+          <td class="px-5 py-3.5 text-slate-300">Tempo de 1ª resposta humana</td>
+          <td class="px-5 py-3.5 mono text-slate-300">&lt; 10min</td>
+          <td class="px-5 py-3.5 mono text-slate-300">&lt; 5min</td>
+          <td class="px-5 py-3.5 mono text-emerald-300 font-semibold">&lt; 5min · 90%</td>
+        </tr>
+        <tr class="hover:bg-slate-800/30 transition">
+          <td class="px-5 py-3.5">
+            <div class="flex items-center gap-2"><span class="w-2 h-2 bg-sky-500 rounded-full"></span>SDR</div>
+          </td>
+          <td class="px-5 py-3.5 text-slate-300">Taxa de qualificação</td>
+          <td class="px-5 py-3.5 mono text-slate-300">30-45%</td>
+          <td class="px-5 py-3.5 mono text-slate-300">25-40%</td>
+          <td class="px-5 py-3.5 mono text-emerald-300 font-semibold">≥ 40%</td>
+        </tr>
+        <tr class="hover:bg-slate-800/30 transition">
+          <td class="px-5 py-3.5">
+            <div class="flex items-center gap-2"><span class="w-2 h-2 bg-emerald-500 rounded-full"></span>Corretor</div>
+          </td>
+          <td class="px-5 py-3.5 text-slate-300">Visita agendada / qualificado</td>
+          <td class="px-5 py-3.5 mono text-slate-300">25-35%</td>
+          <td class="px-5 py-3.5 mono text-slate-300">30-45%</td>
+          <td class="px-5 py-3.5 mono text-emerald-300 font-semibold">≥ 30%</td>
+        </tr>
+        <tr class="hover:bg-slate-800/30 transition">
+          <td class="px-5 py-3.5">
+            <div class="flex items-center gap-2"><span class="w-2 h-2 bg-emerald-500 rounded-full"></span>Corretor</div>
+          </td>
+          <td class="px-5 py-3.5 text-slate-300">Visita realizada / agendada</td>
+          <td class="px-5 py-3.5 mono text-slate-300">55-70%</td>
+          <td class="px-5 py-3.5 mono text-slate-300">50-65%</td>
+          <td class="px-5 py-3.5 mono text-emerald-300 font-semibold">≥ 60%</td>
+        </tr>
+        <tr class="hover:bg-slate-800/30 transition">
+          <td class="px-5 py-3.5">
+            <div class="flex items-center gap-2"><span class="w-2 h-2 bg-slate-300 rounded-full"></span>Venda</div>
+          </td>
+          <td class="px-5 py-3.5 text-slate-300">Fechamento / visita realizada</td>
+          <td class="px-5 py-3.5 mono text-slate-300">8-15%</td>
+          <td class="px-5 py-3.5 mono text-slate-300">10-18%</td>
+          <td class="px-5 py-3.5 mono text-emerald-300 font-semibold">≥ 12%</td>
+        </tr>
+        <tr class="hover:bg-slate-800/30 transition">
+          <td class="px-5 py-3.5">
+            <div class="flex items-center gap-2"><span class="w-2 h-2 bg-slate-300 rounded-full"></span>Venda</div>
+          </td>
+          <td class="px-5 py-3.5 text-slate-300">Ciclo médio de venda</td>
+          <td class="px-5 py-3.5 mono text-slate-300">60-180 dias</td>
+          <td class="px-5 py-3.5 mono text-slate-300">30-90 dias</td>
+          <td class="px-5 py-3.5 mono text-emerald-300 font-semibold">≤ 75d médio</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FUNIL DE CONVERSÃO PROJETADO -->
+  <div class="mt-8 grid lg:grid-cols-2 gap-6">
+
+    <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-6">
+      <div class="eyebrow text-slate-500 mb-4">Funil projetado · 100 leads / mês</div>
+      <div class="space-y-2">
+        <div class="flex items-center gap-3">
+          <div class="w-full bg-slate-800 rounded-full h-8 relative overflow-hidden">
+            <div class="bg-gradient-to-r from-rose-500 to-pink-600 h-full rounded-full flex items-center px-3 text-xs font-bold text-white" style="width: 100%">100 leads</div>
+          </div>
+          <span class="text-[11px] text-slate-400 mono w-12">100%</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-full bg-slate-800 rounded-full h-8 relative overflow-hidden">
+            <div class="bg-gradient-to-r from-amber-500 to-orange-600 h-full rounded-full flex items-center px-3 text-xs font-bold text-white" style="width: 65%">65 respondem bot</div>
+          </div>
+          <span class="text-[11px] text-slate-400 mono w-12">65%</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-full bg-slate-800 rounded-full h-8 relative overflow-hidden">
+            <div class="bg-gradient-to-r from-amber-400 to-yellow-500 h-full rounded-full flex items-center px-3 text-xs font-bold text-white" style="width: 50%">50 entregam WA</div>
+          </div>
+          <span class="text-[11px] text-slate-400 mono w-12">50%</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-full bg-slate-800 rounded-full h-8 relative overflow-hidden">
+            <div class="bg-gradient-to-r from-sky-500 to-blue-600 h-full rounded-full flex items-center px-3 text-xs font-bold text-white" style="width: 40%">40 qualificados</div>
+          </div>
+          <span class="text-[11px] text-slate-400 mono w-12">40%</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-full bg-slate-800 rounded-full h-8 relative overflow-hidden">
+            <div class="bg-gradient-to-r from-emerald-500 to-teal-600 h-full rounded-full flex items-center px-3 text-xs font-bold text-white" style="width: 12%">12 visitas</div>
+          </div>
+          <span class="text-[11px] text-slate-400 mono w-12">12%</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="w-full bg-slate-800 rounded-full h-8 relative overflow-hidden">
+            <div class="bg-gradient-to-r from-slate-300 to-slate-500 h-full rounded-full flex items-center px-3 text-xs font-bold text-white" style="width: 2%">2 vendas</div>
+          </div>
+          <span class="text-[11px] text-slate-400 mono w-12">~2%</span>
+        </div>
+      </div>
+      <div class="mt-4 pt-4 border-t border-slate-800 text-[11px] text-slate-400 leading-relaxed">
+        Premissa conservadora · sem reativação da base 6 meses. <strong class="text-white">Com reativação ativa: +30-50%</strong> de pipeline no mês 1.
+      </div>
+    </div>
+
+    <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-6">
+      <div class="eyebrow text-slate-500 mb-4">Dashboard semanal · o que reportar pro Lucas</div>
+      <div class="space-y-3">
+        <div class="flex items-center gap-3 p-3 bg-slate-800/40 rounded-lg">
+          <div class="w-8 h-8 rounded bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-rose-300 font-bold text-xs">1</div>
+          <div class="flex-1">
+            <div class="font-semibold text-sm text-white">Investimento × Leads × CPL por produto</div>
+            <div class="text-[11px] text-slate-400">Mostra onde concentrar verba</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 p-3 bg-slate-800/40 rounded-lg">
+          <div class="w-8 h-8 rounded bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-300 font-bold text-xs">2</div>
+          <div class="flex-1">
+            <div class="font-semibold text-sm text-white">Tempo médio de primeira resposta</div>
+            <div class="text-[11px] text-slate-400">SDR e corretores · ranking</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 p-3 bg-slate-800/40 rounded-lg">
+          <div class="w-8 h-8 rounded bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-300 font-bold text-xs">3</div>
+          <div class="flex-1">
+            <div class="font-semibold text-sm text-white">% qualificação · ciclo · etapa parada</div>
+            <div class="text-[11px] text-slate-400">Onde leads "ficam presos" mais tempo</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 p-3 bg-slate-800/40 rounded-lg">
+          <div class="w-8 h-8 rounded bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-300 font-bold text-xs">4</div>
+          <div class="flex-1">
+            <div class="font-semibold text-sm text-white">Visitas agendadas e realizadas</div>
+            <div class="text-[11px] text-slate-400">Por corretor · taxa de no-show</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 p-3 bg-slate-800/40 rounded-lg">
+          <div class="w-8 h-8 rounded bg-slate-500/20 border border-slate-500/30 flex items-center justify-center text-slate-300 font-bold text-xs">5</div>
+          <div class="flex-1">
+            <div class="font-semibold text-sm text-white">Propostas · negociações · vendas</div>
+            <div class="text-[11px] text-slate-400">Pipeline com valor projetado</div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4 pt-4 border-t border-slate-800 text-[11px] text-slate-400">
+        Cadência: <strong class="text-white">toda segunda 10h</strong> · formato: print + 3 linhas no WhatsApp.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ====================================================== -->
+<!-- RODAPÉ                                                 -->
+<!-- ====================================================== -->
+<footer class="max-w-screen max-w-[1800px] mx-auto px-6 py-12 border-t border-slate-800 mt-12">
+  <div class="grid lg:grid-cols-3 gap-6">
+
+    <div class="lg:col-span-2 grid md:grid-cols-2 gap-4">
+      <div class="bg-rose-950/20 border border-rose-500/30 rounded-xl p-5">
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-2 h-2 bg-rose-500 rounded-full pulse"></div>
+          <h3 class="font-bold text-rose-200">Riscos críticos</h3>
+        </div>
+        <ul class="space-y-2 text-[12px] text-rose-100/90 leading-relaxed">
+          <li class="flex gap-2"><span class="text-rose-400">▸</span>Corretor NÃO atende em WhatsApp pessoal — só pelo Kommo integrado</li>
+          <li class="flex gap-2"><span class="text-rose-400">▸</span>Janela de 24h do Instagram quebra cadência se não capturar WA</li>
+          <li class="flex gap-2"><span class="text-rose-400">▸</span>SDR único é gargalo · bot precisa filtrar antes</li>
+          <li class="flex gap-2"><span class="text-rose-400">▸</span>Disparo de reativação depende de WhatsApp já integrado na Fase 1</li>
+        </ul>
+      </div>
+
+      <div class="bg-emerald-950/20 border border-emerald-500/30 rounded-xl p-5">
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-2 h-2 bg-emerald-500 rounded-full pulse"></div>
+          <h3 class="font-bold text-emerald-200">Quick wins</h3>
+        </div>
+        <ul class="space-y-2 text-[12px] text-emerald-100/90 leading-relaxed">
+          <li class="flex gap-2"><span class="text-emerald-400">▸</span>Importar base 6m + disparar reativação · CPL ~ R$ 0</li>
+          <li class="flex gap-2"><span class="text-emerald-400">▸</span>Concentrar verba em Horti Podium + 1-2 produtos top por polo</li>
+          <li class="flex gap-2"><span class="text-emerald-400">▸</span>Dashboard semanal de tempo de 1ª resposta</li>
+          <li class="flex gap-2"><span class="text-emerald-400">▸</span>SOP de qualificação por polo (Norte ≠ Maceió ≠ Dunas)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-5">
+      <h3 class="font-bold text-white mb-3">Próximos passos</h3>
+      <ol class="space-y-2 text-[12px] text-slate-300 leading-relaxed">
+        <li class="flex gap-2"><span class="mono text-slate-500">01</span>Fechar com Lucas as 14 perguntas do briefing</li>
+        <li class="flex gap-2"><span class="mono text-slate-500">02</span>Contratar Kommo (definir nº de licenças)</li>
+        <li class="flex gap-2"><span class="mono text-slate-500">03</span>Conectar IG + WA dos 4 atendentes</li>
+        <li class="flex gap-2"><span class="mono text-slate-500">04</span>Importar base 6 meses + LGPD</li>
+        <li class="flex gap-2"><span class="mono text-slate-500">05</span>Configurar funil + roleta + Salesbot</li>
+        <li class="flex gap-2"><span class="mono text-slate-500">06</span>Treinar equipe (1h SDR + 1h corretores)</li>
+        <li class="flex gap-2"><span class="mono text-slate-500">07</span>Subir campanhas Meta com cada criativo</li>
+      </ol>
+    </div>
+
+  </div>
+
+  <div class="mt-10 pt-6 border-t border-slate-800 flex flex-col md:flex-row items-center justify-between gap-3 text-[11px] text-slate-500">
+    <div>Mapa de Operação · <span class="text-slate-300">Lucas Imobiliário</span> · v2.0 · gerado em 23/05/2026</div>
+    <div class="flex items-center gap-4">
+      <a href="#visao" class="hover:text-white transition">↑ Voltar ao topo</a>
+      <button onclick="window.print()" class="hover:text-white transition">Exportar PDF</button>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Smooth scroll para anchors da nav
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) { e.preventDefault(); target.scrollIntoView({behavior: 'smooth'}); }
+    });
+  });
+
+  // Toggle apresentação com tecla "P"
+  document.addEventListener('keydown', e => {
+    if (e.key.toLowerCase() === 'p' && !e.metaKey && !e.ctrlKey && e.target.tagName !== 'INPUT') {
+      document.body.classList.toggle('presenting');
+    }
+    if (e.key === 'Escape') document.body.classList.remove('presenting');
+  });
+</script>
+
+</body>
+</html>

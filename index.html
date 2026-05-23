@@ -498,9 +498,8 @@ section.warm{background:var(--bg-warm)}
 /* ───── FOLLOW-UP TIMELINE ───── */
 .fu-rail{position:relative;padding:50px 0 16px}
 .fu-line{position:absolute;left:5%;right:5%;top:84px;height:2px;background:linear-gradient(90deg,var(--success) 0%,#D49B6A 50%,var(--accent) 75%,var(--danger) 100%);opacity:.4;border-radius:1px}
-.fu-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;position:relative}
-@media(max-width:1000px){.fu-grid{grid-template-columns:repeat(3,1fr)}.fu-line{display:none}}
-@media(max-width:560px){.fu-grid{grid-template-columns:repeat(2,1fr)}}
+.fu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;position:relative}
+@media(max-width:760px){.fu-grid{grid-template-columns:1fr}.fu-line{display:none}}
 .fu-step{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px}
 .fu-day{font-family:var(--italic);font-weight:400;font-size:13px;color:var(--muted)}
 .fu-orb{
@@ -1488,7 +1487,7 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
   <div class="container">
     <div class="section-head reveal">
       <div class="section-marker"><span class="roman">iv</span> · Corretor · Atendimento</div>
-      <h2 class="section-title">Trinta dias,<br/><em>seis toques.</em></h2>
+      <h2 class="section-title">Trinta dias,<br/><em>três abordagens.</em></h2>
       <p class="lede" style="margin-top:24px">
         Lead distribuído pro corretor cai automaticamente na régua de follow-up. Cada toque tem mensagem-tipo,
         objetivo claro e gatilho de saída. Quem não responde até D+30 vira base de reativação.
@@ -1505,28 +1504,8 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
             <div class="fu-orb d0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
             <div class="fu-title">Apresentação</div>
             <div class="fu-card">
-              "Oi {nome}, sou {corretor}. Recebi seu interesse no {produto}. Já te envio o book completo."
-              <span class="fu-obj">Em até 15min · book + vídeo</span>
-            </div>
-          </div>
-
-          <div class="fu-step">
-            <div class="fu-day">Dia 1</div>
-            <div class="fu-orb d1">1</div>
-            <div class="fu-title">Check de leitura</div>
-            <div class="fu-card">
-              "Conseguiu olhar o material que mandei ontem? Qualquer dúvida me chama."
-              <span class="fu-obj">Reabrir conversa</span>
-            </div>
-          </div>
-
-          <div class="fu-step">
-            <div class="fu-day">Dia 3</div>
-            <div class="fu-orb d3">3</div>
-            <div class="fu-title">Dúvida específica</div>
-            <div class="fu-card">
-              "Tem alguma dúvida específica? Sobre <b>localização</b>, <b>pagamento</b> ou <b>plantas</b>?"
-              <span class="fu-obj">Ramificar conversa</span>
+              "Oi {nome}, sou {corretor}. Recebi seu interesse no {produto}. Já te envio o book completo com plantas e valores."
+              <span class="fu-obj">Em até 15min · book + vídeo do produto</span>
             </div>
           </div>
 
@@ -1535,18 +1514,8 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
             <div class="fu-orb d7">7</div>
             <div class="fu-title">Vídeo de obra</div>
             <div class="fu-card">
-              "Olha como a obra do {produto} está nesta semana. Bora marcar uma visita?"
-              <span class="fu-obj">Prova social + CTA</span>
-            </div>
-          </div>
-
-          <div class="fu-step">
-            <div class="fu-day">Dia 15</div>
-            <div class="fu-orb d15">15</div>
-            <div class="fu-title">Nova condição</div>
-            <div class="fu-card">
-              "{nome}, abriu uma condição especial: <b>{oferta limitada}</b>. Faz sentido conversar?"
-              <span class="fu-obj">Escassez · req. aprov. Lucas</span>
+              "Olha como a obra do {produto} está nesta semana. Bora marcar uma visita pra você conhecer?"
+              <span class="fu-obj">Prova social + CTA visita</span>
             </div>
           </div>
 
@@ -1555,8 +1524,8 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
             <div class="fu-orb d30">30</div>
             <div class="fu-title">Última tentativa</div>
             <div class="fu-card">
-              "{nome}, vou te tirar da minha lista ativa pra não te encher. Se mudar de ideia, me chama."
-              <span class="fu-obj">Loss aversion → reativação</span>
+              "{nome}, vou te tirar da minha lista ativa pra não te encher. Se mudar de ideia, é só me chamar."
+              <span class="fu-obj">Loss aversion · vai pra reativação</span>
             </div>
           </div>
 

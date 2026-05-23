@@ -374,6 +374,16 @@ section.warm{background:var(--bg-warm)}
   font-size:24px;color:var(--muted);letter-spacing:-0.02em
 }
 
+/* ───── JOURNEY MAP ───── */
+.journey-map{width:100%;display:flex;justify-content:center;margin-top:32px;overflow-x:auto}
+.journey-map svg{max-width:1100px;width:100%;height:auto;min-width:760px}
+.journey-map .j-decision text{font-family:var(--medium);font-weight:600}
+.journey-map .j-node text.j-title{font-family:var(--medium);font-weight:500}
+.journey-map .j-node text.j-sub{font-family:var(--sans);font-weight:400}
+.journey-legend{display:flex;flex-wrap:wrap;justify-content:center;gap:18px;margin-top:32px;font-size:12px;color:var(--muted)}
+.journey-legend-item{display:inline-flex;align-items:center;gap:8px}
+.journey-legend-dot{width:10px;height:10px;border-radius:3px}
+
 /* ───── PORTFOLIO (carteira por polo) ───── */
 .portfolio{display:flex;flex-direction:column;gap:28px;margin-top:4px}
 .portfolio-group-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-bottom:10px;border-bottom:1px solid var(--border-strong);margin-bottom:6px}
@@ -790,6 +800,284 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
         <div class="v">1 + <em>3</em></div>
         <p>SDR · corretores · Lucas</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ JORNADA VISUAL ════════ -->
+<section id="jornada">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="eyebrow muted">Visão completa</div>
+      <h2 class="section-title">O caminho do lead,<br/><em>em um mapa.</em></h2>
+      <p class="lede" style="margin-top:24px">
+        Cada nó é uma etapa ou decisão da operação. Linhas mostram o fluxo,
+        ramificações mostram exceções (Mares do Miai, lead sem WhatsApp, lead que sumiu).
+      </p>
+    </div>
+
+    <div class="journey-map reveal">
+      <svg viewBox="0 0 1000 1280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mapa da jornada do lead">
+        <defs>
+          <marker id="jArr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#c2bfb5"/>
+          </marker>
+          <marker id="jArrAcc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#ee4c20"/>
+          </marker>
+          <marker id="jArrMuted" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+            <path d="M0,0 L10,5 L0,10 z" fill="#a89f92"/>
+          </marker>
+          <linearGradient id="jLucasGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#454c47"/>
+            <stop offset="100%" stop-color="#1d1d1b"/>
+          </linearGradient>
+          <linearGradient id="jVendaGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#ee4c20"/>
+            <stop offset="100%" stop-color="#c43815"/>
+          </linearGradient>
+        </defs>
+
+        <!-- ═══ LINHAS DE CONEXÃO ═══ -->
+        <!-- IG → Bot -->
+        <path d="M 500 135 L 500 195" stroke="#c2bfb5" stroke-width="2" fill="none" marker-end="url(#jArr)"/>
+        <!-- Bot → decisão WA -->
+        <path d="M 500 275 L 500 305" stroke="#c2bfb5" stroke-width="2" fill="none"/>
+        <!-- decisão WA → SDR (SIM, central) -->
+        <path d="M 500 335 L 500 355" stroke="#ee4c20" stroke-width="2.5" fill="none" marker-end="url(#jArrAcc)"/>
+        <!-- decisão WA → Só IG (NÃO, esquerda) -->
+        <path d="M 442 320 Q 320 320 280 355" stroke="#a89f92" stroke-width="1.5" stroke-dasharray="5,4" fill="none" marker-end="url(#jArrMuted)"/>
+        <!-- SDR → Roleta -->
+        <path d="M 500 435 L 500 495" stroke="#c2bfb5" stroke-width="2" fill="none" marker-end="url(#jArr)"/>
+        <!-- Roleta → decisão Mares Miai -->
+        <path d="M 500 575 L 500 605" stroke="#c2bfb5" stroke-width="2" fill="none"/>
+        <!-- decisão → Corretor (caminho padrão, esquerda-centro) -->
+        <path d="M 478 620 Q 380 620 380 655" stroke="#ee4c20" stroke-width="2.5" fill="none" marker-end="url(#jArrAcc)"/>
+        <!-- decisão → Lucas (especial, direita) -->
+        <path d="M 522 620 Q 720 620 720 655" stroke="#A8893F" stroke-width="2" stroke-dasharray="4,4" fill="none" marker-end="url(#jArr)"/>
+        <!-- Corretor → Visita -->
+        <path d="M 380 735 Q 380 800 500 815" stroke="#c2bfb5" stroke-width="2" fill="none" marker-end="url(#jArr)"/>
+        <!-- Lucas → Visita (também leva pra mesma etapa) -->
+        <path d="M 720 735 Q 720 800 600 815" stroke="#c2bfb5" stroke-width="2" fill="none" marker-end="url(#jArr)"/>
+        <!-- Visita → decisão compareceu -->
+        <path d="M 500 895 L 500 925" stroke="#c2bfb5" stroke-width="2" fill="none"/>
+        <!-- decisão → Negociação (SIM, central) -->
+        <path d="M 500 955 L 500 975" stroke="#ee4c20" stroke-width="2.5" fill="none" marker-end="url(#jArrAcc)"/>
+        <!-- decisão → Reativação (NÃO, direita) -->
+        <path d="M 528 940 Q 700 940 780 975" stroke="#a89f92" stroke-width="1.5" stroke-dasharray="5,4" fill="none" marker-end="url(#jArrMuted)"/>
+        <!-- Negociação → Proposta -->
+        <path d="M 500 1055 L 500 1115" stroke="#c2bfb5" stroke-width="2" fill="none" marker-end="url(#jArr)"/>
+        <!-- Proposta → Venda -->
+        <path d="M 500 1195 L 500 1255" stroke="#ee4c20" stroke-width="2.5" fill="none" marker-end="url(#jArrAcc)"/>
+        <!-- Reativação volta pro Bot (loop) -->
+        <path d="M 900 1015 Q 970 1015 970 600 Q 970 235 622 235" stroke="#A8893F" stroke-width="1.5" stroke-dasharray="6,5" fill="none" marker-end="url(#jArr)"/>
+
+        <!-- ═══ DECISION LABELS ═══ -->
+        <g class="j-decision">
+          <rect x="448" y="307" width="104" height="22" rx="11" fill="#fdeee6" stroke="#fde0d3"/>
+          <text x="500" y="322" font-size="11" fill="#c43815" text-anchor="middle">tem WhatsApp?</text>
+        </g>
+        <g class="j-decision">
+          <rect x="438" y="606" width="124" height="22" rx="11" fill="#F5EBD4" stroke="#E5D4A3"/>
+          <text x="500" y="621" font-size="11" fill="#A8893F" text-anchor="middle">Mares do Miai?</text>
+        </g>
+        <g class="j-decision">
+          <rect x="446" y="927" width="108" height="22" rx="11" fill="#fdeee6" stroke="#fde0d3"/>
+          <text x="500" y="942" font-size="11" fill="#c43815" text-anchor="middle">compareceu?</text>
+        </g>
+
+        <!-- Labels SIM/NÃO nas ramificações -->
+        <text x="350" y="305" font-size="10" font-weight="600" fill="#a89f92" font-family="PolySans Slim, system-ui">NÃO</text>
+        <text x="510" y="352" font-size="10" font-weight="600" fill="#ee4c20" font-family="PolySans Slim, system-ui">SIM</text>
+        <text x="640" y="608" font-size="10" font-weight="600" fill="#A8893F" font-family="PolySans Slim, system-ui">SIM</text>
+        <text x="380" y="608" font-size="10" font-weight="600" fill="#ee4c20" font-family="PolySans Slim, system-ui">NÃO</text>
+        <text x="650" y="930" font-size="10" font-weight="600" fill="#a89f92" font-family="PolySans Slim, system-ui">NÃO</text>
+        <text x="510" y="972" font-size="10" font-weight="600" fill="#ee4c20" font-family="PolySans Slim, system-ui">SIM</text>
+
+        <!-- ═══ NÓS ═══ -->
+
+        <!-- 1. Meta Ads · Instagram -->
+        <g class="j-node" transform="translate(380,55)">
+          <rect width="240" height="80" rx="16" fill="white" stroke="#d8d6cf" stroke-width="1.5"/>
+          <g transform="translate(18,20)">
+            <rect width="40" height="40" rx="10" fill="#FFE5DA"/>
+            <g transform="translate(8,8)" stroke="#ee4c20" stroke-width="2" fill="none" stroke-linecap="round">
+              <rect x="1" y="1" width="22" height="22" rx="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="18" cy="6" r="0.8" fill="#ee4c20"/>
+            </g>
+          </g>
+          <text x="76" y="36" class="j-title" font-size="15" fill="#212121">Meta Ads</text>
+          <text x="76" y="58" class="j-sub" font-size="11" fill="#717c72">Instagram · DM</text>
+        </g>
+
+        <!-- 2. Salesbot -->
+        <g class="j-node" transform="translate(380,195)">
+          <rect width="240" height="80" rx="16" fill="white" stroke="#d8d6cf" stroke-width="1.5"/>
+          <g transform="translate(18,20)">
+            <rect width="40" height="40" rx="10" fill="#FFF3D9"/>
+            <g transform="translate(8,8)" stroke="#A36F3D" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="9" width="20" height="13" rx="2"/>
+              <circle cx="12" cy="4" r="1.5"/>
+              <line x1="12" y1="5.5" x2="12" y2="9"/>
+              <circle cx="8" cy="15" r="1" fill="#A36F3D"/>
+              <circle cx="16" cy="15" r="1" fill="#A36F3D"/>
+            </g>
+          </g>
+          <text x="76" y="36" class="j-title" font-size="15" fill="#212121">Salesbot</text>
+          <text x="76" y="58" class="j-sub" font-size="11" fill="#717c72">Bot · qualifica 24/7</text>
+        </g>
+
+        <!-- 3a. Só IG · perde -->
+        <g class="j-node" transform="translate(120,355)">
+          <rect width="200" height="70" rx="14" fill="#f3f2ee" stroke="#d8d6cf" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <g transform="translate(14,15)">
+            <rect width="36" height="36" rx="9" fill="#E8E8E3"/>
+            <g transform="translate(8,8)" stroke="#717c72" stroke-width="2" fill="none" stroke-linecap="round">
+              <circle cx="10" cy="10" r="9"/>
+              <line x1="4" y1="4" x2="16" y2="16"/>
+            </g>
+          </g>
+          <text x="60" y="33" class="j-title" font-size="13" fill="#454c47">Só Instagram</text>
+          <text x="60" y="52" class="j-sub" font-size="10" fill="#a89f92">Retarget pago</text>
+        </g>
+
+        <!-- 3b. SDR · WhatsApp -->
+        <g class="j-node" transform="translate(380,355)">
+          <rect width="240" height="80" rx="16" fill="white" stroke="#d8d6cf" stroke-width="1.5"/>
+          <g transform="translate(18,20)">
+            <rect width="40" height="40" rx="10" fill="#DCFCE7"/>
+            <g transform="translate(8,8)" stroke="#16A34A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L2 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/>
+            </g>
+          </g>
+          <text x="76" y="36" class="j-title" font-size="15" fill="#212121">SDR · WhatsApp</text>
+          <text x="76" y="58" class="j-sub" font-size="11" fill="#717c72">1 pessoa · SLA &lt; 5min</text>
+        </g>
+
+        <!-- 4. Roleta -->
+        <g class="j-node" transform="translate(380,495)">
+          <rect width="240" height="80" rx="16" fill="white" stroke="#d8d6cf" stroke-width="1.5"/>
+          <g transform="translate(18,20)">
+            <rect width="40" height="40" rx="10" fill="#F5EBD4"/>
+            <g transform="translate(8,8)" stroke="#A8893F" stroke-width="2" fill="none" stroke-linecap="round">
+              <circle cx="12" cy="12" r="9"/>
+              <line x1="12" y1="3" x2="12" y2="21"/>
+              <line x1="3" y1="12" x2="21" y2="12"/>
+            </g>
+          </g>
+          <text x="76" y="36" class="j-title" font-size="15" fill="#212121">Roleta</text>
+          <text x="76" y="58" class="j-sub" font-size="11" fill="#717c72">Distribuição automática</text>
+        </g>
+
+        <!-- 5a. Corretor · WhatsApp (esquerda) -->
+        <g class="j-node" transform="translate(260,655)">
+          <rect width="240" height="80" rx="16" fill="white" stroke="#d8d6cf" stroke-width="1.5"/>
+          <g transform="translate(18,20)">
+            <rect width="40" height="40" rx="10" fill="#DCFCE7"/>
+            <g transform="translate(8,8)" stroke="#16A34A" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L2 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/>
+            </g>
+          </g>
+          <text x="76" y="36" class="j-title" font-size="15" fill="#212121">Corretor · WA</text>
+          <text x="76" y="58" class="j-sub" font-size="11" fill="#717c72">3 corretores · Kommo</text>
+        </g>
+
+        <!-- 5b. Lucas (Mares Miai) -->
+        <g class="j-node" transform="translate(600,655)">
+          <rect width="240" height="80" rx="16" fill="url(#jLucasGrad)"/>
+          <g transform="translate(18,20)">
+            <rect width="40" height="40" rx="10" fill="rgba(238,76,32,.2)"/>
+            <g transform="translate(8,8)" stroke="#ee4c20" stroke-width="2" fill="#ee4c20" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12,2 14.5,9 22,9 16,13.5 18.5,21 12,16.5 5.5,21 8,13.5 2,9 9.5,9"/>
+            </g>
+          </g>
+          <text x="76" y="36" class="j-title" font-size="15" fill="#e9e8e4">Lucas</text>
+          <text x="76" y="58" class="j-sub" font-size="11" fill="rgba(233,232,228,.7)">Mares do Miai · exclusivo</text>
+        </g>
+
+        <!-- 6. Visita Agendada -->
+        <g class="j-node" transform="translate(380,815)">
+          <rect width="240" height="80" rx="16" fill="white" stroke="#d8d6cf" stroke-width="1.5"/>
+          <g transform="translate(18,20)">
+            <rect width="40" height="40" rx="10" fill="#fdeee6"/>
+            <g transform="translate(8,8)" stroke="#ee4c20" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </g>
+          </g>
+          <text x="76" y="36" class="j-title" font-size="15" fill="#212121">Visita agendada</text>
+          <text x="76" y="58" class="j-sub" font-size="11" fill="#717c72">Lembrete 24h antes</text>
+        </g>
+
+        <!-- 7a. Reativação 6m (direita) -->
+        <g class="j-node" transform="translate(680,975)">
+          <rect width="220" height="80" rx="16" fill="white" stroke="#A8893F" stroke-width="1.5" stroke-dasharray="5,4"/>
+          <g transform="translate(16,20)">
+            <rect width="40" height="40" rx="10" fill="#F5EBD4"/>
+            <g transform="translate(8,8)" stroke="#A8893F" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12a9 9 0 1 1-3-6.7L21 8"/>
+              <polyline points="21 3 21 8 16 8"/>
+            </g>
+          </g>
+          <text x="74" y="36" class="j-title" font-size="14" fill="#212121">Reativação 6m</text>
+          <text x="74" y="56" class="j-sub" font-size="11" fill="#717c72">Disparo WA mensal</text>
+        </g>
+
+        <!-- 7b. Em Negociação -->
+        <g class="j-node" transform="translate(380,975)">
+          <rect width="240" height="80" rx="16" fill="white" stroke="#d8d6cf" stroke-width="1.5"/>
+          <g transform="translate(18,20)">
+            <rect width="40" height="40" rx="10" fill="#fdeee6"/>
+            <g transform="translate(8,8)" stroke="#ee4c20" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </g>
+          </g>
+          <text x="76" y="36" class="j-title" font-size="15" fill="#212121">Em negociação</text>
+          <text x="76" y="58" class="j-sub" font-size="11" fill="#717c72">Corretor + Lucas</text>
+        </g>
+
+        <!-- 8. Proposta enviada -->
+        <g class="j-node" transform="translate(380,1115)">
+          <rect width="240" height="80" rx="16" fill="white" stroke="#d8d6cf" stroke-width="1.5"/>
+          <g transform="translate(18,20)">
+            <rect width="40" height="40" rx="10" fill="#E6EEF5"/>
+            <g transform="translate(8,8)" stroke="#2b5672" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="8" y1="13" x2="16" y2="13"/>
+              <line x1="8" y1="17" x2="14" y2="17"/>
+            </g>
+          </g>
+          <text x="76" y="36" class="j-title" font-size="15" fill="#212121">Proposta enviada</text>
+          <text x="76" y="58" class="j-sub" font-size="11" fill="#717c72">Tabela formalizada</text>
+        </g>
+
+        <!-- 9. ✓ Venda -->
+        <g class="j-node" transform="translate(380,1255)">
+          <rect width="240" height="80" rx="16" fill="url(#jVendaGrad)"/>
+          <g transform="translate(18,20)">
+            <rect width="40" height="40" rx="10" fill="rgba(255,255,255,.2)"/>
+            <g transform="translate(8,8)" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </g>
+          </g>
+          <text x="76" y="36" class="j-title" font-size="15" fill="white">Venda fechada</text>
+          <text x="76" y="58" class="j-sub" font-size="11" fill="rgba(255,255,255,.8)">Contrato assinado · indicação</text>
+        </g>
+
+      </svg>
+    </div>
+
+    <div class="journey-legend reveal">
+      <div class="journey-legend-item"><span class="journey-legend-dot" style="background:#FFE5DA;border:1px solid #ee4c20"></span>Instagram</div>
+      <div class="journey-legend-item"><span class="journey-legend-dot" style="background:#FFF3D9;border:1px solid #A36F3D"></span>Bot</div>
+      <div class="journey-legend-item"><span class="journey-legend-dot" style="background:#DCFCE7;border:1px solid #16A34A"></span>WhatsApp</div>
+      <div class="journey-legend-item"><span class="journey-legend-dot" style="background:#F5EBD4;border:1px solid #A8893F"></span>Sistema · Lucas</div>
+      <div class="journey-legend-item"><span class="journey-legend-dot" style="background:#fdeee6;border:1px solid #ee4c20"></span>Etapa-chave</div>
+      <div class="journey-legend-item"><span class="journey-legend-dot" style="background:#f3f2ee;border:1px dashed #a89f92"></span>Exceção · loop</div>
     </div>
   </div>
 </section>

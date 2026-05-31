@@ -707,10 +707,8 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
 <!-- ════════ MINI FUNNEL (side nav) ════════ -->
 <div class="mini-funnel" id="miniFunnel">
   <a href="#trafego" data-target="trafego" data-name="i · Tráfego"></a>
-  <a href="#salesbot" data-target="salesbot" data-name="ii · Salesbot"></a>
-  <a href="#sdr" data-target="sdr" data-name="iii · SDR"></a>
-  <a href="#corretor" data-target="corretor" data-name="iv · Corretor"></a>
-  <a href="#conversao" data-target="conversao" data-name="v · Conversão"></a>
+  <a href="#corretor" data-target="corretor" data-name="ii · Corretor"></a>
+  <a href="#conversao" data-target="conversao" data-name="iii · Conversão"></a>
 </div>
 
 <!-- ════════ HERO · FUNIL INVERTIDO ════════ -->
@@ -735,32 +733,8 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
         </div>
       </a>
 
-      <a href="#salesbot" class="funnel-row f2">
-        <div class="f-left"><div class="f-roman">ii</div></div>
-        <div class="f-center">
-          <div class="f-name">Salesbot</div>
-          <div class="f-sub">Pré-atendimento · captura WhatsApp em 15min</div>
-        </div>
-        <div class="f-right">
-          <div class="f-stat">Tx resp.<b>60-75%</b></div>
-          <div class="f-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
-        </div>
-      </a>
-
-      <a href="#sdr" class="funnel-row f3">
-        <div class="f-left"><div class="f-roman">iii</div></div>
-        <div class="f-center">
-          <div class="f-name">SDR</div>
-          <div class="f-sub">Qualificação humana · 3 sub-fluxos</div>
-        </div>
-        <div class="f-right">
-          <div class="f-stat">Qualif.<b>≥ 40%</b></div>
-          <div class="f-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
-        </div>
-      </a>
-
       <a href="#corretor" class="funnel-row f4">
-        <div class="f-left"><div class="f-roman">iv</div></div>
+        <div class="f-left"><div class="f-roman">ii</div></div>
         <div class="f-center">
           <div class="f-name">Corretor</div>
           <div class="f-sub">Atendimento · Régua D+0 a D+30</div>
@@ -772,7 +746,7 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
       </a>
 
       <a href="#conversao" class="funnel-row f5">
-        <div class="f-left"><div class="f-roman">v</div></div>
+        <div class="f-left"><div class="f-roman">iii</div></div>
         <div class="f-center">
           <div class="f-name">Conversão</div>
           <div class="f-sub">Pipeline + Venda</div>
@@ -1217,256 +1191,11 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
   </div>
 </section>
 
-<!-- ════════ ETAPA ii · SALESBOT ════════ -->
-<section id="salesbot">
-  <div class="container">
-    <div class="section-head reveal">
-      <div class="section-marker"><span class="roman">ii</span> · Salesbot · Instagram</div>
-      <h2 class="section-title">Seis estados,<br/><em>uma missão.</em></h2>
-      <p class="lede" style="margin-top:24px">
-        Roda 24 horas por dia no Direct do Instagram. Objetivo único: <b style="color:var(--text)">capturar o WhatsApp em até 15 minutos</b>
-        pra continuar a conversa fora da janela de 24h. Cada resposta etiqueta o lead automaticamente no Kommo.
-      </p>
-    </div>
-
-    <div class="grid-12 reveal">
-
-      <div class="g-8 card" style="padding:36px 32px">
-        <div class="card-eyebrow">Fluxo · estado por estado</div>
-        <div class="bot-flow">
-
-          <div class="bot-step">
-            <div class="bot-step-num">01</div>
-            <div class="bot-step-content">
-              <div class="bot-step-title">Lead manda DM ou comenta anúncio</div>
-              <div class="bot-step-meta">Gatilho: nova mensagem direta no Instagram conectado ao Kommo.</div>
-            </div>
-          </div>
-
-          <div class="bot-step">
-            <div class="bot-step-num copper">02</div>
-            <div class="bot-step-content">
-              <div class="bot-step-title">Saudação automática</div>
-              <div class="bot-msg">
-                <span class="from">Mensagem do bot</span>
-                "Oi! Tudo bem? Vi que você curtiu o anúncio do nosso empreendimento. Vou te passar mais informações em alguns minutos. Antes, me responde 3 perguntinhas rápidas pra eu te ajudar do jeito certo. Pode ser?"
-              </div>
-              <div class="bot-branches">
-                <span class="bdg bdg-green">SIM → segue p/ 3</span>
-                <span class="bdg bdg-soft">Ignorou 1h → re-engaja</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="bot-step">
-            <div class="bot-step-num copper">03</div>
-            <div class="bot-step-content">
-              <div class="bot-step-title">Pergunta 1 · Qual região</div>
-              <div class="bot-msg">"Qual região te interessa mais? <b>Norte</b>, <b>Sul</b> ou <b>Maceió</b>?"</div>
-              <div class="bot-branches">
-                <span class="bdg bdg-orange">Norte → norte_lead</span>
-                <span class="bdg bdg-info">Sul → sul_lead</span>
-                <span class="bdg bdg-green">Maceió → maceio_lead</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="bot-step">
-            <div class="bot-step-num copper">04</div>
-            <div class="bot-step-content">
-              <div class="bot-step-title">Pergunta 2 · Pra morar ou investir</div>
-              <div class="bot-msg">"Você tá buscando pra <b>morar</b>, pra <b>investir</b>, ou pra <b>casa de praia/segunda casa</b>?"</div>
-              <div class="bot-branches">
-                <span class="bdg bdg-soft">Morar → perfil:morador</span>
-                <span class="bdg bdg-soft">Investir → perfil:investidor</span>
-                <span class="bdg bdg-soft">2ª casa → perfil:lazer</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="bot-step">
-            <div class="bot-step-num accent">05</div>
-            <div class="bot-step-content">
-              <div class="bot-step-title">Pergunta 3 · Captura do WhatsApp <span class="bdg bdg-orange" style="margin-left:8px;font-size:10px;vertical-align:middle">crítico</span></div>
-              <div class="bot-msg">
-                "Pra eu te mandar o book com plantas e valores em alta resolução, qual seu WhatsApp?<br/>
-                <span style="color:var(--muted);font-size:13px">Aqui no Instagram só posso te responder dentro de 24h, pelo WhatsApp consigo te dar atenção sempre que precisar.</span>"
-              </div>
-              <div class="bot-branches">
-                <span class="bdg bdg-green">Mandou → Pré-qualificado</span>
-                <span class="bdg bdg-red">Recusou → tag só_ig</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="bot-step">
-            <div class="bot-step-num accent">06</div>
-            <div class="bot-step-content">
-              <div class="bot-step-title">Handoff para o SDR humano</div>
-              <div class="bot-msg">
-                <span class="from">Mensagem final do bot</span>
-                "Perfeito! Já registrei aqui. Em alguns minutos a <b>{nome_SDR}</b> vai te chamar no WhatsApp com mais detalhes do empreendimento. Até já."
-              </div>
-              <div class="bot-step-meta" style="margin-top:8px">
-                → Notifica SDR no app Kommo · Lead vai pra coluna "Pré-qualificado" · Inicia contador de SLA
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="g-4" style="display:flex;flex-direction:column;gap:16px">
-
-        <div class="card">
-          <div class="card-eyebrow">Tags geradas pelo bot</div>
-          <div style="display:flex;flex-direction:column;gap:14px">
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--border-soft)">
-              <span style="font-size:13px;color:var(--muted);font-weight:600">Polo</span>
-              <span style="display:flex;flex-wrap:wrap;gap:5px;justify-content:flex-end"><span class="bdg bdg-orange">norte</span><span class="bdg bdg-info">sul</span><span class="bdg bdg-green">maceio</span></span>
-            </div>
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--border-soft)">
-              <span style="font-size:13px;color:var(--muted);font-weight:600">Perfil</span>
-              <span style="display:flex;flex-wrap:wrap;gap:5px;justify-content:flex-end"><span class="bdg bdg-bege">morador</span><span class="bdg bdg-bege">invest.</span><span class="bdg bdg-bege">lazer</span></span>
-            </div>
-            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
-              <span style="font-size:13px;color:var(--muted);font-weight:600">Canal</span>
-              <span style="display:flex;flex-wrap:wrap;gap:5px;justify-content:flex-end"><span class="bdg bdg-green">com_wa</span><span class="bdg bdg-soft">só_ig</span></span>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-eyebrow">Re-engajamento · janela 24h</div>
-          <div style="display:flex;flex-direction:column;gap:14px">
-            <div style="display:flex;gap:14px;align-items:flex-start">
-              <span style="font-family:var(--serif);font-style:italic;font-size:17px;color:var(--accent);width:48px;flex-shrink:0">+1h</span>
-              <span style="font-size:13px;line-height:1.55;color:var(--text-soft)">"Vi que você não respondeu, deve estar ocupado. Se preferir, me chama no WhatsApp X."</span>
-            </div>
-            <div style="display:flex;gap:14px;align-items:flex-start">
-              <span style="font-family:var(--serif);font-style:italic;font-size:17px;color:var(--accent);width:48px;flex-shrink:0">+6h</span>
-              <span style="font-size:13px;line-height:1.55;color:var(--text-soft)">"Última condição que abriu pro empreendimento: [oferta]. Quer que eu te passe o material?"</span>
-            </div>
-            <div style="display:flex;gap:14px;align-items:flex-start">
-              <span style="font-family:var(--serif);font-style:italic;font-size:17px;color:var(--accent);width:48px;flex-shrink:0">+23h</span>
-              <span style="font-size:13px;line-height:1.55;color:var(--text-soft)">"Vou ficar fora do Instagram em algumas horas. Me passa seu WhatsApp pra continuarmos?"</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ════════ ETAPA iii · SDR ════════ -->
-<section id="sdr" class="warm">
-  <div class="container">
-    <div class="section-head reveal">
-      <div class="section-marker"><span class="roman">iii</span> · SDR · Qualificação humana</div>
-      <h2 class="section-title">Norte, Maceió, Sul.<br/>Três <em>conversas</em> diferentes.</h2>
-      <p class="lede" style="margin-top:24px">
-        Mesmo SDR, três scripts. A qualificação muda conforme o perfil do polo, investidor de longo ciclo
-        não responde a perguntas de morador local, e vice-versa.
-      </p>
-    </div>
-
-    <div class="grid-12 reveal">
-
-      <div class="g-4 public-card">
-        <div class="pc-banner norte">
-          <div class="pc-banner-text">
-            <div class="pc-banner-eyebrow">Polo Milagres</div>
-            <div class="pc-banner-title">Premium</div>
-          </div>
-          <div class="pc-banner-bdg"><span class="bdg bdg-orange">Prioridade</span></div>
-        </div>
-        <div class="pc-body">
-          <div class="pc-products"><b>HOTI Patacho</b> · Pininfarina</div>
-          <div>
-            <div class="pc-block-h">Público</div>
-            <p class="pc-text">Investidor ou comprador de 2ª residência em <b>MT (Sinop)</b>, <b>SP</b>, <b>RJ</b>. Renda alta, decisão racional, ciclo longo (60-180 dias).</p>
-          </div>
-          <div>
-            <div class="pc-block-h">Qualificação extra</div>
-            <ul class="dash-list accent">
-              <li>Já tem outro imóvel?</li>
-              <li>Intenção: locação, valorização ou uso próprio?</li>
-              <li>Como pretende viabilizar (à vista, financiamento, permuta)?</li>
-              <li>Conhece o destino (Maragogi/região)?</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="g-4 public-card">
-        <div class="pc-banner maceio">
-          <div class="pc-banner-text">
-            <div class="pc-banner-eyebrow">Maceió Local</div>
-            <div class="pc-banner-title">Morador</div>
-          </div>
-          <div class="pc-banner-bdg"><span class="bdg bdg-green">Volume</span></div>
-        </div>
-        <div class="pc-body">
-          <div class="pc-products"><b>Bella Vista 2</b></div>
-          <div>
-            <div class="pc-block-h">Público</div>
-            <p class="pc-text"><b>100% Maceió local.</b> Mora em apartamento e quer ir pra casa. Família, primeira compra ou upgrade. Decisão emocional, ciclo médio (30-90 dias).</p>
-          </div>
-          <div>
-            <div class="pc-block-h">Qualificação extra</div>
-            <ul class="dash-list accent">
-              <li>Quantos na família?</li>
-              <li>Vai usar FGTS, financiamento ou tem entrada?</li>
-              <li>Bairro atual e o que falta hoje no apto?</li>
-              <li>Já tem aprovação de crédito ou precisa simular?</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="g-4 public-card">
-        <div class="pc-banner sul">
-          <div class="pc-banner-text">
-            <div class="pc-banner-eyebrow">Polo Litoral Sul</div>
-            <div class="pc-banner-title">Mix</div>
-          </div>
-          <div class="pc-banner-bdg"><span class="bdg bdg-copper">Diversificado</span></div>
-        </div>
-        <div class="pc-body">
-          <div class="pc-products"><b>Portal das Rocas</b> · Oásis · Mares do Miai · Dunas de Jequiá</div>
-          <div>
-            <div class="pc-block-h">Público</div>
-            <p class="pc-text">Mix: condomínios na orla (ticket médio-alto) + <b>Dunas de Jequiá</b> (loteamento popular, 100k + R$ 300/parcela).</p>
-          </div>
-          <div>
-            <div class="pc-block-h">Qualificação · Dunas</div>
-            <ul class="dash-list accent">
-              <li>Renda comprovada de R$ 1.000/mês?</li>
-              <li>Já tem terreno ou primeira aquisição?</li>
-              <li>Conhece a localização?</li>
-              <li>Tem entrada disponível?</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="insight note reveal" style="margin-top:32px;max-width:880px">
-      <strong>SLA do SDR: primeira resposta humana em menos de 5 minutos.</strong>
-      Esse é o KR mais determinante da operação. Lead que espera mais de 5min cai em conversão de forma desproporcional,
-      benchmark mostra queda de 30-50% na taxa de qualificação quando o primeiro contato passa de 10min.
-    </div>
-  </div>
-</section>
-
 <!-- ════════ ETAPA iv · CORRETOR ════════ -->
 <section id="corretor" class="warm">
   <div class="container">
     <div class="section-head reveal">
-      <div class="section-marker"><span class="roman">iv</span> · Corretor · Atendimento</div>
+      <div class="section-marker"><span class="roman">ii</span> · Corretor · Atendimento</div>
       <h2 class="section-title">Trinta dias,<br/><em>quatro abordagens.</em></h2>
       <p class="lede" style="margin-top:24px">
         Lead distribuído pro corretor cai automaticamente na régua de follow-up. Cada toque tem mensagem-tipo,
@@ -1607,7 +1336,7 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
 <section id="conversao" class="dark">
   <div class="container">
     <div class="section-head reveal">
-      <div class="section-marker" style="color:rgba(233,232,228,.6)"><span class="roman" style="color:var(--accent)">v</span> · Conversão · Fechamento</div>
+      <div class="section-marker" style="color:rgba(233,232,228,.6)"><span class="roman" style="color:var(--accent)">iii</span> · Conversão · Fechamento</div>
       <h2 class="section-title">Doze etapas <em>no Kommo.</em></h2>
       <p class="lede" style="margin-top:24px">
         Cada coluna do pipeline tem SLA, responsável e ação esperada. Toda passagem registra timestamp,

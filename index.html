@@ -816,7 +816,7 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
     </div>
 
     <div class="journey-map reveal">
-      <svg viewBox="0 0 1000 1470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mapa da jornada do lead">
+      <svg viewBox="0 0 1000 1610" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mapa da jornada do lead">
         <defs>
           <marker id="jArr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
             <path d="M0,0 L10,5 L0,10 z" fill="#c2bfb5"/>
@@ -838,55 +838,57 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
         </defs>
 
         <!-- ═══ LINHAS DE CONEXÃO ═══ -->
-        <!-- IG → Bot -->
+        <!-- IG → Abordagem inicial -->
         <path d="M 500 135 L 500 195" stroke="#c2bfb5" stroke-width="2" fill="none" marker-end="url(#jArr)"/>
-        <!-- Bot → SDR -->
+        <!-- Abordagem → Pré-atendimento -->
         <path d="M 500 275 L 500 355" stroke="#c2bfb5" stroke-width="2" fill="none" marker-end="url(#jArr)"/>
-        <!-- SDR → Roleta -->
+        <!-- Pré-atendimento → Lead novo -->
         <path d="M 500 435 L 500 495" stroke="#c2bfb5" stroke-width="2" fill="none" marker-end="url(#jArr)"/>
+        <!-- Lead novo → Roleta -->
+        <path d="M 500 575 L 500 635" stroke="#c2bfb5" stroke-width="2" fill="none" marker-end="url(#jArr)"/>
         <!-- Roleta → decisão Mares Miai -->
-        <path d="M 500 575 L 500 605" stroke="#c2bfb5" stroke-width="2" fill="none"/>
+        <path d="M 500 715 L 500 745" stroke="#c2bfb5" stroke-width="2" fill="none"/>
         <!-- decisão → Corretor (caminho padrão, esquerda-centro) -->
-        <path d="M 478 620 Q 380 620 380 655" stroke="#ee4c20" stroke-width="2.5" fill="none" marker-end="url(#jArrAcc)"/>
+        <path d="M 478 760 Q 380 760 380 795" stroke="#ee4c20" stroke-width="2.5" fill="none" marker-end="url(#jArrAcc)"/>
         <!-- decisão → Lucas (especial, direita) -->
-        <path d="M 522 620 Q 720 620 720 655" stroke="#A8893F" stroke-width="2" stroke-dasharray="4,4" fill="none" marker-end="url(#jArr)"/>
+        <path d="M 522 760 Q 720 760 720 795" stroke="#A8893F" stroke-width="2" stroke-dasharray="4,4" fill="none" marker-end="url(#jArr)"/>
         <!-- Corretor → Follow-up -->
-        <path d="M 380 735 Q 380 790 500 815" stroke="#c2bfb5" stroke-width="2" fill="none" marker-end="url(#jArr)"/>
+        <path d="M 380 875 Q 380 930 500 955" stroke="#c2bfb5" stroke-width="2" fill="none" marker-end="url(#jArr)"/>
         <!-- Lucas → Follow-up -->
-        <path d="M 720 735 Q 720 790 600 815" stroke="#c2bfb5" stroke-width="2" fill="none" marker-end="url(#jArr)"/>
+        <path d="M 720 875 Q 720 930 600 955" stroke="#c2bfb5" stroke-width="2" fill="none" marker-end="url(#jArr)"/>
         <!-- Follow-up → decisão respondeu? -->
-        <path d="M 500 895 L 500 925" stroke="#c2bfb5" stroke-width="2" fill="none"/>
+        <path d="M 500 1035 L 500 1065" stroke="#c2bfb5" stroke-width="2" fill="none"/>
         <!-- decisão → Visita (SIM, central) -->
-        <path d="M 500 955 L 500 975" stroke="#ee4c20" stroke-width="2.5" fill="none" marker-end="url(#jArrAcc)"/>
+        <path d="M 500 1095 L 500 1115" stroke="#ee4c20" stroke-width="2.5" fill="none" marker-end="url(#jArrAcc)"/>
         <!-- decisão → Reativação (NÃO, direita) -->
-        <path d="M 528 940 Q 700 940 780 975" stroke="#a89f92" stroke-width="1.5" stroke-dasharray="5,4" fill="none" marker-end="url(#jArrMuted)"/>
+        <path d="M 528 1080 Q 700 1080 780 1115" stroke="#a89f92" stroke-width="1.5" stroke-dasharray="5,4" fill="none" marker-end="url(#jArrMuted)"/>
         <!-- Visita → Negociação -->
-        <path d="M 500 1055 L 500 1115" stroke="#c2bfb5" stroke-width="2" fill="none" marker-end="url(#jArr)"/>
-        <!-- Negociação → Proposta -->
         <path d="M 500 1195 L 500 1255" stroke="#c2bfb5" stroke-width="2" fill="none" marker-end="url(#jArr)"/>
+        <!-- Negociação → Proposta -->
+        <path d="M 500 1335 L 500 1395" stroke="#c2bfb5" stroke-width="2" fill="none" marker-end="url(#jArr)"/>
         <!-- Proposta → Venda -->
-        <path d="M 500 1335 L 500 1370" stroke="#ee4c20" stroke-width="2.5" fill="none" marker-end="url(#jArrAcc)"/>
-        <!-- Reativação volta pro Bot (loop pela direita) -->
-        <path d="M 900 1015 Q 970 1015 970 600 Q 970 235 622 235" stroke="#A8893F" stroke-width="1.5" stroke-dasharray="6,5" fill="none" marker-end="url(#jArr)"/>
+        <path d="M 500 1475 L 500 1510" stroke="#ee4c20" stroke-width="2.5" fill="none" marker-end="url(#jArrAcc)"/>
+        <!-- Reativação volta pra Abordagem inicial (loop pela direita) -->
+        <path d="M 900 1155 Q 970 1155 970 700 Q 970 235 622 235" stroke="#A8893F" stroke-width="1.5" stroke-dasharray="6,5" fill="none" marker-end="url(#jArr)"/>
 
         <!-- ═══ DECISION LABELS ═══ -->
         <g class="j-decision">
-          <rect x="438" y="606" width="124" height="22" rx="11" fill="#F5EBD4" stroke="#E5D4A3"/>
-          <text x="500" y="621" font-size="11" fill="#A8893F" text-anchor="middle">Mares do Miai?</text>
+          <rect x="438" y="746" width="124" height="22" rx="11" fill="#F5EBD4" stroke="#E5D4A3"/>
+          <text x="500" y="761" font-size="11" fill="#A8893F" text-anchor="middle">Mares do Miai?</text>
         </g>
         <g class="j-decision">
-          <rect x="436" y="927" width="128" height="22" rx="11" fill="#fdeee6" stroke="#fde0d3"/>
-          <text x="500" y="942" font-size="11" fill="#c43815" text-anchor="middle">respondeu até D+30?</text>
+          <rect x="436" y="1067" width="128" height="22" rx="11" fill="#fdeee6" stroke="#fde0d3"/>
+          <text x="500" y="1082" font-size="11" fill="#c43815" text-anchor="middle">respondeu até D+30?</text>
         </g>
 
         <!-- Labels SIM/NÃO nas ramificações -->
-        <text x="640" y="608" font-size="10" font-weight="600" fill="#A8893F" font-family="PolySans Slim, system-ui">SIM</text>
-        <text x="380" y="608" font-size="10" font-weight="600" fill="#ee4c20" font-family="PolySans Slim, system-ui">NÃO</text>
-        <text x="650" y="930" font-size="10" font-weight="600" fill="#a89f92" font-family="PolySans Slim, system-ui">NÃO</text>
-        <text x="510" y="972" font-size="10" font-weight="600" fill="#ee4c20" font-family="PolySans Slim, system-ui">SIM</text>
+        <text x="640" y="748" font-size="10" font-weight="600" fill="#A8893F" font-family="PolySans Slim, system-ui">SIM</text>
+        <text x="380" y="748" font-size="10" font-weight="600" fill="#ee4c20" font-family="PolySans Slim, system-ui">NÃO</text>
+        <text x="650" y="1070" font-size="10" font-weight="600" fill="#a89f92" font-family="PolySans Slim, system-ui">NÃO</text>
+        <text x="510" y="1112" font-size="10" font-weight="600" fill="#ee4c20" font-family="PolySans Slim, system-ui">SIM</text>
 
         <!-- Label do loop de nutrição -->
-        <g transform="translate(940,620)">
+        <g transform="translate(940,760)">
           <rect x="-40" y="-12" width="80" height="22" rx="11" fill="#F5EBD4" stroke="#E5D4A3"/>
           <text x="0" y="3" font-size="10" font-weight="600" fill="#A8893F" text-anchor="middle" font-family="PolySans Median, system-ui">nutrição</text>
         </g>
@@ -908,7 +910,7 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
           <text x="76" y="58" class="j-sub" font-size="11" fill="#717c72">Instagram · DM</text>
         </g>
 
-        <!-- 2. Salesbot -->
+        <!-- 2. Abordagem inicial -->
         <g class="j-node" transform="translate(380,195)">
           <rect width="240" height="80" rx="16" fill="white" stroke="#d8d6cf" stroke-width="1.5"/>
           <g transform="translate(18,20)">
@@ -921,11 +923,11 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
               <circle cx="16" cy="15" r="1" fill="#A36F3D"/>
             </g>
           </g>
-          <text x="76" y="36" class="j-title" font-size="15" fill="#212121">Salesbot</text>
+          <text x="76" y="36" class="j-title" font-size="15" fill="#212121">Abordagem inicial</text>
           <text x="76" y="58" class="j-sub" font-size="11" fill="#717c72">Bot · qualifica 24/7</text>
         </g>
 
-        <!-- 3. SDR · WhatsApp -->
+        <!-- 3. Pré-atendimento -->
         <g class="j-node" transform="translate(380,355)">
           <rect width="240" height="80" rx="16" fill="white" stroke="#d8d6cf" stroke-width="1.5"/>
           <g transform="translate(18,20)">
@@ -934,12 +936,28 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
               <path d="M19 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L2 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/>
             </g>
           </g>
-          <text x="76" y="36" class="j-title" font-size="15" fill="#212121">SDR · WhatsApp</text>
-          <text x="76" y="58" class="j-sub" font-size="11" fill="#717c72">1 pessoa · SLA &lt; 5min</text>
+          <text x="76" y="36" class="j-title" font-size="15" fill="#212121">Pré-atendimento</text>
+          <text x="76" y="58" class="j-sub" font-size="11" fill="#717c72">SDR · WhatsApp · SLA &lt; 5min</text>
         </g>
 
-        <!-- 4. Roleta -->
+        <!-- 4. Lead novo -->
         <g class="j-node" transform="translate(380,495)">
+          <rect width="240" height="80" rx="16" fill="white" stroke="#d8d6cf" stroke-width="1.5"/>
+          <g transform="translate(18,20)">
+            <rect width="40" height="40" rx="10" fill="#E6EEF5"/>
+            <g transform="translate(8,8)" stroke="#2b5672" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="8.5" cy="7" r="4"/>
+              <line x1="20" y1="8" x2="20" y2="14"/>
+              <line x1="17" y1="11" x2="23" y2="11"/>
+            </g>
+          </g>
+          <text x="76" y="36" class="j-title" font-size="15" fill="#212121">Lead novo</text>
+          <text x="76" y="58" class="j-sub" font-size="11" fill="#717c72">Registrado no Kommo</text>
+        </g>
+
+        <!-- 5. Roleta -->
+        <g class="j-node" transform="translate(380,635)">
           <rect width="240" height="80" rx="16" fill="white" stroke="#d8d6cf" stroke-width="1.5"/>
           <g transform="translate(18,20)">
             <rect width="40" height="40" rx="10" fill="#F5EBD4"/>
@@ -953,8 +971,8 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
           <text x="76" y="58" class="j-sub" font-size="11" fill="#717c72">Distribuição automática</text>
         </g>
 
-        <!-- 5a. Corretor · WhatsApp (esquerda) -->
-        <g class="j-node" transform="translate(260,655)">
+        <!-- 6a. Corretor · WhatsApp (esquerda) -->
+        <g class="j-node" transform="translate(260,795)">
           <rect width="240" height="80" rx="16" fill="white" stroke="#d8d6cf" stroke-width="1.5"/>
           <g transform="translate(18,20)">
             <rect width="40" height="40" rx="10" fill="#DCFCE7"/>
@@ -966,8 +984,8 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
           <text x="76" y="58" class="j-sub" font-size="11" fill="#717c72">3 corretores · Kommo</text>
         </g>
 
-        <!-- 5b. Lucas (Mares Miai) -->
-        <g class="j-node" transform="translate(600,655)">
+        <!-- 6b. Lucas (Mares Miai) -->
+        <g class="j-node" transform="translate(600,795)">
           <rect width="240" height="80" rx="16" fill="url(#jLucasGrad)"/>
           <g transform="translate(18,20)">
             <rect width="40" height="40" rx="10" fill="rgba(238,76,32,.2)"/>
@@ -979,8 +997,8 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
           <text x="76" y="58" class="j-sub" font-size="11" fill="rgba(233,232,228,.7)">Mares do Miai · exclusivo</text>
         </g>
 
-        <!-- 6. Follow-up D+0 a D+30 -->
-        <g class="j-node" transform="translate(380,815)">
+        <!-- 7. Follow-up D+0 · D+7 · D+30 -->
+        <g class="j-node" transform="translate(380,955)">
           <rect width="240" height="80" rx="16" fill="white" stroke="#d8d6cf" stroke-width="1.5"/>
           <g transform="translate(18,20)">
             <rect width="40" height="40" rx="10" fill="#DCFCE7"/>
@@ -993,8 +1011,8 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
           <text x="76" y="58" class="j-sub" font-size="11" fill="#717c72">D+0 · D+7 · D+30</text>
         </g>
 
-        <!-- 7a. Reativação 6m (direita, sai do Follow-up) -->
-        <g class="j-node" transform="translate(680,975)">
+        <!-- 8a. Reativação 6m (direita, sai do Follow-up) -->
+        <g class="j-node" transform="translate(680,1115)">
           <rect width="220" height="80" rx="16" fill="white" stroke="#A8893F" stroke-width="1.5" stroke-dasharray="5,4"/>
           <g transform="translate(16,20)">
             <rect width="40" height="40" rx="10" fill="#F5EBD4"/>
@@ -1007,8 +1025,8 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
           <text x="74" y="56" class="j-sub" font-size="11" fill="#717c72">Disparo WA mensal</text>
         </g>
 
-        <!-- 7b. Visita Agendada -->
-        <g class="j-node" transform="translate(380,975)">
+        <!-- 8b. Visita Agendada -->
+        <g class="j-node" transform="translate(380,1115)">
           <rect width="240" height="80" rx="16" fill="white" stroke="#d8d6cf" stroke-width="1.5"/>
           <g transform="translate(18,20)">
             <rect width="40" height="40" rx="10" fill="#fdeee6"/>
@@ -1023,8 +1041,8 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
           <text x="76" y="58" class="j-sub" font-size="11" fill="#717c72">Lembrete 24h antes</text>
         </g>
 
-        <!-- 8. Em Negociação -->
-        <g class="j-node" transform="translate(380,1115)">
+        <!-- 9. Em Negociação -->
+        <g class="j-node" transform="translate(380,1255)">
           <rect width="240" height="80" rx="16" fill="white" stroke="#d8d6cf" stroke-width="1.5"/>
           <g transform="translate(18,20)">
             <rect width="40" height="40" rx="10" fill="#fdeee6"/>
@@ -1036,8 +1054,8 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
           <text x="76" y="58" class="j-sub" font-size="11" fill="#717c72">Corretor + Lucas</text>
         </g>
 
-        <!-- 9. Proposta enviada -->
-        <g class="j-node" transform="translate(380,1255)">
+        <!-- 10. Proposta enviada -->
+        <g class="j-node" transform="translate(380,1395)">
           <rect width="240" height="80" rx="16" fill="white" stroke="#d8d6cf" stroke-width="1.5"/>
           <g transform="translate(18,20)">
             <rect width="40" height="40" rx="10" fill="#E6EEF5"/>
@@ -1052,8 +1070,8 @@ section.dark .dash-desc{color:rgba(233,232,228,.6)}
           <text x="76" y="58" class="j-sub" font-size="11" fill="#717c72">Tabela formalizada</text>
         </g>
 
-        <!-- 10. ✓ Venda -->
-        <g class="j-node" transform="translate(380,1370)">
+        <!-- 11. ✓ Venda -->
+        <g class="j-node" transform="translate(380,1510)">
           <rect width="240" height="80" rx="16" fill="url(#jVendaGrad)"/>
           <g transform="translate(18,20)">
             <rect width="40" height="40" rx="10" fill="rgba(255,255,255,.2)"/>
